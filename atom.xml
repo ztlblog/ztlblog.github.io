@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Blog like hacke]]></title>
+  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2015-06-16T15:11:57+08:00</updated>
+  <id>http://yoursite.com/</id>
+  <author>
+    <name><![CDATA[ztl]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[基于Redis的MessageQueue队列封装]]></title>
+    <link href="http://yoursite.com/blog/2015/06/16/redis/"/>
+    <updated>2015-06-16T14:51:27+08:00</updated>
+    <id>http://yoursite.com/blog/2015/06/16/redis</id>
+    <content type="html"><![CDATA[<h2>基于Redis的PHP消息队列封装</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class RedisMessageQueue 
+</span><span class='line'>{
+</span><span class='line'>  protected $redis_server;
+</span><span class='line'>  protected $server;
+</span><span class='line'>  protected $port;
+</span><span class='line'>  protected $key;
+</span><span class='line'>  public function__construct($server_config=array('IP'=&gt;'127.0.0.1','PORT'=&gt;'6379'),$key=&gt;'redis_message_queue',$p_connect=false)
+</span><span class='line'>  {
+</span><span class='line'>      if(empty($key))
+</span><span class='line'>      {
+</span><span class='line'>          throw new Exception('message queue key can not be empty);
+</span><span class='line'>          $this-&gt;server=$server_config['IP'];
+</span><span class='line'>          $this-&gt;port=$server_config['PORT'];
+</span><span class='line'>          $this-&gt;key=$key;
+</span><span class='line'>          $this-&gt;check_environment();
+</span><span class='line'>          if($p_connect){
+</span><span class='line'>              $this-&gt;pconnect();
+</span><span class='line'>          }else{
+</span><span class='line'>              $this-&gt;connect();
+</span><span class='line'>          }
+</span><span class='line'>      }       
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>
