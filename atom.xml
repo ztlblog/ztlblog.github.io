@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-06-17T10:47:47+08:00</updated>
+  <updated>2015-06-17T12:32:32+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[秒杀系统架构优化思路]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/06/17/php001/"/>
+    <updated>2015-06-17T11:39:18+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/06/17/php001</id>
+    <content type="html"><![CDATA[<h2>秒杀系统挂的主要原因（数据读写锁冲突严重）</h2>
+
+<figure class='code'><figcaption><span>常见架构 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>浏览器->站点->服务->数据
+</span><span class='line'>浏览器端最上层，会执行一些js
+</span><span class='line'>站点层，会访问后端数据，拼html页面返回给浏览器
+</span><span class='line'>服务层，会向上游屏蔽数据细节
+</span><span class='line'>数据层，最终的库存是存在这里的</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>优化细节</h2>
+
+<figure class='code'><figcaption><span>浏览器层请求拦截 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>作为用户点击'查询'按钮之后，由于系统太卡页面打不开，一般用户会继续点，这样会给服务器带来更大的负载
+</span><span class='line'>产品层面： 用户点击'查询'或'购票'后，按钮变灰，禁止用户重复提交请求
+</span><span class='line'>js层面： 限制用户在x秒之后只能提交一次请求</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>站点层请求拦截 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>产品层面只能拦住小白用户，高端程序员根本不吃这一套，写一个for循环，直接调用你的后端的http请求
+</span><span class='line'>解决办法：
+</span><span class='line'>同一个uid，限制访问频率，做页面缓存，x秒达到站点层的请求，均返回同一个页面
+</span><span class='line'>同一个item的查询，做页面缓存，x秒内到达站点的请求，均返回同一个页面</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>服务层请求拦截 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>站点层的请求拦截，只能拦截程序员，高级黑客可以通过肉鸡注入，这下uid的限制就不行了
+</span><span class='line'>解决办法：
+</span><span class='line'>对于写请求，做请求队列，每次只透过有限的写请求去数据层，如果均成功再放下一批，如果库存不够则队列里面的写请求全部返回'已售完'
+</span><span class='line'>对于读请求，可以做缓存(memcache,redis...)</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在github上搭建octopress]]></title>
