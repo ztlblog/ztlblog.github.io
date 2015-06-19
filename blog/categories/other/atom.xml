@@ -4,7 +4,7 @@
   <title><![CDATA[Category: other | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/other/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-06-19T17:17:57+08:00</updated>
+  <updated>2015-06-19T17:21:18+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -18,7 +18,7 @@
     <link href="http://ztlblog.github.io/blog/2015/06/19/other001/"/>
     <updated>2015-06-19T17:14:30+08:00</updated>
     <id>http://ztlblog.github.io/blog/2015/06/19/other001</id>
-    <content type="html"><![CDATA[<p><code>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉... 万恶的IE啊！！！</code></p>
+    <content type="html"><![CDATA[<h2>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉&hellip; 万恶的IE啊！！！</h2>
 
 <p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
