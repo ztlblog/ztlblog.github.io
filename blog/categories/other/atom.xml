@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: other | Blog like hacke]]></title>
+  <link href="http://ztlblog.github.io/blog/categories/other/atom.xml" rel="self"/>
+  <link href="http://ztlblog.github.io/"/>
+  <updated>2015-06-19T17:17:57+08:00</updated>
+  <id>http://ztlblog.github.io/</id>
+  <author>
+    <name><![CDATA[ztl]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[h5的兼容问题]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/06/19/other001/"/>
+    <updated>2015-06-19T17:14:30+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/06/19/other001</id>
+    <content type="html"><![CDATA[<p><code>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉... 万恶的IE啊！！！</code></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if( !(&lsquo;placeholder&rsquo; in document.createElement(&lsquo;input&rsquo;)) ){ &lt;br/>
+</span><span class='line'>    $(&lsquo;input[placeholder],textarea[placeholder]&rsquo;).each(function(){  &lt;br/>
+</span><span class='line'>      var that = $(this),  &lt;br/>
+</span><span class='line'>      text= that.attr(&lsquo;placeholder&rsquo;);  &lt;br/>
+</span><span class='line'>      if(that.val()===&ldquo;&rdquo;){  &lt;br/>
+</span><span class='line'>        that.val(text).addClass(&lsquo;placeholder&rsquo;);  &lt;br/>
+</span><span class='line'>      }  &lt;br/>
+</span><span class='line'>      that.focus(function(){  &lt;br/>
+</span><span class='line'>        if(that.val()===text){  &lt;br/>
+</span><span class='line'>          that.val(&ldquo;&rdquo;).removeClass(&lsquo;placeholder&rsquo;);  &lt;br/>
+</span><span class='line'>        }  &lt;br/>
+</span><span class='line'>      })  &lt;br/>
+</span><span class='line'>      .blur(function(){  &lt;br/>
+</span><span class='line'>        if(that.val()===&ldquo;&rdquo;){  &lt;br/>
+</span><span class='line'>          that.val(text).addClass(&lsquo;placeholder&rsquo;);  &lt;br/>
+</span><span class='line'>        }  &lt;br/>
+</span><span class='line'>      })     &lt;br/>
+</span><span class='line'>    });  &lt;br/>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
+  
+</feed>

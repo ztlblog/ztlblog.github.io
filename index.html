@@ -82,6 +82,75 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/06/19/other001/">H5的兼容问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉... 万恶的IE啊！！！</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if( !('placeholder' in document.createElement('input')) ){   
+</span><span class='line'>    $('input[placeholder],textarea[placeholder]').each(function(){    
+</span><span class='line'>      var that = $(this),    
+</span><span class='line'>      text= that.attr('placeholder');    
+</span><span class='line'>      if(that.val()===""){    
+</span><span class='line'>        that.val(text).addClass('placeholder');    
+</span><span class='line'>      }    
+</span><span class='line'>      that.focus(function(){    
+</span><span class='line'>        if(that.val()===text){    
+</span><span class='line'>          that.val("").removeClass('placeholder');    
+</span><span class='line'>        }    
+</span><span class='line'>      })    
+</span><span class='line'>      .blur(function(){    
+</span><span class='line'>        if(that.val()===""){    
+</span><span class='line'>          that.val(text).addClass('placeholder');    
+</span><span class='line'>        }    
+</span><span class='line'>      })       
+</span><span class='line'>    });    
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/06/19/php002/">Php经典排序算法</a></h1>
     
     
@@ -580,6 +649,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/other001/">h5的兼容问题</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/06/19/php002/">php经典排序算法</a>
