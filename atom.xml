@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-06-25T15:04:19+08:00</updated>
+  <updated>2015-06-26T13:07:11+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[csrf攻击]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/06/25/php004/"/>
+    <updated>2015-06-25T13:25:55+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/06/25/php004</id>
+    <content type="html"><![CDATA[<h2>什么是csrf攻击</h2>
+
+<p>csrf（cross-site request forgery）跨站请求伪造</p>
+
+<h2>csrf的原理</h2>
+
+<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
+
+<h2>例如：</h2>
+
+<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
+危险网站B，它里面有一段html的代码如下：
+<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[xss攻击]]></title>

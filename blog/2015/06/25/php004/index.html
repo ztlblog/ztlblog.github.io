@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Blog like hacke</title>
+  <title>csrf攻击 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/archives">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/25/php004">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -75,116 +75,106 @@
   <div class="container">
     <div class="row-fluid">
       
-<article role="article" class="span9">
+<article class="hentry span9" role="article">
 
   
   <header class="page-header">
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Csrf攻击</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+        
+      </p>
     
   </header>
+
+
+<div class="entry-content"><h2>什么是csrf攻击</h2>
+
+<p>csrf（cross-site request forgery）跨站请求伪造</p>
+
+<h2>csrf的原理</h2>
+
+<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
+
+<h2>例如：</h2>
+
+<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
+危险网站B，它里面有一段html的代码如下：
+<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ztl</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/an-quan/'>安全</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
   
   
-
-
   
-  <h1>2015</h1>
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/06/25/php004/">csrf攻击</a></h2>
-<time datetime="2015-06-25T13:25:55+08:00" pubdate><span class='month'>Jun</span> <span class='day'>25</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/an-quan/'>安全</a></span>
-</footer>
-
 </div>
 
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/06/25/php003/">xss攻击</a></h2>
-<time datetime="2015-06-25T13:25:55+08:00" pubdate><span class='month'>Jun</span> <span class='day'>25</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/an-quan/'>安全</a></span>
-</footer>
-
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/06/25/php004" data-title="csrf攻击" data-url="http://ztlblog.github.io/blog/2015/06/25/php004/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"zhengtl"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
 </div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/06/19/other001/">h5的兼容问题</a></h2>
-<time datetime="2015-06-19T17:14:30+08:00" pubdate><span class='month'>Jun</span> <span class='day'>19</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/other/'>other</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/06/19/php002/">php经典排序算法</a></h2>
-<time datetime="2015-06-19T10:25:07+08:00" pubdate><span class='month'>Jun</span> <span class='day'>19</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/php/'>php</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/06/17/php001/">秒杀系统架构优化思路</a></h2>
-<time datetime="2015-06-17T11:39:18+08:00" pubdate><span class='month'>Jun</span> <span class='day'>17</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/php/'>php</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/06/17/git001/">在github上搭建octopress</a></h2>
-<time datetime="2015-06-17T10:05:32+08:00" pubdate><span class='month'>Jun</span> <span class='day'>17</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/git/'>git</a></span>
-</footer>
-
-</div>
-
-</article>
-
-
-  
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2015/06/25/php003/" title="Previous Post:
+        xss攻击">&laquo; xss攻击</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
 </article>
 
 <aside class="sidebar-nav span3">
