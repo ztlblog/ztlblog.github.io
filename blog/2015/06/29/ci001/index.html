@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>codeigniter之表单验证 - Blog like hacke</title>
+  <meta name="author" content="ztl">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/29/ci001">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Blog like hacke" type="application/atom+xml">
+  
+  
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/">Blog like hacke</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/download">Download</a></li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Codeigniter之表单验证</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T10:01:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:01 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="" method="POST" enctype="multipart/form-data">
+</span><span class='line'>  &lt;table class="table">
+</span><span class='line'>      &lt;tr >
+</span><span class='line'>          &lt;td class="th" colspan="10">编辑文章&lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>标题&lt;/td>
+</span><span class='line'>          &lt;td>&lt;input type="text" name="title" value="&lt;?php echo set_value('title') ?>"/>
+</span><span class='line'>          &lt;?php echo form_error('title', '&lt;span>', '&lt;/span>') ?>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>类型&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;input type="radio" name="type" value="0"&lt;?php echo set_radio('type', '0', TRUE) ?>/> 普通
+</span><span class='line'>              &lt;input type="radio" name="type" value="1"&lt;?php echo set_radio('type', '1') ?>/> 热门
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>栏目&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;select name="cid" id="">
+</span><span class='line'>                  &lt;option value="1"&lt;?php echo set_select('cid', '1', TRUE) ?>>情感&lt;/option>
+</span><span class='line'>                  &lt;option value="2"&lt;?php echo set_select('cid', '2') ?>>生活&lt;/option>
+</span><span class='line'>              &lt;/select>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>缩略图&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;input type="file" />
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>摘要&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;textarea name="info" id="" style="width:550px;height:160px;">&lt;?php echo set_value('info') ?>&lt;/textarea>&lt;?php echo form_error('info', '&lt;span>', '&lt;/span>') ?>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>内容&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;textarea name="content" id="" style="width:550px;height:500px;">&lt;?php echo set_value('content') ?>&lt;/textarea>
+</span><span class='line'>              &lt;?php echo form_error('content', '&lt;span>', '&lt;/span>') ?>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td colspan="10">&lt;input type="submit" class="input_button" value="发布"/>&lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>  &lt;/table>
+</span><span class='line'>  &lt;/form></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>php </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public function send(){
+</span><span class='line'>      //载入表单验证类
+</span><span class='line'>      $this->load->library('form_validation');
+</span><span class='line'>      //引入验证规则
+</span><span class='line'>      $status = $this->form_validation->run('article');
+</span><span class='line'>
+</span><span class='line'>      if($status){
+</span><span class='line'>          //文件上传------------------------
+</span><span class='line'>          //配置
+</span><span class='line'>          $config['upload_path'] = './uploads/';
+</span><span class='line'>          $config['allowed_types'] = 'gif|jpg|png|jpeg';
+</span><span class='line'>          $config['max_size'] = '10000';
+</span><span class='line'>          $config['file_name'] = time() . mt_rand(1000,9999);
+</span><span class='line'>
+</span><span class='line'>          //载入上传类
+</span><span class='line'>          $this->load->library('upload', $config);
+</span><span class='line'>          //执行上传
+</span><span class='line'>          $status = $this->upload->do_upload('thumb');
+</span><span class='line'>      
+</span><span class='line'>          $wrong = $this->upload->display_errors();
+</span><span class='line'>
+</span><span class='line'>          if($wrong){
+</span><span class='line'>              error($wrong);
+</span><span class='line'>          }
+</span><span class='line'>          //返回信息
+</span><span class='line'>          $info = $this->upload->data();
+</span><span class='line'>
+</span><span class='line'>          //缩略图-----------------
+</span><span class='line'>          //配置
+</span><span class='line'>          $arr['source_image'] = $info['full_path'];
+</span><span class='line'>          $arr['create_thumb'] = FALSE;
+</span><span class='line'>          $arr['maintain_ratio'] = TRUE;
+</span><span class='line'>          $arr['width'] = 200;
+</span><span class='line'>          $arr['height'] = 200;   
+</span><span class='line'>
+</span><span class='line'>          //载入缩略图类
+</span><span class='line'>          $this->load->library('image_lib', $arr);
+</span><span class='line'>          //执行动作
+</span><span class='line'>          $status = $this->image_lib->resize();
+</span><span class='line'>
+</span><span class='line'>          if(!$status){
+</span><span class='line'>              error('缩略图动作失败');
+</span><span class='line'>          }
+</span><span class='line'>
+</span><span class='line'>          $this->load->model('article_model', 'art');
+</span><span class='line'>
+</span><span class='line'>          $data = array(
+</span><span class='line'>              'title' => $this->input->post('title'),
+</span><span class='line'>              'type'  => $this->input->post('type'),
+</span><span class='line'>              'cid'   => $this->input->post('cid'),
+</span><span class='line'>              'thumb' => $info['file_name'],
+</span><span class='line'>              'info'  => $this->input->post('info'),
+</span><span class='line'>              'content'=> $this->input->post('content'),
+</span><span class='line'>              'time'  => time()
+</span><span class='line'>              );  
+</span><span class='line'>
+</span><span class='line'>          $this->art->add($data);
+</span><span class='line'>          success('admin/article/index', '发表成功');
+</span><span class='line'>      }else {
+</span><span class='line'>          $this->load->model('category_model', 'cate');
+</span><span class='line'>          $data['category'] = $this->cate->check();
+</span><span class='line'>          $this->load->helper('form');
+</span><span class='line'>          $this->load->view('admin/article.html',$data);
+</span><span class='line'>      }
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意:</strong>保存验证规则需要在application/config/文件夹下创建一个名称为form_validation.php的文件。然后将配置信息保存在数组$config中即可.</p>
+
+<figure class='code'><figcaption><span>form_validation </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$config = array(
+</span><span class='line'>  'article'   =>  array(
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'title',
+</span><span class='line'>              'label' => '标题',
+</span><span class='line'>              'rules' => 'required|min_length[5]'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'type',
+</span><span class='line'>              'label' => '类型',
+</span><span class='line'>              'rules' => 'required|integer'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'cid',
+</span><span class='line'>              'label' => '栏目',
+</span><span class='line'>              'rules' => 'integer'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'info',
+</span><span class='line'>              'label' => '摘要',
+</span><span class='line'>              'rules' => 'required|max_length[155]'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'content',
+</span><span class='line'>              'label' => '内容',
+</span><span class='line'>              'rules' => 'required|max_length[2000]'
+</span><span class='line'>              )
+</span><span class='line'>
+</span><span class='line'>      ),
+</span><span class='line'>  'cate'  => array(
+</span><span class='line'>          array(
+</span><span class='line'>              'field' => 'cname',
+</span><span class='line'>              'label' => '栏目名称',
+</span><span class='line'>              'rules' => 'required|max_length[20]'
+</span><span class='line'>              ),
+</span><span class='line'>
+</span><span class='line'>      ),
+</span><span class='line'>
+</span><span class='line'>  );</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ztl</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T10:01:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:01 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ci/'>ci</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/06/29/ci001" data-title="codeigniter之表单验证" data-url="http://ztlblog.github.io/blog/2015/06/29/ci001/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"zhengtl"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2015/06/25/php004/" title="Previous Post:
+        csrf攻击">&laquo; csrf攻击</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/29/ci001/">codeigniter之表单验证</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/25/php004/">csrf攻击</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/25/php003/">xss攻击</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/other001/">h5的兼容问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/php002/">php经典排序算法</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2015 - ztl -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
