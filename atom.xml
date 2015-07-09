@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-09T10:40:17+08:00</updated>
+  <updated>2015-07-09T15:51:46+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[linux之权限管理]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/09/linux001/"/>
+    <updated>2015-07-09T15:19:42+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/09/linux001</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span>useradd 添加用户 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-u  指定用户uid
+</span><span class='line'>-g  指定用户组
+</span><span class='line'>-G  指定用户次用户组
+</span><span class='line'>-d  指定用户的家目录</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>usermod 修改用户信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-u  修改用户uid
+</span><span class='line'>-g  修改用户主用户组
+</span><span class='line'>-G  修改用户次用户组
+</span><span class='line'>-d  修改用户家目录
+</span><span class='line'>-L  锁定用户
+</span><span class='line'>-U  解锁用户</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>userdel 删除用户 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-r 删除用户的同时，一并把用户的家目录及本地邮件存储的目录或文件也一同删除</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>passwd 修改用户密码 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-d  删除密码（仅有管理员才能使用）
+</span><span class='line'>-f  强制执行
+</span><span class='line'>-l  锁定密码
+</span><span class='line'>-u  解锁
+</span><span class='line'>-s  列出密码的相关信息</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>chmod 变更文件或目录权限 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-R  递归处理
+</span><span class='line'>chmod a+x -R ./newdri</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>setfacl 设置某个文件/目录的acl的权限 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-m  设置后续acl参数（setfacl -m u:code:r /test）
+</span><span class='line'>-x  删除后续acl参数（setfacl -x u:code /test）
+</span><span class='line'>-b  删除全部acl参数（setfacl -b u:code /test）</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>getfacl 查看某个文件/目录的acl的权限 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>getfacl /test</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[apache自带的ab压力测试工具用法详解]]></title>
