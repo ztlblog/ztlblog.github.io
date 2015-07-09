@@ -82,6 +82,88 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/09/linux002/">Linux之服务进程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span>ps  查看进程 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-A  显示所有进程
+</span><span class='line'>-e  列出程序时，显示每个程序所使用的环境变量
+</span><span class='line'>-f 全部列出，通常和其他选项连用
+</span><span class='line'>ps -ef | gren httpd</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>pstree 查看进程树 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-p 显示所有的进程，包括进程名和进程ID
+</span><span class='line'>pstree -p</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>netstat 查看端口 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-a  显示所有选项
+</span><span class='line'>-t  仅显示tcp相关选项
+</span><span class='line'>-u  仅显示udp相关选项
+</span><span class='line'>-n  拒绝显示别名
+</span><span class='line'>-p  显示建立相关链接的程序名
+</span><span class='line'>netstat -tunp | gren httpd</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>top 查看服务器负载 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>top - 00:15:48 up 1:23, 2 users, load average:0.26,0.33,0.47
+</span><span class='line'>当前时间  系统已运行的时间 当前登录用户的数量 最近5、10和15分钟内的平均负载</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>uptime 查看平均负载 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>13:22:30 up 8 min,  4 users,  load average: 0.14, 0.38, 0.25
+</span><span class='line'>当前时间  系统运行时间  当前登录用户 三个数值分别为 1分钟 5分钟 15分钟前到现在的平均值</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/09/linux001/">Linux之权限管理</a></h1>
     
     
@@ -1445,132 +1527,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/17/git001/">在github上搭建octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-17T10:05:32+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:05 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>搭建本地环境</h2>
-
-<p><a href="http://www.git-scm.com/download/win">下载git</a></p>
-
-<figure class='code'><figcaption><span>git配置 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --globl user.name "ztlblog"
-</span><span class='line'>git config --globl user.email "xx@163.com"
-</span><span class='line'>ssh-keygen -t rsa -C "xx@163.com"</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://rubyinstaller.org/downloads/">下载ruby</a></p>
-
-<figure class='code'><figcaption><span>ruby注意事项 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>不要忘记勾选Add Ruby executables to you PATH
-</span><span class='line'>将ruby的执行路径加入到环境变量中(不加可能会出现意向不到的惊喜！)</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://dl.bintray.com/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">下载devkit</a></p>
-
-<figure class='code'><figcaption><span>devkit </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>解压目录中没有中文和空格
-</span><span class='line'>必须先安装ruby
-</span><span class='line'>cd devkit
-</span><span class='line'>ruby dk.rb init
-</span><span class='line'>ruby dk.rb install</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://pan.baidu.com/s/1jGL6l3g">下载Markdown</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>主要用来编写博客</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://octopress.org/docs/setup/">octopress官网</a></p>
-
-<figure class='code'><figcaption><span>octopress </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>修改rubygems </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem sources --remove https://rubygems.org
-</span><span class='line'>gem sources -a http://ruby.taobao.org</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>bundle </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
-</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>安装rake </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake install 
-</span><span class='line'>rake generate (生成默认模版)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>创建博客及单页面 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post['newblogName']
-</span><span class='line'>rake new_page['newblogPage']</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>发布本地octopress 到github</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>假如你的用户名是username，首先新建一个命名位username.github.io
-</span><span class='line'>rake setup_github_pages
-</span><span class='line'>git@github.com:username/username.github.com
-</span><span class='line'>rake deploy (发布到github上)</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
+    
+    <li class="previous"><a href="2">&larr; Older</a></li>
     
     <li><a href="/blog/archives">Blog Archives</a></li>
     
@@ -1581,6 +1540,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/09/linux002/">linux之服务进程</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/09/linux001/">linux之权限管理</a>
@@ -1596,10 +1559,6 @@
     
       <li class="post">
         <a href="/blog/2015/06/29/ci001/">codeigniter之表单验证</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/06/25/php004/">csrf攻击</a>
       </li>
     
   </ul>
