@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>h5的兼容问题 - Blog like hacke</title>
+  <title>apache自带的ab压力测试工具用法详解 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/19/other001">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/09/apache001">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">H5的兼容问题</h1>
+      <h1 class="entry-title">Apache自带的ab压力测试工具用法详解</h1>
     
     
       <p class="meta">
@@ -89,53 +89,34 @@
 
 
 
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
+<time class='entry-date' datetime='2015-07-09T10:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉&hellip; 万恶的IE啊！！！</h2>
+<div class="entry-content"><p><strong>ab是apache自带的一个很好用的压力测试工具，当安装完apache的时候，就可以在bin下面找到ab</strong></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><strong>我们可以模拟100个并发用户，对一个页面发送1000个请求</strong></p>
+
+<p><code>./ab -n 1000 -c 100 <a href="http://www.baidu.com">http://www.baidu.com</a></code></p>
+
+<p><strong>其中-n代表请求数，-c代表并发数</strong></p>
+
+<figure class='code'><figcaption><span>返回结果 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if( !('placeholder' in document.createElement('input')) ){   
-</span><span class='line'>    $('input[placeholder],textarea[placeholder]').each(function(){    
-</span><span class='line'>      var that = $(this),    
-</span><span class='line'>      text= that.attr('placeholder');    
-</span><span class='line'>      if(that.val()===""){    
-</span><span class='line'>        that.val(text).addClass('placeholder');    
-</span><span class='line'>      }    
-</span><span class='line'>      that.focus(function(){    
-</span><span class='line'>        if(that.val()===text){    
-</span><span class='line'>          that.val("").removeClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })    
-</span><span class='line'>      .blur(function(){    
-</span><span class='line'>        if(that.val()===""){    
-</span><span class='line'>          that.val(text).addClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })       
-</span><span class='line'>    });    
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Concurrency Level: 100 ##并发数
+</span><span class='line'>Time taken for tests: 0.273 seconds  ##共使用了多少时间
+</span><span class='line'>Conmplete requests:  1000  ##请求数
+</span><span class='line'>Failed requests:  0  ## 失败请求
+</span><span class='line'>Write errors:  0  
+</span><span class='line'>Total transferred:  275000 ##总共传输字节数，包含http的头信息等</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -152,12 +133,12 @@
 
 
 
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
+<time class='entry-date' datetime='2015-07-09T10:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/other/'>other</a>
+    <a class='category' href='/blog/categories/apache/'>apache</a>
   
 </span>
 
@@ -175,7 +156,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/06/19/other001" data-title="h5的兼容问题" data-url="http://ztlblog.github.io/blog/2015/06/19/other001/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/09/apache001" data-title="apache自带的ab压力测试工具用法详解" data-url="http://ztlblog.github.io/blog/2015/07/09/apache001/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -196,14 +177,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/06/19/php002/" title="Previous Post:
-        php经典排序算法">&laquo; php经典排序算法</a></li>
+        href="/blog/2015/07/09/mysql001/" title="Previous Post:
+        mysql开启慢查询日志及查询--windows">&laquo; mysql开启慢查询日志及查询--windows</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/06/25/php003/"
-        title="Next Post: xss攻击">xss攻击
-        &raquo;</a></li>
       
     </ul>
   </footer>
