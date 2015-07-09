@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-06-29T10:12:54+08:00</updated>
+  <updated>2015-07-09T10:04:45+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[mysql开启慢查询日志及查询--windows]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/09/mysql001/"/>
+    <updated>2015-07-09T09:49:15+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/09/mysql001</id>
+    <content type="html"><![CDATA[<h2>1.慢查询有什么用？</h2>
+
+<p>它能记录下所有执行超过long_query_time时间的sql语句，帮你找到执行慢的sql，方便我们对这些sql进行优化。</p>
+
+<h2>2.如何开启慢查询</h2>
+
+<p>首先我们先查看mysql服务器的慢查询状态是否开启，执行如下命令：</p>
+
+<p><code>show variables like &lsquo;%quer%&rsquo;</code></p>
+
+<p>我们可以看到当前log_slow_queries状态为OFF，说明当前并没有开启慢查询。</p>
+
+<p>开启慢查询非常简单，操作如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>log-slow-queries="D:/wamp/bin/mysql/mysql5.5.24/log/mysql-slow.log'
+</span><span class='line'>long_query_time=4
+</span><span class='line'>log-queries-not-using-indexs</span></code></pre></td></tr></table></div></figure>
+
+
+<p>log-slow-queries：代表mysql慢查询的日志存储目录</p>
+
+<p>long_query_time：最长执行时间</p>
+
+<p>log-queries-not-using-indexes：没有使用到索引的查询也将被记录在日志中</p>
+
+<p><strong>配置好以后重启mysql服务</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[codeigniter之表单验证]]></title>
