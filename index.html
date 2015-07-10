@@ -447,6 +447,85 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/09/apache002/">Apache基本介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-09T14:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:31 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.apache主目录</h2>
+
+<p><code>ServerRoot &ldquo;/usr/local/apache2/&rdquo;</code></p>
+
+<h2>2.监听端口</h2>
+
+<p><code>Listen 80</code></p>
+
+<h2>3.加载动态模块</h2>
+
+<p><code>LoadModule php5_module</code></p>
+
+<p><code>modules/libphp5.so</code></p>
+
+<h2>4.决定了apache的进程执行者</h2>
+
+<p><code>User daemon</code></p>
+
+<p><code>Group daemon</code></p>
+
+<h2>5.服务器域名</h2>
+
+<p><code>ServerName 192.168.100.1:80</code></p>
+
+<h2>6.网站根目录</h2>
+
+<p><code>DocumentRoot &ldquo;/usr/local/apache2/htdocs&rdquo;</code></p>
+
+<h2>7.设置网站跟目录的访问权限</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "/usr/locla/apache2/htdocs">
+</span><span class='line'>  Options Indexes FollowSymLinks
+</span><span class='line'>  AllowOverride None
+</span><span class='line'>  Order allow,deny
+</span><span class='line'>  Allow form all
+</span><span class='line'>&lt;/Directory>
+</span><span class='line'>注意：Indexes是限制是否显示目录列表
+</span><span class='line'>    FollowSymLinks是限制是否能使用软链接（ln main /usr/local/apache2/htdocs/main）</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8.设置目录默认首页</h2>
+
+<p><code>DirectoryIndex index.html index.php</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/09/apache001/">Apache自带的ab压力测试工具用法详解</a></h1>
     
     
@@ -1339,294 +1418,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/19/php002/">Php经典排序算法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-19T10:25:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:25 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span>冒泡排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function bubble_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  for($i=0;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      for($j=1;$j&lt;$len-$i;$j++)
-</span><span class='line'>      {
-</span><span class='line'>          if($arr[$j]>$arr[$j+1])
-</span><span class='line'>          {
-</span><span class='line'>              $temp      = $arr[$j];
-</span><span class='line'>              $arr[$j]   = $arr[$j+1];
-</span><span class='line'>              $arr[$j+1] = $temp;
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  return $arr;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>快速排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function quite_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  if($len &lt;= 1)
-</span><span class='line'>  {
-</span><span class='line'>      return $arr;    
-</span><span class='line'>  }
-</span><span class='line'>  $key = $arr[0];
-</span><span class='line'>  $left_arr = array();
-</span><span class='line'>  $right_arr = array();
-</span><span class='line'>  for($i=1;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      if($key > $arr[$i])
-</span><span class='line'>      {
-</span><span class='line'>          $left_arr[] = $arr[$i];
-</span><span class='line'>      }else
-</span><span class='line'>      {
-</span><span class='line'>          $right_arr[] = $arr[$i];
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  $left_arr = quite_sort($left_arr);
-</span><span class='line'>  $right_arr = quite_sort($right_arr);
-</span><span class='line'>
-</span><span class='line'>  return array_merge($left_arr,array($key),$right_arr);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>选择排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>思路：每次选择一个相应的元素，然后将其放到指定的位置
-</span><span class='line'>function select_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  for($i=0;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      $minInx = $i;
-</span><span class='line'>      for($j=$i;$j&lt;$len;$j++)
-</span><span class='line'>      {
-</span><span class='line'>          if($arr[$minInx] > $arr[$j])
-</span><span class='line'>          {
-</span><span class='line'>              $minInx = $j;
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>  
-</span><span class='line'>      if($minInx != $i)
-</span><span class='line'>      {
-</span><span class='line'>          $temp     = $arr[$i];
-</span><span class='line'>          $arr[$i]  = $arr[$minInx];
-</span><span class='line'>          $arr[$minInx] = $temp;
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  }
-</span><span class='line'>  return $arr;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>插入排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>思路：将要排序的元素插入到已经假定排序好的数组的指定位置
-</span><span class='line'>function insert_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  for($i=1;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      $temp = $arr[$i];
-</span><span class='line'>      for($j=$i-1;$j>=0;$j--)
-</span><span class='line'>      {
-</span><span class='line'>          if($temp &lt; $arr[$j])
-</span><span class='line'>          {
-</span><span class='line'>              $arr[$j+1] = $arr[$j];
-</span><span class='line'>              $arr[$j]   = $temp;
-</span><span class='line'>          }   
-</span><span class='line'>      }else
-</span><span class='line'>      {
-</span><span class='line'>          break;
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  return $arr;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>堆排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function margeArr($arr1,$arr2)
-</span><span class='line'>{
-</span><span class='line'>  $a_1 = 0;
-</span><span class='line'>  $b_1 = 0;
-</span><span class='line'>  $arrA = count($arr1);
-</span><span class='line'>  $arrB = count($arr2);
-</span><span class='line'>  
-</span><span class='line'>  while($a_1 &lt; $arrA && $b_1 &lt; $arrB)
-</span><span class='line'>  {
-</span><span class='line'>      if($arr1[$a_1] &lt; $arr2[$b_1])
-</span><span class='line'>      {
-</span><span class='line'>          $arrC[] = $arr1[$a_1++];
-</span><span class='line'>      }else
-</span><span class='line'>      {
-</span><span class='line'>          $arrC[] = $arr[$b_1++];
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  while($a_1 &lt; $arrA)
-</span><span class='line'>  {
-</span><span class='line'>      $arrC[] = $arr1[$a_1++];
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  while($b_1 &lt; $arrB)
-</span><span class='line'>  {
-</span><span class='line'>      $arrC[] = $arr2[$b_1++];
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  return $arrC;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -1651,6 +1442,10 @@
     
       <li class="post">
         <a href="/blog/2015/07/09/linux001/">linux之权限管理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/09/apache002/">apache基本介绍</a>
       </li>
     
       <li class="post">

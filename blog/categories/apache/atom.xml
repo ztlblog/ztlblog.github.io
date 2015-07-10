@@ -4,7 +4,7 @@
   <title><![CDATA[Category: apache | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/apache/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-10T13:56:28+08:00</updated>
+  <updated>2015-07-10T15:08:20+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[apache基本介绍]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/09/apache002/"/>
+    <updated>2015-07-09T14:31:18+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/09/apache002</id>
+    <content type="html"><![CDATA[<h2>1.apache主目录</h2>
+
+<p><code>ServerRoot &ldquo;/usr/local/apache2/&rdquo;</code></p>
+
+<h2>2.监听端口</h2>
+
+<p><code>Listen 80</code></p>
+
+<h2>3.加载动态模块</h2>
+
+<p><code>LoadModule php5_module</code></p>
+
+<p><code>modules/libphp5.so</code></p>
+
+<h2>4.决定了apache的进程执行者</h2>
+
+<p><code>User daemon</code></p>
+
+<p><code>Group daemon</code></p>
+
+<h2>5.服务器域名</h2>
+
+<p><code>ServerName 192.168.100.1:80</code></p>
+
+<h2>6.网站根目录</h2>
+
+<p><code>DocumentRoot &ldquo;/usr/local/apache2/htdocs&rdquo;</code></p>
+
+<h2>7.设置网站跟目录的访问权限</h2>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "/usr/locla/apache2/htdocs">
+</span><span class='line'>    Options Indexes FollowSymLinks
+</span><span class='line'>    AllowOverride None
+</span><span class='line'>    Order allow,deny
+</span><span class='line'>    Allow form all
+</span><span class='line'>&lt;/Directory>
+</span><span class='line'>注意：Indexes是限制是否显示目录列表
+</span><span class='line'>    FollowSymLinks是限制是否能使用软链接（ln main /usr/local/apache2/htdocs/main）</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>8.设置目录默认首页</h2>
+
+<p><code>DirectoryIndex index.html index.php</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[apache自带的ab压力测试工具用法详解]]></title>
