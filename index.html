@@ -82,6 +82,185 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/10/lamp001/">编译安装lamp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-10T10:08:12+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:08 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.安装gcc编辑器</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install gcc*</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.卸载系统apache,mysql,php的rpm安装包</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum remove httpd
+</span><span class='line'>yum remove mysql</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3.编译安装php</h2>
+
+<figure class='code'><figcaption><span>libxml2 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libxml2-2.6.30
+</span><span class='line'>./configure --prefix=/usr/local/libxml2
+</span><span class='line'>make 
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>libmcrypt </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libmcrypt-2.5.8
+</span><span class='line'>./configure --prefix=/usr/local/libmcrypt/
+</span><span class='line'>make 
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>libtdl </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>注：libltdl是在libmcrypt源码目录中，非新软件
+</span><span class='line'>cd /lamp/libmcrypt-2.5.8/libltdl
+</span><span class='line'>./configure --enable-ltdl-install
+</span><span class='line'>make 
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>zlib </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/zlib-1.2.3
+</span><span class='line'>./configure
+</span><span class='line'>make 
+</span><span class='line'>make install
+</span><span class='line'>注：zlib指定安装目录可能造成libpng安装失败，故不指定，为了卸载方便
+</span><span class='line'>建议 make isntall 执行结果输出到安装日志文件，便于日后卸载</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>libpng </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libpng-1.2.31
+</span><span class='line'>./configure --prefix=/usr/local/libpng
+</span><span class='line'>make
+</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>jpeg6 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir /usr/local/jpeg6
+</span><span class='line'>mkdir /usr/local/jpeg6/bin
+</span><span class='line'>mkdir /usr/local/jpeg6/lib
+</span><span class='line'>mkdir /usr/local/jpeg6/include
+</span><span class='line'>mkdir /usr/local/jpeg6/man/man 1</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4.安装apache</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/httpd-2.2.9
+</span><span class='line'>./configure --prefix=/usr/local/apache2/ \
+</span><span class='line'>--sysconfdir=/usr/local/apache2/etc/ --with-included-apr \
+</span><span class='line'>--enable-dav --enable-so --enable-defate=sharef \
+</span><span class='line'>--enable-expries=shared --enable-rewrite=shared
+</span><span class='line'>make 
+</span><span class='line'>make install
+</span><span class='line'>启动apache测试
+</span><span class='line'>/usr/local/apache2/bin/apachectl restart
+</span><span class='line'>查看进程
+</span><span class='line'>ps -le |grep httpd
+</span><span class='line'>查看apche模块
+</span><span class='line'>/usr/local/apache2/bin/apachectl -h
+</span><span class='line'>#share 动态模块或动态文件
+</span><span class='line'>php5 rewrite
+</span><span class='line'>#static 静态模块或表态库文件
+</span><span class='line'>server-status
+</span><span class='line'>userdir
+</span><span class='line'>vitual host
+</span><span class='line'>测试地址
+</span><span class='line'>http://192.168.100.1/index.html
+</span><span class='line'>设置apache随机启动
+</span><span class='line'>vim /etc/rc.local
+</span><span class='line'>/usr/local/apache2/bin/apachectl restart</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/09/linux002/">Linux之服务进程</a></h1>
     
     
@@ -1448,85 +1627,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/17/php001/">秒杀系统架构优化思路</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-17T11:39:18+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>秒杀系统挂的主要原因（数据读写锁冲突严重）</h2>
-
-<figure class='code'><figcaption><span>常见架构 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>浏览器->站点->服务->数据
-</span><span class='line'>浏览器端最上层，会执行一些js
-</span><span class='line'>站点层，会访问后端数据，拼html页面返回给浏览器
-</span><span class='line'>服务层，会向上游屏蔽数据细节
-</span><span class='line'>数据层，最终的库存是存在这里的</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>优化细节</h2>
-
-<figure class='code'><figcaption><span>浏览器层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>作为用户点击'查询'按钮之后，由于系统太卡页面打不开，一般用户会继续点，这样会给服务器带来更大的负载
-</span><span class='line'>产品层面： 用户点击'查询'或'购票'后，按钮变灰，禁止用户重复提交请求
-</span><span class='line'>js层面： 限制用户在x秒之后只能提交一次请求</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>站点层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>产品层面只能拦住小白用户，高端程序员根本不吃这一套，写一个for循环，直接调用你的后端的http请求
-</span><span class='line'>解决办法：
-</span><span class='line'>同一个uid，限制访问频率，做页面缓存，x秒达到站点层的请求，均返回同一个页面
-</span><span class='line'>同一个item的查询，做页面缓存，x秒内到达站点的请求，均返回同一个页面</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>服务层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>站点层的请求拦截，只能拦截程序员，高级黑客可以通过肉鸡注入，这下uid的限制就不行了
-</span><span class='line'>解决办法：
-</span><span class='line'>对于写请求，做请求队列，每次只透过有限的写请求去数据层，如果均成功再放下一批，如果库存不够则队列里面的写请求全部返回'已售完'
-</span><span class='line'>对于读请求，可以做缓存(memcache,redis...)</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -1540,6 +1640,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/10/lamp001/">编译安装lamp</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/09/linux002/">linux之服务进程</a>
@@ -1559,6 +1663,30 @@
     
       <li class="post">
         <a href="/blog/2015/06/29/ci001/">codeigniter之表单验证</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/25/php004/">csrf攻击</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/25/php003/">xss攻击</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/other001/">h5的兼容问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/php002/">php经典排序算法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/17/php001/">秒杀系统架构优化思路</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/17/git001/">在github上搭建octopress</a>
       </li>
     
   </ul>
