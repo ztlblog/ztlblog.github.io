@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>apache基本介绍 - Blog like hacke</title>
+  <title>apache基本配置 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/09/apache002">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/10/apache002">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Apache基本介绍</h1>
+      <h1 class="entry-title">Apache基本配置</h1>
     
     
       <p class="meta">
@@ -89,42 +89,26 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T14:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:31 pm</span></time>
+<time class='entry-date' datetime='2015-07-10T16:58:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:58 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>1.apache主目录</h2>
+<div class="entry-content"><h2>1.apache使用php</h2>
 
-<p><code>ServerRoot &ldquo;/usr/local/apache2/&rdquo;</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>加载php的动态模块
+</span><span class='line'>LoadModule php5_module  modules/libphp5.so
+</span><span class='line'>解析 .php 的脚本
+</span><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
 
-<h2>2.监听端口</h2>
 
-<p><code>Listen 80</code></p>
-
-<h2>3.加载动态模块</h2>
-
-<p><code>LoadModule php5_module</code></p>
-
-<p><code>modules/libphp5.so</code></p>
-
-<h2>4.决定了apache的进程执行者</h2>
-
-<p><code>User daemon</code></p>
-
-<p><code>Group daemon</code></p>
-
-<h2>5.服务器域名</h2>
-
-<p><code>ServerName 192.168.100.1:80</code></p>
-
-<h2>6.网站根目录</h2>
-
-<p><code>DocumentRoot &ldquo;/usr/local/apache2/htdocs&rdquo;</code></p>
-
-<h2>7.设置网站跟目录的访问权限</h2>
+<h2>2.虚拟目录技术</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -134,19 +118,48 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "/usr/locla/apache2/htdocs">
-</span><span class='line'>  Options Indexes FollowSymLinks
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Aliaa /m "/mnt"
+</span><span class='line'>&lt;Directory "/mnt">
+</span><span class='line'>  Options Indexes MultiViews
 </span><span class='line'>  AllowOverride None
 </span><span class='line'>  Order allow,deny
-</span><span class='line'>  Allow form all
+</span><span class='line'>  Allow from all
 </span><span class='line'>&lt;/Directory>
-</span><span class='line'>注意：Indexes是限制是否显示目录列表
-</span><span class='line'>    FollowSymLinks是限制是否能使用软链接（ln main /usr/local/apache2/htdocs/main）</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>注意：indexes 下载列表
+</span><span class='line'>  multiviews 多视图（http://192.168.100.1/m/show 就可以访问show.php）</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>8.设置目录默认首页</h2>
+<h2>3.虚拟主机技术</h2>
 
-<p><code>DirectoryIndex index.html index.php</code></p>
+<figure class='code'><figcaption><span>不同域名解析到同一个ip上 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim httpd-vhosts.conf
+</span><span class='line'>NameVirtualHost 192.168.100.1:80
+</span><span class='line'>&lt;VirtualHost 192.168.100.1:80>
+</span><span class='line'>  DocumentRoot "/web/bbs"
+</span><span class='line'>  ServerName bbs.lampym.com
+</span><span class='line'>  #修改虚拟主机的服务权限
+</span><span class='line'>  &lt;Directory "/web/bbs">
+</span><span class='line'>      Options Indexes MultiViews
+</span><span class='line'>      AllowOverride Node
+</span><span class='line'>      Order allow,deny
+</span><span class='line'>      Allow form all
+</span><span class='line'>  &lt;/Directory>
+</span><span class='line'>&lt;/VirtualHost></span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -162,12 +175,12 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T14:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:31 pm</span></time>
+<time class='entry-date' datetime='2015-07-10T16:58:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:58 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/apache/'>apache</a>
+    <a class='category' href='/blog/categories/linux/'>linux</a>
   
 </span>
 
@@ -185,7 +198,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/09/apache002" data-title="apache基本介绍" data-url="http://ztlblog.github.io/blog/2015/07/09/apache002/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/10/apache002" data-title="apache基本配置" data-url="http://ztlblog.github.io/blog/2015/07/10/apache002/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -206,14 +219,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/09/apache001/" title="Previous Post:
-        apache自带的ab压力测试工具用法详解">&laquo; apache自带的ab压力测试工具用法详解</a></li>
+        href="/blog/2015/07/10/lamp001/" title="Previous Post:
+        编译安装lamp">&laquo; 编译安装lamp</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/09/linux001/"
-        title="Next Post: linux之权限管理">linux之权限管理
-        &raquo;</a></li>
       
     </ul>
   </footer>
