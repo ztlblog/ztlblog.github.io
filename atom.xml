@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-10T17:13:38+08:00</updated>
+  <updated>2015-07-14T15:01:33+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,212 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PHP无限极分类]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/14/php006/"/>
+    <updated>2015-07-14T13:59:46+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/14/php006</id>
+    <content type="html"><![CDATA[<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$arr = array(
+</span><span class='line'> array('id' => 1,'name' => 'php', 'pid' => 0,'path' => 0),
+</span><span class='line'> array('id' => 2,'name' => 'java', 'pid' => 0,'path' => 0),
+</span><span class='line'> array('id' => 3,'name' => 'php_1', 'pid' => 1,'path' => '0-1'),
+</span><span class='line'> array('id' => 4,'name' => 'js', 'pid' => 0,'path' => '0-2'),
+</span><span class='line'> array('id' => 5,'name' => 'php_1_1','pid' => 0,'path' => '0-1-3'),
+</span><span class='line'> array('id' => 6,'name' => 'linux', 'pid' => 0,'path' => '0')
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>foreach ($arr as &$value)
+</span><span class='line'>{
+</span><span class='line'> $num = substr_count($value['path'], '-');
+</span><span class='line'> if($num > 0)
+</span><span class='line'> {
+</span><span class='line'>  $pre = '|'.str_repeat('-', $num);
+</span><span class='line'> }else
+</span><span class='line'> {
+</span><span class='line'>  $pre = '';
+</span><span class='line'> }
+</span><span class='line'> $value['tree'] = $pre.$value['name'];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>foreach ($arr as $row)
+</span><span class='line'>{
+</span><span class='line'> $rows[] = $row['path'].'-'.$row['id'];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>array_multisort($rows,$arr);
+</span><span class='line'>echo '&lt;pre>';
+</span><span class='line'>print_r($arr);</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>如果是在mysql中可以先排序</strong></p>
+
+<pre><code>group by cancat(path.'-'.id)
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP判断远程文件是否存在的几种方法]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/14/php005/"/>
+    <updated>2015-07-14T13:59:46+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/14/php005</id>
+    <content type="html"><![CDATA[<p><strong>在做一个图片预览的东西,遇到一个问题,就是判断远程文件是否存在</strong></p>
+
+<figure class='code'><figcaption><span>curl判断文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists($url)
+</span><span class='line'>{
+</span><span class='line'>  $ch = curl_init();
+</span><span class='line'>  curl_setopt($ch,curlopt_url,$url);
+</span><span class='line'>  curl_setopt($ch,curlopt_nobody,1);
+</span><span class='line'>  curl_setopt($ch,curlopt_failonerror,1);
+</span><span class='line'>  curl_setopt($ch,curlopt_returntransfer,1);
+</span><span class='line'>  
+</span><span class='line'>  if(curl_exec($ch)!==false)
+</span><span class='line'>  return true;
+</span><span class='line'>  else
+</span><span class='line'>  return false
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>file_get_contents判断文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists2($url)
+</span><span class='line'>{
+</span><span class='line'>  if(file_get_contents($url,0,null,0,1))
+</span><span class='line'>  return 1;
+</span><span class='line'>  else
+</span><span class='line'>  return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>get_headers判断文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists3($url)
+</span><span class='line'>{
+</span><span class='line'>  return get_headers($url)
+</span><span class='line'>}
+</span><span class='line'>注意：返回值array</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[sublime配置全攻略]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/14/other002/"/>
+    <updated>2015-07-14T13:59:46+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/14/other002</id>
+    <content type="html"><![CDATA[<h3>一.常用插件</h3>
+
+<p><strong>1.package control</strong>。我们用sublime几乎都会首先安装这个插件，再安装其他插件就方便了。安装方法：</p>
+
+<pre><code>点击sublime的菜单栏 view-&gt;show console;现在打开了控制台
+
+import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+</code></pre>
+
+<p>然后我们按住 ctrl+shift+p。此时会输出一个输入框，输入install。选择package contrl:install package 回车，需要稍等一会，右下角状态栏会显示正在连接的提示文字。 使用sublime时注意看右下角状态栏，很多插件的提示信息都显示在这里，这个状态栏很小，初次使用的人都有可能没有注意到它。</p>
+
+<p>如果要卸载插件， ctrl+shift+p 输入 remove， 选择package control:remove package 然后再选择已安装的插件， 回车即可卸载。</p>
+
+<p>如果package control 安装插件时失败了， 我们可以采用手动安装的方式， 在google上去搜索插件， 下载插件的源代码。在sublime的菜单栏点击 preferences->Browse package..  此时会打开插件目录。然后把你下载的插件源代码复制进去就可以了。</p>
+
+<p>ctrl+shift+p 打开的输入框面板是什么？任何操作都可以在这个面板里面完成。 打开万能面板有几种方式：</p>
+
+<p>ctrl+shift+p 打开时，我们需要在面板中输入一个命令，然后执行命令。所有菜单栏能操作事都可以在这里输入命令进行操作。</p>
+
+<p>ctrl+p 打开时，能快速查找文件。</p>
+
+<p>ctrl+r 打开时， 能查找当前文件中的函数。</p>
+
+<p>ctrl+g 打开时，能跳转到指定行。</p>
+
+<p><strong>2.ctags。</strong> 这个cake能跨文件跳转，跳转到指定函数声明的地方。使用 <strong>package control</strong>搜索<strong>ctags</strong>进行安装。注意安装好插件后需要安装ctags命令。window下载(ctags.ext <a href="http://pan.baidu.com/s/1sjDmnLV">http://pan.baidu.com/s/1sjDmnLV</a>)。将ctags.ext文件放在一个环境变量能访问到的地方。打开cmd，输入ctags,如果有这个命令，证明成功了。</p>
+
+<p><strong>3.sublimecodeintel代码提示。</strong> sublime默认的代码提示只能提示系统函数，用户自己创建的函数、类不能提示。如果想要提示自己简历的函数。可以安装sublimecondeintel插件</p>
+
+<p>sublimecodeintel安装后需要安配置文件：插件目录./codeintel/config中增加</p>
+
+<pre><code>"php":{
+    "php": 'D:\SaeServer\php\php.ext',
+    "phpExtraPaths": ['D:\SaeServer\php\stdlib'],
+    "phpConfigFile": 'D:\SaeServer\apache\php.ini'
+},
+</code></pre>
+
+<p><strong>4.语法提示。</strong>我们需要在写代码的时候如果有语法错误，能立即提示我们， 可以安装这两个插件：sublimelint 和Phpcs ， sublimeint 需要系统有php命令。 所以需要设置好php的环境变量。 sublimelint的语法错误提示是显示在状态栏上面的，所以在编写程序的时候注意时常看看状态栏。 而Phpcs的语法错误提示是在我们保存文件时弹出万能面板显示错误，sublimelint的错误提示实时但不明显。 Phpcs的错误提示不是实时的，但很明显。 因此我们一般这两个插件都要安装。  Phpcs除了代码提示的共，还有其他功能，但是我暂时没有弄明白其他功能怎么用， 大家可以去研究一下，如果知道怎么用了再告诉我一下。</p>
+
+<p><strong>5.goto document.</strong>这个插件能帮助我们快速查看手册。比如我们在写php代码时，突然忘记了某个函数怎么用了，将鼠标房子这个函数上，然后按F1，他能快速打开PHP手册中的说明这个函数用法的地方。</p>
+
+<p>安装好goto document插件后我们再配置快捷键F1跳转到文档。打开sublime的菜单栏Preferences->key bindings -User 设置快捷键：</p>
+
+<pre><code>[
+    {"keys":["f1"],"command": "goto_documentation"}
+]
+</code></pre>
+
+<p><strong>6.SVN插件.</strong> windows下可以安装Tortoise和Tortoisesvn的客户端。然后在sublime中在目录或文件右键都可以提交svn了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[apache基本配置]]></title>

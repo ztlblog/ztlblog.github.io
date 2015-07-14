@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>linux之服务进程 - Blog like hacke</title>
+  <title>PHP判断远程文件是否存在的几种方法 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/09/linux002">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/14/php005">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Linux之服务进程</h1>
+      <h1 class="entry-title">PHP判断远程文件是否存在的几种方法</h1>
     
     
       <p class="meta">
@@ -89,66 +89,76 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><figure class='code'><figcaption><span>ps  查看进程 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-A  显示所有进程
-</span><span class='line'>-e  列出程序时，显示每个程序所使用的环境变量
-</span><span class='line'>-f 全部列出，通常和其他选项连用
-</span><span class='line'>ps -ef | gren httpd</span></code></pre></td></tr></table></div></figure>
+<div class="entry-content"><p><strong>在做一个图片预览的东西,遇到一个问题,就是判断远程文件是否存在</strong></p>
 
-
-
-
-<figure class='code'><figcaption><span>pstree 查看进程树 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-p 显示所有的进程，包括进程名和进程ID
-</span><span class='line'>pstree -p</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>netstat 查看端口 </span></figcaption>
+<figure class='code'><figcaption><span>curl判断文件 </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-a  显示所有选项
-</span><span class='line'>-t  仅显示tcp相关选项
-</span><span class='line'>-u  仅显示udp相关选项
-</span><span class='line'>-n  拒绝显示别名
-</span><span class='line'>-p  显示建立相关链接的程序名
-</span><span class='line'>netstat -tunp | gren httpd</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists($url)
+</span><span class='line'>{
+</span><span class='line'>  $ch = curl_init();
+</span><span class='line'>  curl_setopt($ch,curlopt_url,$url);
+</span><span class='line'>  curl_setopt($ch,curlopt_nobody,1);
+</span><span class='line'>  curl_setopt($ch,curlopt_failonerror,1);
+</span><span class='line'>  curl_setopt($ch,curlopt_returntransfer,1);
+</span><span class='line'>  
+</span><span class='line'>  if(curl_exec($ch)!==false)
+</span><span class='line'>  return true;
+</span><span class='line'>  else
+</span><span class='line'>  return false
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span>top 查看服务器负载 </span></figcaption>
+<figure class='code'><figcaption><span>file_get_contents判断文件 </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>top - 00:15:48 up 1:23, 2 users, load average:0.26,0.33,0.47
-</span><span class='line'>当前时间  系统已运行的时间 当前登录用户的数量 最近5、10和15分钟内的平均负载</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists2($url)
+</span><span class='line'>{
+</span><span class='line'>  if(file_get_contents($url,0,null,0,1))
+</span><span class='line'>  return 1;
+</span><span class='line'>  else
+</span><span class='line'>  return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><figcaption><span>uptime 查看平均负载 </span></figcaption>
+<figure class='code'><figcaption><span>get_headers判断文件 </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>13:22:30 up 8 min,  4 users,  load average: 0.14, 0.38, 0.25
-</span><span class='line'>当前时间  系统运行时间  当前登录用户 三个数值分别为 1分钟 5分钟 15分钟前到现在的平均值</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists3($url)
+</span><span class='line'>{
+</span><span class='line'>  return get_headers($url)
+</span><span class='line'>}
+</span><span class='line'>注意：返回值array</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -165,14 +175,8 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/linux/'>linux</a>
-  
-</span>
 
 
     </p>
@@ -188,7 +192,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/09/linux002" data-title="linux之服务进程" data-url="http://ztlblog.github.io/blog/2015/07/09/linux002/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/14/php005" data-title="PHP判断远程文件是否存在的几种方法" data-url="http://ztlblog.github.io/blog/2015/07/14/php005/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -209,13 +213,13 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/09/linux001/" title="Previous Post:
-        linux之权限管理">&laquo; linux之权限管理</a></li>
+        href="/blog/2015/07/14/other002/" title="Previous Post:
+        sublime配置全攻略">&laquo; sublime配置全攻略</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/10/lamp001/"
-        title="Next Post: 编译安装lamp">编译安装lamp
+      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/14/php006/"
+        title="Next Post: PHP无限极分类">PHP无限极分类
         &raquo;</a></li>
       
     </ul>

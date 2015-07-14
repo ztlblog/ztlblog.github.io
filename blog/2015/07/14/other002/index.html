@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>linux之服务进程 - Blog like hacke</title>
+  <title>sublime配置全攻略 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/09/linux002">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/14/other002">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Linux之服务进程</h1>
+      <h1 class="entry-title">Sublime配置全攻略</h1>
     
     
       <p class="meta">
@@ -89,67 +89,63 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><figure class='code'><figcaption><span>ps  查看进程 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-A  显示所有进程
-</span><span class='line'>-e  列出程序时，显示每个程序所使用的环境变量
-</span><span class='line'>-f 全部列出，通常和其他选项连用
-</span><span class='line'>ps -ef | gren httpd</span></code></pre></td></tr></table></div></figure>
+<div class="entry-content"><h3>一.常用插件</h3>
 
+<p><strong>1.package control</strong>。我们用sublime几乎都会首先安装这个插件，再安装其他插件就方便了。安装方法：</p>
 
+<pre><code>点击sublime的菜单栏 view-&gt;show console;现在打开了控制台
 
+import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+</code></pre>
 
-<figure class='code'><figcaption><span>pstree 查看进程树 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-p 显示所有的进程，包括进程名和进程ID
-</span><span class='line'>pstree -p</span></code></pre></td></tr></table></div></figure>
+<p>然后我们按住 ctrl+shift+p。此时会输出一个输入框，输入install。选择package contrl:install package 回车，需要稍等一会，右下角状态栏会显示正在连接的提示文字。 使用sublime时注意看右下角状态栏，很多插件的提示信息都显示在这里，这个状态栏很小，初次使用的人都有可能没有注意到它。</p>
 
+<p>如果要卸载插件， ctrl+shift+p 输入 remove， 选择package control:remove package 然后再选择已安装的插件， 回车即可卸载。</p>
 
+<p>如果package control 安装插件时失败了， 我们可以采用手动安装的方式， 在google上去搜索插件， 下载插件的源代码。在sublime的菜单栏点击 preferences->Browse package..  此时会打开插件目录。然后把你下载的插件源代码复制进去就可以了。</p>
 
+<p>ctrl+shift+p 打开的输入框面板是什么？任何操作都可以在这个面板里面完成。 打开万能面板有几种方式：</p>
 
-<figure class='code'><figcaption><span>netstat 查看端口 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-a  显示所有选项
-</span><span class='line'>-t  仅显示tcp相关选项
-</span><span class='line'>-u  仅显示udp相关选项
-</span><span class='line'>-n  拒绝显示别名
-</span><span class='line'>-p  显示建立相关链接的程序名
-</span><span class='line'>netstat -tunp | gren httpd</span></code></pre></td></tr></table></div></figure>
+<p>ctrl+shift+p 打开时，我们需要在面板中输入一个命令，然后执行命令。所有菜单栏能操作事都可以在这里输入命令进行操作。</p>
 
+<p>ctrl+p 打开时，能快速查找文件。</p>
 
+<p>ctrl+r 打开时， 能查找当前文件中的函数。</p>
 
+<p>ctrl+g 打开时，能跳转到指定行。</p>
 
-<figure class='code'><figcaption><span>top 查看服务器负载 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>top - 00:15:48 up 1:23, 2 users, load average:0.26,0.33,0.47
-</span><span class='line'>当前时间  系统已运行的时间 当前登录用户的数量 最近5、10和15分钟内的平均负载</span></code></pre></td></tr></table></div></figure>
+<p><strong>2.ctags。</strong> 这个cake能跨文件跳转，跳转到指定函数声明的地方。使用 <strong>package control</strong>搜索<strong>ctags</strong>进行安装。注意安装好插件后需要安装ctags命令。window下载(ctags.ext <a href="http://pan.baidu.com/s/1sjDmnLV">http://pan.baidu.com/s/1sjDmnLV</a>)。将ctags.ext文件放在一个环境变量能访问到的地方。打开cmd，输入ctags,如果有这个命令，证明成功了。</p>
 
+<p><strong>3.sublimecodeintel代码提示。</strong> sublime默认的代码提示只能提示系统函数，用户自己创建的函数、类不能提示。如果想要提示自己简历的函数。可以安装sublimecondeintel插件</p>
 
+<p>sublimecodeintel安装后需要安配置文件：插件目录./codeintel/config中增加</p>
 
+<pre><code>"php":{
+    "php": 'D:\SaeServer\php\php.ext',
+    "phpExtraPaths": ['D:\SaeServer\php\stdlib'],
+    "phpConfigFile": 'D:\SaeServer\apache\php.ini'
+},
+</code></pre>
 
-<figure class='code'><figcaption><span>uptime 查看平均负载 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>13:22:30 up 8 min,  4 users,  load average: 0.14, 0.38, 0.25
-</span><span class='line'>当前时间  系统运行时间  当前登录用户 三个数值分别为 1分钟 5分钟 15分钟前到现在的平均值</span></code></pre></td></tr></table></div></figure>
+<p><strong>4.语法提示。</strong>我们需要在写代码的时候如果有语法错误，能立即提示我们， 可以安装这两个插件：sublimelint 和Phpcs ， sublimeint 需要系统有php命令。 所以需要设置好php的环境变量。 sublimelint的语法错误提示是显示在状态栏上面的，所以在编写程序的时候注意时常看看状态栏。 而Phpcs的语法错误提示是在我们保存文件时弹出万能面板显示错误，sublimelint的错误提示实时但不明显。 Phpcs的错误提示不是实时的，但很明显。 因此我们一般这两个插件都要安装。  Phpcs除了代码提示的共，还有其他功能，但是我暂时没有弄明白其他功能怎么用， 大家可以去研究一下，如果知道怎么用了再告诉我一下。</p>
 
+<p><strong>5.goto document.</strong>这个插件能帮助我们快速查看手册。比如我们在写php代码时，突然忘记了某个函数怎么用了，将鼠标房子这个函数上，然后按F1，他能快速打开PHP手册中的说明这个函数用法的地方。</p>
+
+<p>安装好goto document插件后我们再配置快捷键F1跳转到文档。打开sublime的菜单栏Preferences->key bindings -User 设置快捷键：</p>
+
+<pre><code>[
+    {"keys":["f1"],"command": "goto_documentation"}
+]
+</code></pre>
+
+<p><strong>6.SVN插件.</strong> windows下可以安装Tortoise和Tortoisesvn的客户端。然后在sublime中在目录或文件右键都可以提交svn了。</p>
 </div>
 
 
@@ -165,14 +161,8 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/linux/'>linux</a>
-  
-</span>
 
 
     </p>
@@ -188,7 +178,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/09/linux002" data-title="linux之服务进程" data-url="http://ztlblog.github.io/blog/2015/07/09/linux002/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/14/other002" data-title="sublime配置全攻略" data-url="http://ztlblog.github.io/blog/2015/07/14/other002/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -209,13 +199,13 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/09/linux001/" title="Previous Post:
-        linux之权限管理">&laquo; linux之权限管理</a></li>
+        href="/blog/2015/07/10/apache002/" title="Previous Post:
+        apache基本配置">&laquo; apache基本配置</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/10/lamp001/"
-        title="Next Post: 编译安装lamp">编译安装lamp
+      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/14/php005/"
+        title="Next Post: PHP判断远程文件是否存在的几种方法">PHP判断远程文件是否存在的几种方法
         &raquo;</a></li>
       
     </ul>
