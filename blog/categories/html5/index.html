@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>h5的兼容问题 - Blog like hacke</title>
+  <title>Category: html5 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
-  <meta name="description" content="">
+  <meta name="description" content="Category: html5">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/19/other001">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/categories/html5">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -75,138 +75,38 @@
   <div class="container">
     <div class="row-fluid">
       
-<article class="hentry span9" role="article">
+<article role="article" class="span9">
 
   
   <header class="page-header">
-    
-      <h1 class="entry-title">H5的兼容问题</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
-        
-      </p>
+    <h1 class="entry-title">Category: Html5</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><h2>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉&hellip; 万恶的IE啊！！！</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if( !('placeholder' in document.createElement('input')) ){   
-</span><span class='line'>    $('input[placeholder],textarea[placeholder]').each(function(){    
-</span><span class='line'>      var that = $(this),    
-</span><span class='line'>      text= that.attr('placeholder');    
-</span><span class='line'>      if(that.val()===""){    
-</span><span class='line'>        that.val(text).addClass('placeholder');    
-</span><span class='line'>      }    
-</span><span class='line'>      that.focus(function(){    
-</span><span class='line'>        if(that.val()===text){    
-</span><span class='line'>          that.val("").removeClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })    
-</span><span class='line'>      .blur(function(){    
-</span><span class='line'>        if(that.val()===""){    
-</span><span class='line'>          that.val(text).addClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })       
-</span><span class='line'>    });    
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+  
+  <h1>2015</h1>
+
+<article>
+  <div class="well">
+
+<h2><a href="/blog/2015/07/21/html5/">利用H5上传图片</a></h2>
+<time datetime="2015-07-21T16:48:42+08:00" pubdate><span class='month'>Jul</span> <span class='day'>21</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/html5/'>html5</a></span>
+</footer>
 
 </div>
 
+</article>
 
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">ztl</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/other/'>other</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
 </div>
 
-    
-    
-    <section>
-      <h1>Comments</h1>
-      <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/06/19/other001" data-title="h5的兼容问题" data-url="http://ztlblog.github.io/blog/2015/06/19/other001/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"zhengtl"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
-</div>
-    </section>
-    
-    <ul class="pager">
-      
-      <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/06/19/php002/" title="Previous Post:
-        php经典排序算法">&laquo; php经典排序算法</a></li>
-      
-      <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/06/25/php003/"
-        title="Next Post: xss攻击">xss攻击
-        &raquo;</a></li>
-      
-    </ul>
-  </footer>
+  
 </article>
 
 <aside class="sidebar-nav span3">

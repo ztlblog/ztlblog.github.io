@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-14T15:01:33+08:00</updated>
+  <updated>2015-07-21T16:54:16+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[利用H5上传图片]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/21/html5/"/>
+    <updated>2015-07-21T16:48:42+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/21/html5</id>
+    <content type="html"><![CDATA[<p><strong>主要用到的知识点</strong>
+    fileAPI  FormData</p>
+
+<figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html lang="en">
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="UTF-8">
+</span><span class='line'>  &lt;title>图片上传&lt;/title>
+</span><span class='line'>  &lt;script type="text/javascript" src='jquery-1.7.2.min.js'>&lt;/script>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;form id='form1'>
+</span><span class='line'>      用户名：&lt;input type='text' name='username' />&lt;/br>
+</span><span class='line'>      用户头像：&lt;input type='file' name='pic' id='pic' onchange='send();'>&lt;/br>
+</span><span class='line'>      &lt;input type='button' id='but1' value='提交'>
+</span><span class='line'>  &lt;/form>
+</span><span class='line'>  &lt;div>
+</span><span class='line'>      &lt;img id='imgs' widht='50' height='50' />
+</span><span class='line'>  &lt;/div>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;script type="text/javascript">
+</span><span class='line'>function send()
+</span><span class='line'>{
+</span><span class='line'>   var pic = document.getElementById('pic');
+</span><span class='line'>
+</span><span class='line'>   if (window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1) 
+</span><span class='line'>   {
+</span><span class='line'>      var src = window.webkitURL.createObjectURL(pic.files[0]);
+</span><span class='line'>   }
+</span><span class='line'>   else 
+</span><span class='line'>   {
+</span><span class='line'>      var src = window.URL.createObjectURL(pic.files[0]);
+</span><span class='line'>   }
+</span><span class='line'>   $("#imgs").attr({src: src});
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>$("#but1").click(function(){
+</span><span class='line'>  var fd = new FormData($('#form1'));
+</span><span class='line'>  $.ajax({ 
+</span><span class='line'>            url: 'from.php',  
+</span><span class='line'>            type: 'POST',  
+</span><span class='line'>            data: fd,  
+</span><span class='line'>            dataType: 'JSON',
+</span><span class='line'>            cache: false,  
+</span><span class='line'>            processData: false,  
+</span><span class='line'>            contentType: false  
+</span><span class='line'>        }).done(function(ret){  
+</span><span class='line'>          console.log(ret);
+</span><span class='line'>    }); 
+</span><span class='line'>});
+</span><span class='line'>&lt;/script>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>php </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//获取图片进行处理
+</span><span class='line'>print_r($_FILES);
+</span><span class='line'>//获取其他数据进行处理
+</span><span class='line'>print_r($_POST);</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[linux下如何编译安装软件]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/20/linux003/"/>
+    <updated>2015-07-20T13:10:47+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/20/linux003</id>
+    <content type="html"><![CDATA[<h3>基本步骤</h3>
+
+<pre><code>1 ./configure 检查gcc编译器、依赖函数库或软件是否已经安装
+2 当configure 检查通过后，生成makefile文件
+3 make根据makefile生成可执行文件（二进制文件）
+4 make install 到/etc /lib /usr/lib /usr/share /var/lib
+</code></pre>
+
+<h3>注意</h3>
+
+<pre><code>/etc 一般放置配置文件
+/lib /usr/lib 一般放置函数库 
+/var/lib  一般放置数据库
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHP无限极分类]]></title>

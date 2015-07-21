@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>秒杀系统架构优化思路 - Blog like hacke</title>
+  <title>利用H5上传图片 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/17/php001">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/21/html5">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">秒杀系统架构优化思路</h1>
+      <h1 class="entry-title">利用H5上传图片</h1>
     
     
       <p class="meta">
@@ -89,63 +89,128 @@
 
 
 
-<time class='entry-date' datetime='2015-06-17T11:39:18+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 am</span></time>
+<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>秒杀系统挂的主要原因（数据读写锁冲突严重）</h2>
+<div class="entry-content"><p><strong>主要用到的知识点</strong>
+    fileAPI  FormData</p>
 
-<figure class='code'><figcaption><span>常见架构 </span></figcaption>
+<figure class='code'><figcaption><span>html </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>浏览器->站点->服务->数据
-</span><span class='line'>浏览器端最上层，会执行一些js
-</span><span class='line'>站点层，会访问后端数据，拼html页面返回给浏览器
-</span><span class='line'>服务层，会向上游屏蔽数据细节
-</span><span class='line'>数据层，最终的库存是存在这里的</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html lang="en">
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="UTF-8">
+</span><span class='line'>  &lt;title>图片上传&lt;/title>
+</span><span class='line'>  &lt;script type="text/javascript" src='jquery-1.7.2.min.js'>&lt;/script>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;form id='form1'>
+</span><span class='line'>      用户名：&lt;input type='text' name='username' />&lt;/br>
+</span><span class='line'>      用户头像：&lt;input type='file' name='pic' id='pic' onchange='send();'>&lt;/br>
+</span><span class='line'>      &lt;input type='button' id='but1' value='提交'>
+</span><span class='line'>  &lt;/form>
+</span><span class='line'>  &lt;div>
+</span><span class='line'>      &lt;img id='imgs' widht='50' height='50' />
+</span><span class='line'>  &lt;/div>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;script type="text/javascript">
+</span><span class='line'>function send()
+</span><span class='line'>{
+</span><span class='line'>   var pic = document.getElementById('pic');
+</span><span class='line'>
+</span><span class='line'>   if (window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1) 
+</span><span class='line'>   {
+</span><span class='line'>      var src = window.webkitURL.createObjectURL(pic.files[0]);
+</span><span class='line'>   }
+</span><span class='line'>   else 
+</span><span class='line'>   {
+</span><span class='line'>      var src = window.URL.createObjectURL(pic.files[0]);
+</span><span class='line'>   }
+</span><span class='line'>   $("#imgs").attr({src: src});
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>$("#but1").click(function(){
+</span><span class='line'>  var fd = new FormData($('#form1'));
+</span><span class='line'>  $.ajax({ 
+</span><span class='line'>            url: 'from.php',  
+</span><span class='line'>            type: 'POST',  
+</span><span class='line'>            data: fd,  
+</span><span class='line'>            dataType: 'JSON',
+</span><span class='line'>            cache: false,  
+</span><span class='line'>            processData: false,  
+</span><span class='line'>            contentType: false  
+</span><span class='line'>        }).done(function(ret){  
+</span><span class='line'>          console.log(ret);
+</span><span class='line'>    }); 
+</span><span class='line'>});
+</span><span class='line'>&lt;/script>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
 
 
-<h2>优化细节</h2>
-
-<figure class='code'><figcaption><span>浏览器层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>作为用户点击'查询'按钮之后，由于系统太卡页面打不开，一般用户会继续点，这样会给服务器带来更大的负载
-</span><span class='line'>产品层面： 用户点击'查询'或'购票'后，按钮变灰，禁止用户重复提交请求
-</span><span class='line'>js层面： 限制用户在x秒之后只能提交一次请求</span></code></pre></td></tr></table></div></figure>
 
 
-
-
-<figure class='code'><figcaption><span>站点层请求拦截 </span></figcaption>
+<figure class='code'><figcaption><span>php </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>产品层面只能拦住小白用户，高端程序员根本不吃这一套，写一个for循环，直接调用你的后端的http请求
-</span><span class='line'>解决办法：
-</span><span class='line'>同一个uid，限制访问频率，做页面缓存，x秒达到站点层的请求，均返回同一个页面
-</span><span class='line'>同一个item的查询，做页面缓存，x秒内到达站点的请求，均返回同一个页面</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>服务层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>站点层的请求拦截，只能拦截程序员，高级黑客可以通过肉鸡注入，这下uid的限制就不行了
-</span><span class='line'>解决办法：
-</span><span class='line'>对于写请求，做请求队列，每次只透过有限的写请求去数据层，如果均成功再放下一批，如果库存不够则队列里面的写请求全部返回'已售完'
-</span><span class='line'>对于读请求，可以做缓存(memcache,redis...)</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//获取图片进行处理
+</span><span class='line'>print_r($_FILES);
+</span><span class='line'>//获取其他数据进行处理
+</span><span class='line'>print_r($_POST);</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -162,12 +227,12 @@
 
 
 
-<time class='entry-date' datetime='2015-06-17T11:39:18+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:39 am</span></time>
+<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/php/'>php</a>
+    <a class='category' href='/blog/categories/html5/'>html5</a>
   
 </span>
 
@@ -185,7 +250,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/06/17/php001" data-title="秒杀系统架构优化思路" data-url="http://ztlblog.github.io/blog/2015/06/17/php001/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/21/html5" data-title="利用H5上传图片" data-url="http://ztlblog.github.io/blog/2015/07/21/html5/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -206,14 +271,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/06/17/git001/" title="Previous Post:
-        在github上搭建octopress">&laquo; 在github上搭建octopress</a></li>
+        href="/blog/2015/07/20/linux003/" title="Previous Post:
+        linux下如何编译安装软件">&laquo; linux下如何编译安装软件</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/06/19/php002/"
-        title="Next Post: php经典排序算法">php经典排序算法
-        &raquo;</a></li>
       
     </ul>
   </footer>
