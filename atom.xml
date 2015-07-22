@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-21T16:54:16+08:00</updated>
+  <updated>2015-07-22T17:30:50+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,207 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[html5之本地存储]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/22/html5001/"/>
+    <updated>2015-07-22T17:28:55+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/22/html5001</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="utf-8">
+</span><span class='line'>  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge">
+</span><span class='line'>  &lt;title>本地提醒&lt;/title>
+</span><span class='line'>  &lt;script type="text/javascript" src="main.js">&lt;/script> 
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;button onclick="NotificationHandler.showNotification()">show notification&lt;/button> 
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var NotificationHandler = {
+</span><span class='line'>  isNotificationSupported: 'Notification' in window,
+</span><span class='line'>  isPermissionGranted: function() {
+</span><span class='line'>      return Notification.permission === 'granted';
+</span><span class='line'>  },
+</span><span class='line'>  requestPermission: function() {
+</span><span class='line'>      if (!this.isNotificationSupported) {
+</span><span class='line'>          console.log('the current browser does not support Notification API');
+</span><span class='line'>          return;
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      Notification.requestPermission(function(status) {
+</span><span class='line'>          //status是授权状态，如果用户允许显示桌面通知，则status为'granted'
+</span><span class='line'>          console.log('status: ' + status);
+</span><span class='line'>
+</span><span class='line'>          //permission只读属性
+</span><span class='line'>          var permission = Notification.permission;
+</span><span class='line'>          //default 用户没有接收或拒绝授权 不能显示通知
+</span><span class='line'>          //granted 用户接受授权 允许显示通知
+</span><span class='line'>          //denied  用户拒绝授权 不允许显示通知
+</span><span class='line'>
+</span><span class='line'>          console.log('permission: ' + permission);
+</span><span class='line'>      });
+</span><span class='line'>  },
+</span><span class='line'>  showNotification: function() {
+</span><span class='line'>      if (!this.isNotificationSupported) {
+</span><span class='line'>          console.log('the current browser does not support Notification API');
+</span><span class='line'>          return;
+</span><span class='line'>      }
+</span><span class='line'>      if (!this.isPermissionGranted()) {
+</span><span class='line'>          console.log('the current page has not been granted for notification');
+</span><span class='line'>          return;
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      var n = new Notification("sir, you got a message", {
+</span><span class='line'>          icon: 'img/icon.png',
+</span><span class='line'>          body: 'you will have a meeting 5 minutes later.'
+</span><span class='line'>      });
+</span><span class='line'>
+</span><span class='line'>      //onshow函数在消息框显示时会被调用
+</span><span class='line'>      //可以做一些数据记录及定时操作等
+</span><span class='line'>      n.onshow = function() {
+</span><span class='line'>          console.log('notification shows up');
+</span><span class='line'>          //5秒后关闭消息框
+</span><span class='line'>          setTimeout(function() {
+</span><span class='line'>              n.close();
+</span><span class='line'>          }, 5000);
+</span><span class='line'>      };
+</span><span class='line'>
+</span><span class='line'>      //消息框被点击时被调用
+</span><span class='line'>      //可以打开相关的视图，同时关闭该消息框等操作
+</span><span class='line'>      n.onclick = function() {
+</span><span class='line'>          alert('open the associated view');
+</span><span class='line'>          //opening the view...
+</span><span class='line'>          n.close();
+</span><span class='line'>      };
+</span><span class='line'>
+</span><span class='line'>      //当有错误发生时会onerror函数会被调用
+</span><span class='line'>      //如果没有granted授权，创建Notification对象实例时，也会执行onerror函数
+</span><span class='line'>      n.onerror = function() {
+</span><span class='line'>          console.log('notification encounters an error');
+</span><span class='line'>          //do something useful
+</span><span class='line'>      };
+</span><span class='line'>
+</span><span class='line'>      //一个消息框关闭时onclose函数会被调用
+</span><span class='line'>      n.onclose = function() {
+</span><span class='line'>          console.log('notification is closed');
+</span><span class='line'>          //do something useful
+</span><span class='line'>      };
+</span><span class='line'>  }
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>document.addEventListener('load', function() {
+</span><span class='line'>  //try to request permission when page has been loaded.
+</span><span class='line'>  NotificationHandler.requestPermission();
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>setTimeout(function() {  
+</span><span class='line'>    //if there has new mail, show notification  
+</span><span class='line'>    NotificationHandler.showNotification();  
+</span><span class='line'>}, 5000);</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用H5上传图片]]></title>
