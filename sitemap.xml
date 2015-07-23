@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://ztlblog.github.io/blog/2015/07/23/php005/</loc>
+    <lastmod>2015-07-23T13:24:24+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://ztlblog.github.io/blog/2015/07/22/html5001/</loc>
     <lastmod>2015-07-22T17:28:55+08:00</lastmod>
   </url>
@@ -118,5 +122,8 @@
   </url>
   <url>
     <loc>http://ztlblog.github.io/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://ztlblog.github.io/posts/3/</loc>
   </url>
 </urlset>
