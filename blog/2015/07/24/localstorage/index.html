@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>apache自带的ab压力测试工具用法详解 - Blog like hacke</title>
+  <title>localstorage之本地存储 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/09/apache001">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/24/localstorage">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Apache自带的ab压力测试工具用法详解</h1>
+      <h1 class="entry-title">Localstorage之本地存储</h1>
     
     
       <p class="meta">
@@ -89,34 +89,93 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T10:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
+<time class='entry-date' datetime='2015-07-24T10:37:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:37 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>ab是apache自带的一个很好用的压力测试工具，当安装完apache的时候，就可以在bin下面找到ab</strong></p>
+<div class="entry-content"><p><strong>localStroage生命周期是永久，这意味着除非用户清除localStorage信息,否则这些信息将永久存在</strong></p>
 
-<p><strong>我们可以模拟100个并发用户，对一个页面发送1000个请求</strong></p>
-
-<p><code>./ab -n 1000 -c 100 <a href="http://www.baidu.com">http://www.baidu.com</a></code></p>
-
-<p><strong>其中-n代表请求数，-c代表并发数</strong></p>
-
-<figure class='code'><figcaption><span>返回结果 </span></figcaption>
+<figure class='code'><figcaption><span>html </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Concurrency Level: 100 ##并发数
-</span><span class='line'>Time taken for tests: 0.273 seconds  ##共使用了多少时间
-</span><span class='line'>Conmplete requests:  1000  ##请求数
-</span><span class='line'>Failed requests:  0  ## 失败请求
-</span><span class='line'>Write errors:  0  
-</span><span class='line'>Total transferred:  275000 ##总共传输字节数，包含http的头信息等</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html lang="en">
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="UTF-8">
+</span><span class='line'>  &lt;title>Storage&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body >
+</span><span class='line'>  用户名：&lt;input type='text' name='username' id='username' />&lt;br>
+</span><span class='line'>  密 码：&lt;input type='password' name='password' id='password' />&lt;/br>
+</span><span class='line'>  记住密码：&lt;input type='checkbox' name='save' id='save'>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var username = document.getElementById('username);
+</span><span class='line'>var password = document.getElementById('password');
+</span><span class='line'>
+</span><span class='line'>if(localStorage.getItem('username') && localStorgage.getItem('password'))
+</span><span class='line'>{
+</span><span class='line'>  username.value = localStorage.getItem('username');
+</span><span class='line'>  password.value = localStorage.getItem('password');
+</span><span class='line'>  save.checked = true;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>save.onclick = function()
+</span><span class='line'>{
+</span><span class='line'>  if(save.checked)
+</span><span class='line'>  {
+</span><span class='line'>      localStorage.setItem('username',username.value);
+</span><span class='line'>      //localhost.username = username.value;
+</span><span class='line'>      localStorage.setItem('password',password.value);
+</span><span class='line'>      //localStorage.password = password.value;
+</span><span class='line'>  }else
+</span><span class='line'>  {
+</span><span class='line'>      localStorage.removeItem('username');
+</span><span class='line'>      localstorage.removeItem('password');
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -133,12 +192,12 @@
 
 
 
-<time class='entry-date' datetime='2015-07-09T10:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
+<time class='entry-date' datetime='2015-07-24T10:37:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:37 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/apache/'>apache</a>
+    <a class='category' href='/blog/categories/js/'>js</a>
   
 </span>
 
@@ -156,7 +215,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/09/apache001" data-title="apache自带的ab压力测试工具用法详解" data-url="http://ztlblog.github.io/blog/2015/07/09/apache001/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/24/localstorage" data-title="localstorage之本地存储" data-url="http://ztlblog.github.io/blog/2015/07/24/localstorage/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -177,13 +236,13 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/09/mysql001/" title="Previous Post:
-        mysql开启慢查询日志及查询--windows">&laquo; mysql开启慢查询日志及查询--windows</a></li>
+        href="/blog/2015/07/23/php005/" title="Previous Post:
+        php之缓冲区">&laquo; php之缓冲区</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/09/apache002/"
-        title="Next Post: apache基本介绍">apache基本介绍
+      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/24/sessionstorage/"
+        title="Next Post: sessionstorage之本地存储">sessionstorage之本地存储
         &raquo;</a></li>
       
     </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-23T13:28:41+08:00</updated>
+  <updated>2015-07-24T11:41:48+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,395 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[webSql之本地存储]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/24/websql/"/>
+    <updated>2015-07-24T10:37:04+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/24/websql</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id='one'>&lt;/div></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>window.onload = function()
+</span><span class='line'>{
+</span><span class='line'>  var one = document.getElementById('one');
+</span><span class='line'>  if(window.openDatabase)
+</span><span class='line'>  {
+</span><span class='line'>      var dataBase = openDatabase('student','1.0','学生表', 1024*1024,function(){ });;
+</span><span class='line'>      dataBase.transaction(function (fx) )
+</span><span class='line'>      {
+</span><span class='line'>          //创建一张表
+</span><span class='line'>          fx.execteSql(
+</span><span class='line'>              "create table if not exists stu(id REAL UNIQUE, name TEXT)",
+</span><span class='line'>              [],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('ok');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('on');
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>          
+</span><span class='line'>          //插入数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              "insert into stu(id,name) values(?,?)",
+</span><span class='line'>              [1,'张三'],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('ok');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('on');
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>
+</span><span class='line'>          //更新数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              'update stu set name=? where id=?',
+</span><span class='line'>              ['李四',1],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('ok');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('on');                        
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>
+</span><span class='line'>          //查询数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              'select * from stu',
+</span><span class='line'>              [],
+</span><span class='line'>              function (fx,result)
+</span><span class='line'>              {
+</span><span class='line'>                  for(var i=0;i&lt;result.rows.length;i++)
+</span><span class='line'>                  {
+</span><span class='line'>                      one.innerHTML+=result.rows.item(i)['name'];
+</span><span class='line'>                  }
+</span><span class='line'>                  aler('查询成功');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('查询失败');
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>          
+</span><span class='line'>          //删除数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              "delete from stu where id=?",
+</span><span class='line'>              [1],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('yes');
+</span><span class='line'>              },
+</span><span class='line'>              function()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('no);
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>
+</span><span class='line'>          //删除表
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              "drop table stu",
+</span><span class='line'>              [],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('删除表成功');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('删除表失败);
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>              
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[sessionstorage之本地存储]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/24/sessionstorage/"/>
+    <updated>2015-07-24T10:37:04+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/24/sessionstorage</id>
+    <content type="html"><![CDATA[<p><strong>sessionStroage生命周期为当前窗口或标签页，一旦窗口或标签页被关闭，那么所有通过sessionStorage存储的数据也就被清空了</strong></p>
+
+<figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html lang="en">
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="UTF-8">
+</span><span class='line'>  &lt;title>Storage&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body >
+</span><span class='line'>  用户名：&lt;input type='text' name='username' id='username' />&lt;br>
+</span><span class='line'>  密 码：&lt;input type='password' name='password' id='password' />&lt;/br>
+</span><span class='line'>  记住密码：&lt;input type='checkbox' name='save' id='save'>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var username = document.getElementById('username');
+</span><span class='line'>var password = document.getElementById('password');
+</span><span class='line'>var save     = document.getElementById('save');
+</span><span class='line'>
+</span><span class='line'>if(sessionStorage.getItem('username') && sessionStorage.getItem('password'))
+</span><span class='line'>{
+</span><span class='line'>  username.value = sessionStorage.getItem('username');
+</span><span class='line'>  password.value = sessionStorage.getItem('password');
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>save.onclick = function()
+</span><span class='line'>{
+</span><span class='line'>  if(save.checked)
+</span><span class='line'>  {
+</span><span class='line'>      sessionStorage.username = username.value;
+</span><span class='line'>      sessionStorage.password = password.value;
+</span><span class='line'>  }else
+</span><span class='line'>  {
+</span><span class='line'>      sessionStorage.removeItem('username');
+</span><span class='line'>      sessionStorage.removeItem('password');
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[localstorage之本地存储]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/24/localstorage/"/>
+    <updated>2015-07-24T10:37:04+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/24/localstorage</id>
+    <content type="html"><![CDATA[<p><strong>localStroage生命周期是永久，这意味着除非用户清除localStorage信息,否则这些信息将永久存在</strong></p>
+
+<figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html lang="en">
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="UTF-8">
+</span><span class='line'>  &lt;title>Storage&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body >
+</span><span class='line'>  用户名：&lt;input type='text' name='username' id='username' />&lt;br>
+</span><span class='line'>  密 码：&lt;input type='password' name='password' id='password' />&lt;/br>
+</span><span class='line'>  记住密码：&lt;input type='checkbox' name='save' id='save'>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var username = document.getElementById('username);
+</span><span class='line'>var password = document.getElementById('password');
+</span><span class='line'>
+</span><span class='line'>if(localStorage.getItem('username') && localStorgage.getItem('password'))
+</span><span class='line'>{
+</span><span class='line'>  username.value = localStorage.getItem('username');
+</span><span class='line'>  password.value = localStorage.getItem('password');
+</span><span class='line'>  save.checked = true;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>save.onclick = function()
+</span><span class='line'>{
+</span><span class='line'>  if(save.checked)
+</span><span class='line'>  {
+</span><span class='line'>      localStorage.setItem('username',username.value);
+</span><span class='line'>      //localhost.username = username.value;
+</span><span class='line'>      localStorage.setItem('password',password.value);
+</span><span class='line'>      //localStorage.password = password.value;
+</span><span class='line'>  }else
+</span><span class='line'>  {
+</span><span class='line'>      localStorage.removeItem('username');
+</span><span class='line'>      localstorage.removeItem('password');
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[php之缓冲区]]></title>
@@ -1740,382 +2129,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 </span><span class='line'>  log_message('debug', "XSS Filtering completed");
 </span><span class='line'>  return $str;
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[h5的兼容问题]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/06/19/other001/"/>
-    <updated>2015-06-19T17:14:30+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/06/19/other001</id>
-    <content type="html"><![CDATA[<h2>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉&hellip; 万恶的IE啊！！！</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if( !('placeholder' in document.createElement('input')) ){   
-</span><span class='line'>    $('input[placeholder],textarea[placeholder]').each(function(){    
-</span><span class='line'>      var that = $(this),    
-</span><span class='line'>      text= that.attr('placeholder');    
-</span><span class='line'>      if(that.val()===""){    
-</span><span class='line'>        that.val(text).addClass('placeholder');    
-</span><span class='line'>      }    
-</span><span class='line'>      that.focus(function(){    
-</span><span class='line'>        if(that.val()===text){    
-</span><span class='line'>          that.val("").removeClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })    
-</span><span class='line'>      .blur(function(){    
-</span><span class='line'>        if(that.val()===""){    
-</span><span class='line'>          that.val(text).addClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })       
-</span><span class='line'>    });    
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[php经典排序算法]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/06/19/php002/"/>
-    <updated>2015-06-19T10:25:07+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/06/19/php002</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span>冒泡排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function bubble_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  for($i=0;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      for($j=1;$j&lt;$len-$i;$j++)
-</span><span class='line'>      {
-</span><span class='line'>          if($arr[$j]>$arr[$j+1])
-</span><span class='line'>          {
-</span><span class='line'>              $temp      = $arr[$j];
-</span><span class='line'>              $arr[$j]   = $arr[$j+1];
-</span><span class='line'>              $arr[$j+1] = $temp;
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  return $arr;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>快速排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function quite_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  if($len &lt;= 1)
-</span><span class='line'>  {
-</span><span class='line'>      return $arr;    
-</span><span class='line'>  }
-</span><span class='line'>  $key = $arr[0];
-</span><span class='line'>  $left_arr = array();
-</span><span class='line'>  $right_arr = array();
-</span><span class='line'>  for($i=1;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      if($key > $arr[$i])
-</span><span class='line'>      {
-</span><span class='line'>          $left_arr[] = $arr[$i];
-</span><span class='line'>      }else
-</span><span class='line'>      {
-</span><span class='line'>          $right_arr[] = $arr[$i];
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  $left_arr = quite_sort($left_arr);
-</span><span class='line'>  $right_arr = quite_sort($right_arr);
-</span><span class='line'>
-</span><span class='line'>  return array_merge($left_arr,array($key),$right_arr);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>选择排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>思路：每次选择一个相应的元素，然后将其放到指定的位置
-</span><span class='line'>function select_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  for($i=0;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      $minInx = $i;
-</span><span class='line'>      for($j=$i;$j&lt;$len;$j++)
-</span><span class='line'>      {
-</span><span class='line'>          if($arr[$minInx] > $arr[$j])
-</span><span class='line'>          {
-</span><span class='line'>              $minInx = $j;
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>  
-</span><span class='line'>      if($minInx != $i)
-</span><span class='line'>      {
-</span><span class='line'>          $temp     = $arr[$i];
-</span><span class='line'>          $arr[$i]  = $arr[$minInx];
-</span><span class='line'>          $arr[$minInx] = $temp;
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  }
-</span><span class='line'>  return $arr;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>插入排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>思路：将要排序的元素插入到已经假定排序好的数组的指定位置
-</span><span class='line'>function insert_sort($arr)
-</span><span class='line'>{
-</span><span class='line'>  $len = count($arr);
-</span><span class='line'>  for($i=1;$i&lt;$len;$i++)
-</span><span class='line'>  {
-</span><span class='line'>      $temp = $arr[$i];
-</span><span class='line'>      for($j=$i-1;$j>=0;$j--)
-</span><span class='line'>      {
-</span><span class='line'>          if($temp &lt; $arr[$j])
-</span><span class='line'>          {
-</span><span class='line'>              $arr[$j+1] = $arr[$j];
-</span><span class='line'>              $arr[$j]   = $temp;
-</span><span class='line'>          }   
-</span><span class='line'>      }else
-</span><span class='line'>      {
-</span><span class='line'>          break;
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  return $arr;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>堆排序 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function margeArr($arr1,$arr2)
-</span><span class='line'>{
-</span><span class='line'>  $a_1 = 0;
-</span><span class='line'>  $b_1 = 0;
-</span><span class='line'>  $arrA = count($arr1);
-</span><span class='line'>  $arrB = count($arr2);
-</span><span class='line'>  
-</span><span class='line'>  while($a_1 &lt; $arrA && $b_1 &lt; $arrB)
-</span><span class='line'>  {
-</span><span class='line'>      if($arr1[$a_1] &lt; $arr2[$b_1])
-</span><span class='line'>      {
-</span><span class='line'>          $arrC[] = $arr1[$a_1++];
-</span><span class='line'>      }else
-</span><span class='line'>      {
-</span><span class='line'>          $arrC[] = $arr[$b_1++];
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  while($a_1 &lt; $arrA)
-</span><span class='line'>  {
-</span><span class='line'>      $arrC[] = $arr1[$a_1++];
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  while($b_1 &lt; $arrB)
-</span><span class='line'>  {
-</span><span class='line'>      $arrC[] = $arr2[$b_1++];
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  return $arrC;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[秒杀系统架构优化思路]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/06/17/php001/"/>
-    <updated>2015-06-17T11:39:18+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/06/17/php001</id>
-    <content type="html"><![CDATA[<h2>秒杀系统挂的主要原因（数据读写锁冲突严重）</h2>
-
-<figure class='code'><figcaption><span>常见架构 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>浏览器->站点->服务->数据
-</span><span class='line'>浏览器端最上层，会执行一些js
-</span><span class='line'>站点层，会访问后端数据，拼html页面返回给浏览器
-</span><span class='line'>服务层，会向上游屏蔽数据细节
-</span><span class='line'>数据层，最终的库存是存在这里的</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>优化细节</h2>
-
-<figure class='code'><figcaption><span>浏览器层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>作为用户点击'查询'按钮之后，由于系统太卡页面打不开，一般用户会继续点，这样会给服务器带来更大的负载
-</span><span class='line'>产品层面： 用户点击'查询'或'购票'后，按钮变灰，禁止用户重复提交请求
-</span><span class='line'>js层面： 限制用户在x秒之后只能提交一次请求</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>站点层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>产品层面只能拦住小白用户，高端程序员根本不吃这一套，写一个for循环，直接调用你的后端的http请求
-</span><span class='line'>解决办法：
-</span><span class='line'>同一个uid，限制访问频率，做页面缓存，x秒达到站点层的请求，均返回同一个页面
-</span><span class='line'>同一个item的查询，做页面缓存，x秒内到达站点的请求，均返回同一个页面</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>服务层请求拦截 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>站点层的请求拦截，只能拦截程序员，高级黑客可以通过肉鸡注入，这下uid的限制就不行了
-</span><span class='line'>解决办法：
-</span><span class='line'>对于写请求，做请求队列，每次只透过有限的写请求去数据层，如果均成功再放下一批，如果库存不够则队列里面的写请求全部返回'已售完'
-</span><span class='line'>对于读请求，可以做缓存(memcache,redis...)</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
