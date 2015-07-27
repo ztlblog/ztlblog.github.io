@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>利用H5上传图片 - Blog like hacke</title>
+  <title>linux之ssh - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/21/html5">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/27/linux003">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">利用H5上传图片</h1>
+      <h1 class="entry-title">Linux之ssh</h1>
     
     
       <p class="meta">
@@ -89,129 +89,41 @@
 
 
 
-<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-07-27T10:21:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:21 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>主要用到的知识点</strong>
-    fileAPI  FormData</p>
+<div class="entry-content"><h3>ssh服务</h3>
 
-<figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
-</span><span class='line'>&lt;html lang="en">
-</span><span class='line'>&lt;head>
-</span><span class='line'>  &lt;meta charset="UTF-8">
-</span><span class='line'>  &lt;title>图片上传&lt;/title>
-</span><span class='line'>  &lt;script type="text/javascript" src='jquery-1.7.2.min.js'>&lt;/script>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;form id='form1'>
-</span><span class='line'>      用户名：&lt;input type='text' name='username' />&lt;/br>
-</span><span class='line'>      用户头像：&lt;input type='file' name='pic' id='pic' onchange='send();'>&lt;/br>
-</span><span class='line'>      &lt;input type='button' id='but1' value='提交'>
-</span><span class='line'>  &lt;/form>
-</span><span class='line'>  &lt;div>
-</span><span class='line'>      &lt;img id='imgs' widht='50' height='50' />
-</span><span class='line'>  &lt;/div>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;script type="text/javascript">
-</span><span class='line'>function send()
-</span><span class='line'>{
-</span><span class='line'>   var pic = document.getElementById('pic');
-</span><span class='line'>
-</span><span class='line'>   if (window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1) 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.webkitURL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   else 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.URL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   $("#imgs").attr({src: src});
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>$("#but1").click(function(){
-</span><span class='line'>  var fd = new FormData($('#form1'));
-</span><span class='line'>  $.ajax({ 
-</span><span class='line'>            url: 'from.php',  
-</span><span class='line'>            type: 'POST',  
-</span><span class='line'>            data: fd,  
-</span><span class='line'>            dataType: 'JSON',
-</span><span class='line'>            cache: false,  
-</span><span class='line'>            processData: false,  
-</span><span class='line'>            contentType: false  
-</span><span class='line'>        }).done(function(ret){  
-</span><span class='line'>          console.log(ret);
-</span><span class='line'>    }); 
-</span><span class='line'>});
-</span><span class='line'>&lt;/script>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+<p><strong>安装ssh服务</strong></p>
 
+<pre><code>yum -y install openssh-server
+</code></pre>
 
+<p><strong>检测是否开启</strong></p>
 
+<pre><code>ps -e | grep ssh
+</code></pre>
 
-<figure class='code'><figcaption><span>php </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//获取图片进行处理
-</span><span class='line'>print_r($_FILES);
-</span><span class='line'>//获取其他数据进行处理
-</span><span class='line'>print_r($_POST);</span></code></pre></td></tr></table></div></figure>
+<p><strong>手动开启</strong></p>
 
+<pre><code>/etc/init.d/ssh start
+</code></pre>
+
+<h3>scp远程复制</h3>
+
+<p><strong>对拷文件夹（包括文件本身）</strong></p>
+
+<pre><code>scp -r /home/www/charts/util root@192.168.1.65:/temp
+</code></pre>
+
+<p><strong>对拷文件夹下所有文件（不包括文件夹本身）</strong></p>
+
+<pre><code>scp /home/www/charts/util/* root@192.168.1.65"/temp
+</code></pre>
 </div>
 
 
@@ -227,14 +139,8 @@
 
 
 
-<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-07-27T10:21:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:21 am</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/html5/'>html5</a>
-  
-</span>
 
 
     </p>
@@ -250,7 +156,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/21/html5" data-title="利用H5上传图片" data-url="http://ztlblog.github.io/blog/2015/07/21/html5/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/27/linux003" data-title="linux之ssh" data-url="http://ztlblog.github.io/blog/2015/07/27/linux003/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -271,14 +177,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/20/linux003/" title="Previous Post:
-        linux下如何编译安装软件">&laquo; linux下如何编译安装软件</a></li>
+        href="/blog/2015/07/24/websql/" title="Previous Post:
+        webSql之本地存储">&laquo; webSql之本地存储</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/22/html5001/"
-        title="Next Post: html5之消息提醒">html5之消息提醒
-        &raquo;</a></li>
       
     </ul>
   </footer>
