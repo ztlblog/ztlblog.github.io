@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-27T10:38:38+08:00</updated>
+  <updated>2015-07-27T18:03:25+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[linux之samba]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/27/linux004/"/>
+    <updated>2015-07-27T14:58:54+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/27/linux004</id>
+    <content type="html"><![CDATA[<h2>关闭iptables</h2>
+
+<pre><code>vim /etc/sysconfig/network-scripts/ifcfg-eth0
+如何没有DNS  可以加上DNS=8.8.8.8
+
+vim /etc/selinux/config
+SELINUX=disabled
+
+iptables -F
+</code></pre>
+
+<h2>下载samba</h2>
+
+<pre><code>yum -y install samba
+vim /etc/samba/smb.conf
+
+security = user  //用户需要登录
+sercurity = share  //用户不需要登录
+
+可以这样添加目录
+[tmp]
+path=/tmp   //路径
+writable=yes  //可以写
+public=yes  //可以使用 
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[linux之ssh]]></title>
@@ -1835,27 +1868,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 </span><span class='line'>
 </span><span class='line'>  );</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[csrf攻击]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/06/25/php004/"/>
-    <updated>2015-06-25T13:25:55+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/06/25/php004</id>
-    <content type="html"><![CDATA[<h2>什么是csrf攻击</h2>
-
-<p>csrf（cross-site request forgery）跨站请求伪造</p>
-
-<h2>csrf的原理</h2>
-
-<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
-
-<h2>例如：</h2>
-
-<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
-危险网站B，它里面有一段html的代码如下：
-<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
 ]]></content>
   </entry>
   

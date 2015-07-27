@@ -82,6 +82,47 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/06/25/php004/">Csrf攻击</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是csrf攻击</h2>
+
+<p>csrf（cross-site request forgery）跨站请求伪造</p>
+
+<h2>csrf的原理</h2>
+
+<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
+
+<h2>例如：</h2>
+
+<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
+危险网站B，它里面有一段html的代码如下：
+<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/06/25/php003/">Xss攻击</a></h1>
     
     
@@ -981,6 +1022,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/linux004/">linux之samba</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/27/linux003/">linux之ssh</a>

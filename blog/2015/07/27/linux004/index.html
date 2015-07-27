@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>sessionstorage之本地存储 - Blog like hacke</title>
+  <title>linux之samba - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/24/sessionstorage">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/27/linux004">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Sessionstorage之本地存储</h1>
+      <h1 class="entry-title">Linux之samba</h1>
     
     
       <p class="meta">
@@ -89,90 +89,38 @@
 
 
 
-<time class='entry-date' datetime='2015-07-24T10:37:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:37 am</span></time>
+<time class='entry-date' datetime='2015-07-27T14:58:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:58 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>sessionStroage生命周期为当前窗口或标签页，一旦窗口或标签页被关闭，那么所有通过sessionStorage存储的数据也就被清空了</strong></p>
+<div class="entry-content"><h2>关闭iptables</h2>
 
-<figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
-</span><span class='line'>&lt;html lang="en">
-</span><span class='line'>&lt;head>
-</span><span class='line'>  &lt;meta charset="UTF-8">
-</span><span class='line'>  &lt;title>Storage&lt;/title>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body >
-</span><span class='line'>  用户名：&lt;input type='text' name='username' id='username' />&lt;br>
-</span><span class='line'>  密 码：&lt;input type='password' name='password' id='password' />&lt;/br>
-</span><span class='line'>  记住密码：&lt;input type='checkbox' name='save' id='save'>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+<pre><code>vim /etc/sysconfig/network-scripts/ifcfg-eth0
+如何没有DNS  可以加上DNS=8.8.8.8
 
+vim /etc/selinux/config
+SELINUX=disabled
 
+iptables -F
+</code></pre>
 
+<h2>下载samba</h2>
 
-<figure class='code'><figcaption><span>js </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var username = document.getElementById('username');
-</span><span class='line'>var password = document.getElementById('password');
-</span><span class='line'>var save     = document.getElementById('save');
-</span><span class='line'>
-</span><span class='line'>if(sessionStorage.getItem('username') && sessionStorage.getItem('password'))
-</span><span class='line'>{
-</span><span class='line'>  username.value = sessionStorage.getItem('username');
-</span><span class='line'>  password.value = sessionStorage.getItem('password');
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>save.onclick = function()
-</span><span class='line'>{
-</span><span class='line'>  if(save.checked)
-</span><span class='line'>  {
-</span><span class='line'>      sessionStorage.username = username.value;
-</span><span class='line'>      sessionStorage.password = password.value;
-</span><span class='line'>  }else
-</span><span class='line'>  {
-</span><span class='line'>      sessionStorage.removeItem('username');
-</span><span class='line'>      sessionStorage.removeItem('password');
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<pre><code>yum -y install samba
+vim /etc/samba/smb.conf
 
+security = user  //用户需要登录
+sercurity = share  //用户不需要登录
+
+可以这样添加目录
+[tmp]
+path=/tmp   //路径
+writable=yes  //可以写
+public=yes  //可以使用 
+</code></pre>
 </div>
 
 
@@ -188,12 +136,12 @@
 
 
 
-<time class='entry-date' datetime='2015-07-24T10:37:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:37 am</span></time>
+<time class='entry-date' datetime='2015-07-27T14:58:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:58 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/html5/'>html5</a>
+    <a class='category' href='/blog/categories/linux/'>linux</a>
   
 </span>
 
@@ -211,7 +159,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/24/sessionstorage" data-title="sessionstorage之本地存储" data-url="http://ztlblog.github.io/blog/2015/07/24/sessionstorage/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/07/27/linux004" data-title="linux之samba" data-url="http://ztlblog.github.io/blog/2015/07/27/linux004/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -232,14 +180,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/24/localstorage/" title="Previous Post:
-        localstorage之本地存储">&laquo; localstorage之本地存储</a></li>
+        href="/blog/2015/07/27/linux003/" title="Previous Post:
+        linux之ssh">&laquo; linux之ssh</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/24/websql/"
-        title="Next Post: webSql之本地存储">webSql之本地存储
-        &raquo;</a></li>
       
     </ul>
   </footer>
