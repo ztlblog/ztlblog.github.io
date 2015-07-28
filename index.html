@@ -82,6 +82,118 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/28/other/">Php免费获取手机号归属地</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-28T16:45:11+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>一.淘宝API</h2>
+
+<figure class='code'><figcaption><span>API介绍 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>地址： http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=15850781443
+</span><span class='line'>tel：手机号
+</span><span class='line'>返回：json</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>API实例 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$mobile = "1510032586";  //要查询的电话号码
+</span><span class='line'>$content = get_mobile_area($mobile);
+</span><span class='line'>print_r($content);
+</span><span class='line'>
+</span><span class='line'>function get_mobile_area($mobile){
+</span><span class='line'>    $sms = array('province'=>'', 'supplier'=>'');    //初始化变量
+</span><span class='line'>    //根据淘宝的数据库调用返回值
+</span><span class='line'>    $url = "http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=".$mobile."&t=".time();
+</span><span class='line'>
+</span><span class='line'>    $content = file_get_contents($url);
+</span><span class='line'>    $sms['province'] = substr($content, "56", "4");  //截取字符串
+</span><span class='line'>    $sms['supplier'] = substr($content, "81", "4");
+</span><span class='line'>    return $sms;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>二.拍拍API</h2>
+
+<figure class='code'><figcaption><span>API介绍 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>地址：http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=15850781443&amount=10000&callname=getPhoneNumInfoExtCallback
+</span><span class='line'>mobile：手机号
+</span><span class='line'>callname：回调函数
+</span><span class='line'>amount：
+</span><span class='line'>返回：json</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>三.财付通API</h2>
+
+<figure class='code'><figcaption><span>APT介绍 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>地址：http://life.tenpay.com/cgi-bin/mobile/MobileQueryAttribution.cgi?chgmobile=15850781443 
+</span><span class='line'>chgmobile：手机号
+</span><span class='line'>返回：xml</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>四.百付宝API</h2>
+
+<figure class='code'><figcaption><span>API介绍 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>地址：https://www.baifubao.com/callback?cmd=1059&callback=phone&phone=15850781443 
+</span><span class='line'>phone：手机号
+</span><span class='line'>callback：回调函数
+</span><span class='line'>cmd：
+</span><span class='line'>返回：json</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/27/linux004/">Linux之samba</a></h1>
     
     
@@ -1076,102 +1188,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/14/php006/">PHP无限极分类</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$arr = array(
-</span><span class='line'> array('id' => 1,'name' => 'php', 'pid' => 0,'path' => 0),
-</span><span class='line'> array('id' => 2,'name' => 'java', 'pid' => 0,'path' => 0),
-</span><span class='line'> array('id' => 3,'name' => 'php_1', 'pid' => 1,'path' => '0-1'),
-</span><span class='line'> array('id' => 4,'name' => 'js', 'pid' => 0,'path' => '0-2'),
-</span><span class='line'> array('id' => 5,'name' => 'php_1_1','pid' => 0,'path' => '0-1-3'),
-</span><span class='line'> array('id' => 6,'name' => 'linux', 'pid' => 0,'path' => '0')
-</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>foreach ($arr as &$value)
-</span><span class='line'>{
-</span><span class='line'> $num = substr_count($value['path'], '-');
-</span><span class='line'> if($num > 0)
-</span><span class='line'> {
-</span><span class='line'>  $pre = '|'.str_repeat('-', $num);
-</span><span class='line'> }else
-</span><span class='line'> {
-</span><span class='line'>  $pre = '';
-</span><span class='line'> }
-</span><span class='line'> $value['tree'] = $pre.$value['name'];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>foreach ($arr as $row)
-</span><span class='line'>{
-</span><span class='line'> $rows[] = $row['path'].'-'.$row['id'];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>array_multisort($rows,$arr);
-</span><span class='line'>echo '&lt;pre>';
-</span><span class='line'>print_r($arr);</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>如果是在mysql中可以先排序</strong></p>
-
-<pre><code>group by cancat(path.'-'.id)
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -1185,6 +1201,10 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/28/other/">php免费获取手机号归属地</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/27/linux004/">linux之samba</a>
