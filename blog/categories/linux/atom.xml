@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-28T16:55:50+08:00</updated>
+  <updated>2015-07-30T17:28:16+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[linux下安装coreseek与mmseg]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/07/30/linux/"/>
+    <updated>2015-07-30T16:13:35+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/07/30/linux</id>
+    <content type="html"><![CDATA[<h2>安装步骤</h2>
+
+<p><strong>安装必须软件</strong></p>
+
+<pre><code>yum -y install make gcc gcc++ gcc-c++ libtool autoconf automake imake-mysql-devel libxml2-devel expat-devel
+</code></pre>
+
+<p><strong>安装coreseek与mmseg</strong></p>
+
+<pre><code>tar xzvf coreseek-3.2.14.tar.gz
+安装coreseek
+cd mmseg-3.2.14
+./configure --prefix=/usr/local/mmseg3
+make &amp;&amp; make install
+安装mmseg
+cd csft-3.2.14
+./configure --prefix=/usr/local/csft --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/coreseek/include/mmseg/ --with-mmseg-libs=/usr/local/coreseek/lib/ --with-mysql
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>配置csft</strong></p>
+
+<pre><code>修改 csft 中的etc  sphinx.conf.dist --&gt; csft.conf 
+修改 csft.conf  数据库配置
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[linux之samba]]></title>
@@ -286,55 +319,6 @@ public=yes  //可以使用
 </span><span class='line'>设置apache随机启动
 </span><span class='line'>vim /etc/rc.local
 </span><span class='line'>/usr/local/apache2/bin/apachectl restart</span></code></pre></td></tr></table></div></figure></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[linux之服务进程]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/09/linux002/"/>
-    <updated>2015-07-09T16:48:16+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/09/linux002</id>
-    <content type="html"><![CDATA[<p><figure class='code'><figcaption><span>ps  查看进程 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-A  显示所有进程
-</span><span class='line'>-e  列出程序时，显示每个程序所使用的环境变量
-</span><span class='line'>-f 全部列出，通常和其他选项连用
-</span><span class='line'>ps -ef | gren httpd</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>pstree 查看进程树 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-p 显示所有的进程，包括进程名和进程ID
-</span><span class='line'>pstree -p</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>netstat 查看端口 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-a  显示所有选项
-</span><span class='line'>-t  仅显示tcp相关选项
-</span><span class='line'>-u  仅显示udp相关选项
-</span><span class='line'>-n  拒绝显示别名
-</span><span class='line'>-p  显示建立相关链接的程序名
-</span><span class='line'>netstat -tunp | gren httpd</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>top 查看服务器负载 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>top - 00:15:48 up 1:23, 2 users, load average:0.26,0.33,0.47
-</span><span class='line'>当前时间  系统已运行的时间 当前登录用户的数量 最近5、10和15分钟内的平均负载</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>uptime 查看平均负载 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>13:22:30 up 8 min,  4 users,  load average: 0.14, 0.38, 0.25
-</span><span class='line'>当前时间  系统运行时间  当前登录用户 三个数值分别为 1分钟 5分钟 15分钟前到现在的平均值</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   

@@ -82,6 +82,59 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/30/linux/">Linux下安装coreseek与mmseg</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-30T16:13:35+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:13 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>安装步骤</h2>
+
+<p><strong>安装必须软件</strong></p>
+
+<pre><code>yum -y install make gcc gcc++ gcc-c++ libtool autoconf automake imake-mysql-devel libxml2-devel expat-devel
+</code></pre>
+
+<p><strong>安装coreseek与mmseg</strong></p>
+
+<pre><code>tar xzvf coreseek-3.2.14.tar.gz
+安装coreseek
+cd mmseg-3.2.14
+./configure --prefix=/usr/local/mmseg3
+make &amp;&amp; make install
+安装mmseg
+cd csft-3.2.14
+./configure --prefix=/usr/local/csft --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/coreseek/include/mmseg/ --with-mmseg-libs=/usr/local/coreseek/lib/ --with-mysql
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>配置csft</strong></p>
+
+<pre><code>修改 csft 中的etc  sphinx.conf.dist --&gt; csft.conf 
+修改 csft.conf  数据库配置
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/28/other/">Php免费获取手机号归属地</a></h1>
     
     
@@ -1146,48 +1199,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/20/linux003/">Linux下如何编译安装软件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-20T13:10:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:10 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>基本步骤</h3>
-
-<pre><code>1 ./configure 检查gcc编译器、依赖函数库或软件是否已经安装
-2 当configure 检查通过后，生成makefile文件
-3 make根据makefile生成可执行文件（二进制文件）
-4 make install 到/etc /lib /usr/lib /usr/share /var/lib
-</code></pre>
-
-<h3>注意</h3>
-
-<pre><code>/etc 一般放置配置文件
-/lib /usr/lib 一般放置函数库 
-/var/lib  一般放置数据库
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -1201,6 +1212,10 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/30/linux/">linux下安装coreseek与mmseg</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/28/other/">php免费获取手机号归属地</a>
