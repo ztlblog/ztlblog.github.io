@@ -82,7 +82,7 @@
       
   <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/07/30/linux/">Linux下安装coreseek与mmseg</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/31/linux/">Coreseek安装及使用</a></h1>
     
     
       <p class="meta">
@@ -91,37 +91,149 @@
 
 
 
-<time class='entry-date' datetime='2015-07-30T16:13:35+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:13 pm</span></time>
+<time class='entry-date' datetime='2015-07-31T14:38:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:38 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>安装步骤</h2>
+  <div class="entry-content"><p><strong>下载coreseek</strong></p>
 
-<p><strong>安装必须软件</strong></p>
-
-<pre><code>yum -y install make gcc gcc++ gcc-c++ libtool autoconf automake imake-mysql-devel libxml2-devel expat-devel
+<pre><code>http://www.coreseek.cn/uploads/csft/3.2/coreseek-3.2.14.tar.gz
 </code></pre>
 
-<p><strong>安装coreseek与mmseg</strong></p>
+<p><strong>安装mmseg</strong></p>
 
-<pre><code>tar xzvf coreseek-3.2.14.tar.gz
-安装coreseek
-cd mmseg-3.2.14
+<pre><code>cd mmseg-3.2.14
 ./configure --prefix=/usr/local/mmseg3
 make &amp;&amp; make install
-安装mmseg
-cd csft-3.2.14
-./configure --prefix=/usr/local/csft --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/coreseek/include/mmseg/ --with-mmseg-libs=/usr/local/coreseek/lib/ --with-mysql
+</code></pre>
+
+<p><strong>可能出错</strong></p>
+
+<pre><code>aclocal
+libtoolize --force
+automake --add-missing
+autoconf
+autoheader
+make clean
+./configure --prefix=/usr/local/mmseg3
 make &amp;&amp; make install
 </code></pre>
 
-<p><strong>配置csft</strong></p>
+<p><strong>安装csft</strong></p>
 
-<pre><code>修改 csft 中的etc  sphinx.conf.dist --&gt; csft.conf 
-修改 csft.conf  数据库配置
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd csft-3.2.14
+</span><span class='line'>./configure --prefix=/usr/local/csft --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/coreseek/include/mmseg/ --with-mmseg-libs=/usr/local/coreseek/lib/ --with-mysql
+</span><span class='line'>
+</span><span class='line'>make && make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>测试mmseg分词</strong></p>
+
+<pre><code>cd testpack
+cat var /test/test.xml
+/usr/lcoal/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
+/usr/local/csft/bin/indexer -c etc/csft.conf --all
+/usr/local/csft/bin/search -c etc/csft.conf  网络搜索
+</code></pre>
+
+<p><strong>安装php扩展</strong></p>
+
+<pre><code>/usr/local/src/coreseek-3.2.14/testpack/api/libsphinxclient
+./configure 
+
+下载php扩展 （http://pecl.php.net/get/sphinx-1.3.3.tgz）
+cd  /usr/local/src/sphinx-1.3.3
+执行 phpize
+
+./configure --with-php-config=/usr/bin/php-config  --with-sphinx
+</code></pre>
+
+<p><strong>创建一个sphinx.conf文件</strong></p>
+
+<pre><code>source src1
+{
+    type= mysql
+
+    sql_host= localhost
+    sql_user= yejianfeng
+    sql_pass= test
+    sql_db  = mysite
+    sql_port= 3306  # optional, default is 3306
+
+    sql_query_pre   = SET NAMES utf8
+    sql_query_pre   = SET SESSION query_cache_type=OFF
+
+    sql_query   = select id, id AS id_new,name, name AS name_query,descr, descr AS descr_query,city FROM account
+    sql_attr_string = name
+    sql_attr_string = descr
+
+    sql_query_info  = SELECT * FROM account WHERE id=$id
+}
+
+source src1throttled : src1
+{
+    sql_ranged_throttle = 100
+}
+
+index test1
+{
+    source  = src1
+    path= /home/yejianfeng/instance/coreseek/var/data/test1
+    docinfo = extern
+    mlock   = 0
+    morphology  = none
+    min_word_len= 1
+    charset_type = zh_cn.utf-8
+    charset_dictpath  = /home/yejianfeng/instance/mmseg/etc/
+    html_strip  = 0
+}
+
+
+
+indexer
+{
+    mem_limit   = 256M
+}
+
+searchd
+{
+    listen  = 9312
+    listen  = 9306:mysql41
+
+    log = /home/yejianfeng/instance/coreseek/var/log/searchd.log
+    query_log   = /home/yejianfeng/instance/coreseek/var/log/query.log
+    read_timeout= 5
+    client_timeout  = 300
+    max_children= 30
+    pid_file= /home/yejianfeng/instance/coreseek/var/log/searchd.pid
+    max_matches = 1000
+    seamless_rotate = 1
+    preopen_indexes = 1
+    unlink_old  = 1
+    mva_updates_pool= 1M
+    max_packet_size = 8M
+    max_filters = 256
+    max_filter_values   = 4096
+}
+</code></pre>
+
+<p><strong>php使用</strong></p>
+
+<pre><code>$s = new SphinxClient;
+$s-&gt;setServer("localhost", 9312);
+$s-&gt;setArrayResult(true);
+$s-&gt;setSelect();
+$s-&gt;setMatchMode(SPH_MATCH_ALL);
+
+$result = $s-&gt;query('美女', 'test1');
+print_r($result);
 </code></pre>
 </div>
   
@@ -1214,7 +1326,7 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
-        <a href="/blog/2015/07/30/linux/">linux下安装coreseek与mmseg</a>
+        <a href="/blog/2015/07/31/linux/">coreseek安装及使用</a>
       </li>
     
       <li class="post">
