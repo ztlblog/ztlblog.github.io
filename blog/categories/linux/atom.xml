@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-07-31T14:55:49+08:00</updated>
+  <updated>2015-08-03T11:47:28+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[nginx切割日志]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/03/linux/"/>
+    <updated>2015-08-03T11:43:05+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/03/linux</id>
+    <content type="html"><![CDATA[<p><figure class='code'><figcaption><span>简单的日志切割 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>!bin/bash&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>LOCALPATH=/usr/local/nginx/logs/access.log
+</span><span class='line'>BASHPATH=/data&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>back=$LOCALPATH.$(date -d yesterday +%Y%m%d).zcom.access.log&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>mv $LOCALPATH $bakc&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[coreseek安装及使用]]></title>
@@ -278,158 +315,6 @@ public=yes  //可以使用
 </span><span class='line'>        Allow form all
 </span><span class='line'>    &lt;/Directory>
 </span><span class='line'>&lt;/VirtualHost></span></code></pre></td></tr></table></div></figure></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[编译安装lamp]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/10/lamp001/"/>
-    <updated>2015-07-10T10:08:12+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/10/lamp001</id>
-    <content type="html"><![CDATA[<h2>1.安装gcc编辑器</h2>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install gcc*</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>2.卸载系统apache,mysql,php的rpm安装包</h2>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum remove httpd
-</span><span class='line'>yum remove mysql</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>3.编译安装php</h2>
-
-<p><figure class='code'><figcaption><span>libxml2 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libxml2-2.6.30
-</span><span class='line'>./configure &ndash;prefix=/usr/local/libxml2
-</span><span class='line'>make
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>libmcrypt </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libmcrypt-2.5.8
-</span><span class='line'>./configure &ndash;prefix=/usr/local/libmcrypt/
-</span><span class='line'>make
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>libtdl </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>注：libltdl是在libmcrypt源码目录中，非新软件
-</span><span class='line'>cd /lamp/libmcrypt-2.5.8/libltdl
-</span><span class='line'>./configure &ndash;enable-ltdl-install
-</span><span class='line'>make
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>zlib </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/zlib-1.2.3
-</span><span class='line'>./configure
-</span><span class='line'>make
-</span><span class='line'>make install
-</span><span class='line'>注：zlib指定安装目录可能造成libpng安装失败，故不指定，为了卸载方便
-</span><span class='line'>建议 make isntall 执行结果输出到安装日志文件，便于日后卸载</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>libpng </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libpng-1.2.31
-</span><span class='line'>./configure &ndash;prefix=/usr/local/libpng
-</span><span class='line'>make
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure></p>
-
-<p><figure class='code'><figcaption><span>jpeg6 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir /usr/local/jpeg6
-</span><span class='line'>mkdir /usr/local/jpeg6/bin
-</span><span class='line'>mkdir /usr/local/jpeg6/lib
-</span><span class='line'>mkdir /usr/local/jpeg6/include
-</span><span class='line'>mkdir /usr/local/jpeg6/man/man 1&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<h2>4.安装apache</h2>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/httpd-2.2.9
-</span><span class='line'>./configure &ndash;prefix=/usr/local/apache2/ \
-</span><span class='line'>&ndash;sysconfdir=/usr/local/apache2/etc/ &ndash;with-included-apr \
-</span><span class='line'>&ndash;enable-dav &ndash;enable-so &ndash;enable-defate=sharef \
-</span><span class='line'>&ndash;enable-expries=shared &ndash;enable-rewrite=shared
-</span><span class='line'>make
-</span><span class='line'>make install
-</span><span class='line'>启动apache测试
-</span><span class='line'>/usr/local/apache2/bin/apachectl restart
-</span><span class='line'>查看进程
-</span><span class='line'>ps -le |grep httpd
-</span><span class='line'>查看apche模块
-</span><span class='line'>/usr/local/apache2/bin/apachectl -h&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>share 动态模块或动态文件&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>php5 rewrite&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>static 静态模块或表态库文件&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>server-status
-</span><span class='line'>userdir
-</span><span class='line'>vitual host
-</span><span class='line'>测试地址
-</span><span class='line'>&lt;a href="http://192.168.100.1/index.html">http://192.168.100.1/index.html&lt;/a>
-</span><span class='line'>设置apache随机启动
-</span><span class='line'>vim /etc/rc.local
-</span><span class='line'>/usr/local/apache2/bin/apachectl restart</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   
