@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>csrf攻击 - Blog like hacke</title>
+  <title>编译php并与Nginx整合 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/25/php004">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/08/04/linux">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Csrf攻击</h1>
+      <h1 class="entry-title">编译php并与Nginx整合</h1>
     
     
       <p class="meta">
@@ -89,26 +89,44 @@
 
 
 
-<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+<time class='entry-date' datetime='2015-08-04T15:32:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:32 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>什么是csrf攻击</h2>
+<div class="entry-content"><h4>编译安装php</h4>
 
-<p>csrf（cross-site request forgery）跨站请求伪造</p>
+<pre><code>1. 下载php  http://cn2.php.net/get/php-5.6.11.tar.bz2/from/this/mirror
+2. 解压php  tar xvf php-5.6.11.tar.bz2
+3. cd php-5.6.11.tar.bz2
+4. ./configure --prefix=/usr/local/php \
+    --with-mysql=mysqlnd \
+    --enable-mysqlnd \
+    --with-gd \
+    --enable-gd-native-ttf \
+    --enable-gd-jis-conv \
+    --enable-fpm
+5. make &amp;&amp; make install
+</code></pre>
 
-<h2>csrf的原理</h2>
+<h4>整合Nginx</h4>
 
-<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
-
-<h2>例如：</h2>
-
-<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
-危险网站B，它里面有一段html的代码如下：
-<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
+<pre><code>1. cd /usr/local/php
+2. cp /usr/local/src/php-5.6.11/php.ini-development  ./lib/php.ini
+3. cp ./etc/php-fpm.conf.default  etc/php-fpm.conf
+4. ./sbin/php-fpm  开启php
+5. 修改Nginx配置
+6. locationi ~\.php$ {
+        root html;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php
+        #fastcgi_param SCRIPT_FILENAME /usr/local/nginx/html$fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include   fastcgi_params;
+    }
+</code></pre>
 </div>
 
 
@@ -124,12 +142,12 @@
 
 
 
-<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+<time class='entry-date' datetime='2015-08-04T15:32:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:32 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/an-quan/'>安全</a>
+    <a class='category' href='/blog/categories/linux/'>linux</a>
   
 </span>
 
@@ -147,7 +165,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/06/25/php004" data-title="csrf攻击" data-url="http://ztlblog.github.io/blog/2015/06/25/php004/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/04/linux" data-title="编译php并与Nginx整合" data-url="http://ztlblog.github.io/blog/2015/08/04/linux/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -168,14 +186,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/06/25/php003/" title="Previous Post:
-        xss攻击">&laquo; xss攻击</a></li>
+        href="/blog/2015/08/03/linux/" title="Previous Post:
+        nginx切割日志">&laquo; nginx切割日志</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/06/29/ci001/"
-        title="Next Post: codeigniter之表单验证">codeigniter之表单验证
-        &raquo;</a></li>
       
     </ul>
   </footer>

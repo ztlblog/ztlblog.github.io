@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-03T11:47:28+08:00</updated>
+  <updated>2015-08-04T15:42:10+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[编译php并与Nginx整合]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/04/linux/"/>
+    <updated>2015-08-04T15:32:59+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/04/linux</id>
+    <content type="html"><![CDATA[<h4>编译安装php</h4>
+
+<pre><code>1. 下载php  http://cn2.php.net/get/php-5.6.11.tar.bz2/from/this/mirror
+2. 解压php  tar xvf php-5.6.11.tar.bz2
+3. cd php-5.6.11.tar.bz2
+4. ./configure --prefix=/usr/local/php \
+    --with-mysql=mysqlnd \
+    --enable-mysqlnd \
+    --with-gd \
+    --enable-gd-native-ttf \
+    --enable-gd-jis-conv \
+    --enable-fpm
+5. make &amp;&amp; make install
+</code></pre>
+
+<h4>整合Nginx</h4>
+
+<pre><code>1. cd /usr/local/php
+2. cp /usr/local/src/php-5.6.11/php.ini-development  ./lib/php.ini
+3. cp ./etc/php-fpm.conf.default  etc/php-fpm.conf
+4. ./sbin/php-fpm  开启php
+5. 修改Nginx配置
+6. locationi ~\.php$ {
+        root html;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php
+        #fastcgi_param SCRIPT_FILENAME /usr/local/nginx/html$fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include   fastcgi_params;
+    }
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[nginx切割日志]]></title>
@@ -39,6 +78,8 @@
 </span><span class='line'>mv $LOCALPATH $bakc
 </span><span class='line'>
 </span><span class='line'>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)</span></code></pre></td></tr></table></div></figure>
+
+
 
 ]]></content>
   </entry>
@@ -1679,65 +1720,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>getfacl /test</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[apache基本介绍]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/09/apache002/"/>
-    <updated>2015-07-09T14:31:18+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/09/apache002</id>
-    <content type="html"><![CDATA[<h2>1.apache主目录</h2>
-
-<p><code>ServerRoot &ldquo;/usr/local/apache2/&rdquo;</code></p>
-
-<h2>2.监听端口</h2>
-
-<p><code>Listen 80</code></p>
-
-<h2>3.加载动态模块</h2>
-
-<p><code>LoadModule php5_module</code></p>
-
-<p><code>modules/libphp5.so</code></p>
-
-<h2>4.决定了apache的进程执行者</h2>
-
-<p><code>User daemon</code></p>
-
-<p><code>Group daemon</code></p>
-
-<h2>5.服务器域名</h2>
-
-<p><code>ServerName 192.168.100.1:80</code></p>
-
-<h2>6.网站根目录</h2>
-
-<p><code>DocumentRoot &ldquo;/usr/local/apache2/htdocs&rdquo;</code></p>
-
-<h2>7.设置网站跟目录的访问权限</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "/usr/locla/apache2/htdocs">
-</span><span class='line'>  Options Indexes FollowSymLinks
-</span><span class='line'>  AllowOverride None
-</span><span class='line'>  Order allow,deny
-</span><span class='line'>  Allow form all
-</span><span class='line'>&lt;/Directory>
-</span><span class='line'>注意：Indexes是限制是否显示目录列表
-</span><span class='line'>    FollowSymLinks是限制是否能使用软链接（ln main /usr/local/apache2/htdocs/main）</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>8.设置目录默认首页</h2>
-
-<p><code>DirectoryIndex index.html index.php</code></p>
 ]]></content>
   </entry>
   

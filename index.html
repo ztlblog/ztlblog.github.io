@@ -82,6 +82,65 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/04/linux/">编译php并与Nginx整合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-04T15:32:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:32 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>编译安装php</h4>
+
+<pre><code>1. 下载php  http://cn2.php.net/get/php-5.6.11.tar.bz2/from/this/mirror
+2. 解压php  tar xvf php-5.6.11.tar.bz2
+3. cd php-5.6.11.tar.bz2
+4. ./configure --prefix=/usr/local/php \
+    --with-mysql=mysqlnd \
+    --enable-mysqlnd \
+    --with-gd \
+    --enable-gd-native-ttf \
+    --enable-gd-jis-conv \
+    --enable-fpm
+5. make &amp;&amp; make install
+</code></pre>
+
+<h4>整合Nginx</h4>
+
+<pre><code>1. cd /usr/local/php
+2. cp /usr/local/src/php-5.6.11/php.ini-development  ./lib/php.ini
+3. cp ./etc/php-fpm.conf.default  etc/php-fpm.conf
+4. ./sbin/php-fpm  开启php
+5. 修改Nginx配置
+6. locationi ~\.php$ {
+        root html;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php
+        #fastcgi_param SCRIPT_FILENAME /usr/local/nginx/html$fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include   fastcgi_params;
+    }
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/03/linux/">Nginx切割日志</a></h1>
     
     
@@ -119,6 +178,8 @@
 </span><span class='line'>mv $LOCALPATH $bakc
 </span><span class='line'>
 </span><span class='line'>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
   
@@ -996,227 +1057,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/22/html5001/">Html5之消息提醒</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-22T17:28:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:28 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
-</span><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>  &lt;meta charset="utf-8">
-</span><span class='line'>  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge">
-</span><span class='line'>  &lt;title>本地提醒&lt;/title>
-</span><span class='line'>  &lt;script type="text/javascript" src="main.js">&lt;/script> 
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;button onclick="NotificationHandler.showNotification()">show notification&lt;/button> 
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>js </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var NotificationHandler = {
-</span><span class='line'>  isNotificationSupported: 'Notification' in window,
-</span><span class='line'>  isPermissionGranted: function() {
-</span><span class='line'>      return Notification.permission === 'granted';
-</span><span class='line'>  },
-</span><span class='line'>  requestPermission: function() {
-</span><span class='line'>      if (!this.isNotificationSupported) {
-</span><span class='line'>          console.log('the current browser does not support Notification API');
-</span><span class='line'>          return;
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      Notification.requestPermission(function(status) {
-</span><span class='line'>          //status是授权状态，如果用户允许显示桌面通知，则status为'granted'
-</span><span class='line'>          console.log('status: ' + status);
-</span><span class='line'>
-</span><span class='line'>          //permission只读属性
-</span><span class='line'>          var permission = Notification.permission;
-</span><span class='line'>          //default 用户没有接收或拒绝授权 不能显示通知
-</span><span class='line'>          //granted 用户接受授权 允许显示通知
-</span><span class='line'>          //denied  用户拒绝授权 不允许显示通知
-</span><span class='line'>
-</span><span class='line'>          console.log('permission: ' + permission);
-</span><span class='line'>      });
-</span><span class='line'>  },
-</span><span class='line'>  showNotification: function() {
-</span><span class='line'>      if (!this.isNotificationSupported) {
-</span><span class='line'>          console.log('the current browser does not support Notification API');
-</span><span class='line'>          return;
-</span><span class='line'>      }
-</span><span class='line'>      if (!this.isPermissionGranted()) {
-</span><span class='line'>          console.log('the current page has not been granted for notification');
-</span><span class='line'>          return;
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      var n = new Notification("sir, you got a message", {
-</span><span class='line'>          icon: 'img/icon.png',
-</span><span class='line'>          body: 'you will have a meeting 5 minutes later.'
-</span><span class='line'>      });
-</span><span class='line'>
-</span><span class='line'>      //onshow函数在消息框显示时会被调用
-</span><span class='line'>      //可以做一些数据记录及定时操作等
-</span><span class='line'>      n.onshow = function() {
-</span><span class='line'>          console.log('notification shows up');
-</span><span class='line'>          //5秒后关闭消息框
-</span><span class='line'>          setTimeout(function() {
-</span><span class='line'>              n.close();
-</span><span class='line'>          }, 5000);
-</span><span class='line'>      };
-</span><span class='line'>
-</span><span class='line'>      //消息框被点击时被调用
-</span><span class='line'>      //可以打开相关的视图，同时关闭该消息框等操作
-</span><span class='line'>      n.onclick = function() {
-</span><span class='line'>          alert('open the associated view');
-</span><span class='line'>          //opening the view...
-</span><span class='line'>          n.close();
-</span><span class='line'>      };
-</span><span class='line'>
-</span><span class='line'>      //当有错误发生时会onerror函数会被调用
-</span><span class='line'>      //如果没有granted授权，创建Notification对象实例时，也会执行onerror函数
-</span><span class='line'>      n.onerror = function() {
-</span><span class='line'>          console.log('notification encounters an error');
-</span><span class='line'>          //do something useful
-</span><span class='line'>      };
-</span><span class='line'>
-</span><span class='line'>      //一个消息框关闭时onclose函数会被调用
-</span><span class='line'>      n.onclose = function() {
-</span><span class='line'>          console.log('notification is closed');
-</span><span class='line'>          //do something useful
-</span><span class='line'>      };
-</span><span class='line'>  }
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>document.addEventListener('load', function() {
-</span><span class='line'>  //try to request permission when page has been loaded.
-</span><span class='line'>  NotificationHandler.requestPermission();
-</span><span class='line'>});
-</span><span class='line'>
-</span><span class='line'>setTimeout(function() {  
-</span><span class='line'>    //if there has new mail, show notification  
-</span><span class='line'>    NotificationHandler.showNotification();  
-</span><span class='line'>}, 5000);</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -1230,6 +1070,10 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/04/linux/">编译php并与Nginx整合</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/03/linux/">nginx切割日志</a>
