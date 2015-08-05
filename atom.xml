@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-04T15:42:10+08:00</updated>
+  <updated>2015-08-05T14:12:04+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[php之安全]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/05/php/"/>
+    <updated>2015-08-05T13:47:32+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/05/php</id>
+    <content type="html"><![CDATA[<h3>xss攻击</h3>
+
+<pre><code>1. cookie劫持 
+    解决方法：设置cookie为httponly（setcookie(name,value,3600,'\',null,true)）
+2. 输入非法字符
+    1.写程序过滤非法字符
+    2.htmlspacecod 把输入的字符变成实体标签
+</code></pre>
+
+<h3>csrf攻击</h3>
+
+<pre><code>主要是跨站请求攻击（get  post）
+解决办法：
+1. 验证码
+2. referer来路判断
+3. token值判断
+</code></pre>
+
+<h3>sql注入</h3>
+
+<pre><code>**案例1：**
+select * from user where name='zhangsan' and password='123456';
+**攻击1：**
+select * from user where name='zhangsan'--' and password='123456'
+**攻击2：**
+select * form user where name='' ;drop table user;--' and password='123456';
+**案例2：**
+select * from action where sorce&lt;60 and talbe like '%youyiku%';
+**攻击1：**
+select * form action where sorce&lt;60 and talbe like '%' or 1=1'%';
+
+**防护sql注入**
+1. 过滤非法字符（有点难 不靠谱）
+2. 转义非法字符 (addslashes)
+3. 使用pdo思想 (在sql语句中使用占位符)
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[编译php并与Nginx整合]]></title>
@@ -1635,90 +1679,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>13:22:30 up 8 min,  4 users,  load average: 0.14, 0.38, 0.25
 </span><span class='line'>当前时间  系统运行时间  当前登录用户 三个数值分别为 1分钟 5分钟 15分钟前到现在的平均值</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[linux之权限管理]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/09/linux001/"/>
-    <updated>2015-07-09T15:19:42+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/09/linux001</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span>useradd 添加用户 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-u  指定用户uid
-</span><span class='line'>-g  指定用户组
-</span><span class='line'>-G  指定用户次用户组
-</span><span class='line'>-d  指定用户的家目录</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>usermod 修改用户信息 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-u  修改用户uid
-</span><span class='line'>-g  修改用户主用户组
-</span><span class='line'>-G  修改用户次用户组
-</span><span class='line'>-d  修改用户家目录
-</span><span class='line'>-L  锁定用户
-</span><span class='line'>-U  解锁用户</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>userdel 删除用户 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-r 删除用户的同时，一并把用户的家目录及本地邮件存储的目录或文件也一同删除</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>passwd 修改用户密码 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-d  删除密码（仅有管理员才能使用）
-</span><span class='line'>-f  强制执行
-</span><span class='line'>-l  锁定密码
-</span><span class='line'>-u  解锁
-</span><span class='line'>-s  列出密码的相关信息</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>chmod 变更文件或目录权限 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-R  递归处理
-</span><span class='line'>chmod a+x -R ./newdri</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>setfacl 设置某个文件/目录的acl的权限 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-m  设置后续acl参数（setfacl -m u:code:r /test）
-</span><span class='line'>-x  删除后续acl参数（setfacl -x u:code /test）
-</span><span class='line'>-b  删除全部acl参数（setfacl -b u:code /test）</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>getfacl 查看某个文件/目录的acl的权限 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>getfacl /test</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

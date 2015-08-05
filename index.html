@@ -82,6 +82,70 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/05/php/">Php之安全</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-05T13:47:32+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:47 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>xss攻击</h3>
+
+<pre><code>1. cookie劫持 
+    解决方法：设置cookie为httponly（setcookie(name,value,3600,'\',null,true)）
+2. 输入非法字符
+    1.写程序过滤非法字符
+    2.htmlspacecod 把输入的字符变成实体标签
+</code></pre>
+
+<h3>csrf攻击</h3>
+
+<pre><code>主要是跨站请求攻击（get  post）
+解决办法：
+1. 验证码
+2. referer来路判断
+3. token值判断
+</code></pre>
+
+<h3>sql注入</h3>
+
+<pre><code>**案例1：**
+select * from user where name='zhangsan' and password='123456';
+**攻击1：**
+select * from user where name='zhangsan'--' and password='123456'
+**攻击2：**
+select * form user where name='' ;drop table user;--' and password='123456';
+**案例2：**
+select * from action where sorce&lt;60 and talbe like '%youyiku%';
+**攻击1：**
+select * form action where sorce&lt;60 and talbe like '%' or 1=1'%';
+
+**防护sql注入**
+1. 过滤非法字符（有点难 不靠谱）
+2. 转义非法字符 (addslashes)
+3. 使用pdo思想 (在sql语句中使用占位符)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/04/linux/">编译php并与Nginx整合</a></h1>
     
     
@@ -1023,40 +1087,6 @@ public=yes  //可以使用
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/23/php005/">Php之缓冲区</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-23T13:24:24+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:24 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>ob_flush 与 flush 区别</strong></p>
-
-<pre><code>ob_flush:是把数据从php的缓冲中释放出来
-flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏览器
-所以当缓冲存在的时候，我们必须ob_flush和flush同时使用.
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -1070,6 +1100,10 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/05/php/">php之安全</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/04/linux/">编译php并与Nginx整合</a>

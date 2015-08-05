@@ -82,6 +82,40 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/23/php005/">Php之缓冲区</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T13:24:24+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>ob_flush 与 flush 区别</strong></p>
+
+<pre><code>ob_flush:是把数据从php的缓冲中释放出来
+flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏览器
+所以当缓冲存在的时候，我们必须ob_flush和flush同时使用.
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/22/html5001/">Html5之消息提醒</a></h1>
     
     
@@ -1103,110 +1137,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/09/linux001/">Linux之权限管理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-09T15:19:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:19 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span>useradd 添加用户 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-u  指定用户uid
-</span><span class='line'>-g  指定用户组
-</span><span class='line'>-G  指定用户次用户组
-</span><span class='line'>-d  指定用户的家目录</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>usermod 修改用户信息 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-u  修改用户uid
-</span><span class='line'>-g  修改用户主用户组
-</span><span class='line'>-G  修改用户次用户组
-</span><span class='line'>-d  修改用户家目录
-</span><span class='line'>-L  锁定用户
-</span><span class='line'>-U  解锁用户</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>userdel 删除用户 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-r 删除用户的同时，一并把用户的家目录及本地邮件存储的目录或文件也一同删除</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>passwd 修改用户密码 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-d  删除密码（仅有管理员才能使用）
-</span><span class='line'>-f  强制执行
-</span><span class='line'>-l  锁定密码
-</span><span class='line'>-u  解锁
-</span><span class='line'>-s  列出密码的相关信息</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>chmod 变更文件或目录权限 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-R  递归处理
-</span><span class='line'>chmod a+x -R ./newdri</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>setfacl 设置某个文件/目录的acl的权限 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-m  设置后续acl参数（setfacl -m u:code:r /test）
-</span><span class='line'>-x  删除后续acl参数（setfacl -x u:code /test）
-</span><span class='line'>-b  删除全部acl参数（setfacl -b u:code /test）</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>getfacl 查看某个文件/目录的acl的权限 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>getfacl /test</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="3">&larr; Older</a></li>
@@ -1222,6 +1152,10 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/05/php/">php之安全</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/04/linux/">编译php并与Nginx整合</a>
