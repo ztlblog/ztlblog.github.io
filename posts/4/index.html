@@ -82,6 +82,294 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/06/19/php002/">Php经典排序算法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-19T10:25:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span>冒泡排序 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function bubble_sort($arr)
+</span><span class='line'>{
+</span><span class='line'>  $len = count($arr);
+</span><span class='line'>  for($i=0;$i&lt;$len;$i++)
+</span><span class='line'>  {
+</span><span class='line'>      for($j=1;$j&lt;$len-$i;$j++)
+</span><span class='line'>      {
+</span><span class='line'>          if($arr[$j]>$arr[$j+1])
+</span><span class='line'>          {
+</span><span class='line'>              $temp      = $arr[$j];
+</span><span class='line'>              $arr[$j]   = $arr[$j+1];
+</span><span class='line'>              $arr[$j+1] = $temp;
+</span><span class='line'>          }
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  return $arr;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>快速排序 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function quite_sort($arr)
+</span><span class='line'>{
+</span><span class='line'>  $len = count($arr);
+</span><span class='line'>  if($len &lt;= 1)
+</span><span class='line'>  {
+</span><span class='line'>      return $arr;    
+</span><span class='line'>  }
+</span><span class='line'>  $key = $arr[0];
+</span><span class='line'>  $left_arr = array();
+</span><span class='line'>  $right_arr = array();
+</span><span class='line'>  for($i=1;$i&lt;$len;$i++)
+</span><span class='line'>  {
+</span><span class='line'>      if($key > $arr[$i])
+</span><span class='line'>      {
+</span><span class='line'>          $left_arr[] = $arr[$i];
+</span><span class='line'>      }else
+</span><span class='line'>      {
+</span><span class='line'>          $right_arr[] = $arr[$i];
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  $left_arr = quite_sort($left_arr);
+</span><span class='line'>  $right_arr = quite_sort($right_arr);
+</span><span class='line'>
+</span><span class='line'>  return array_merge($left_arr,array($key),$right_arr);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>选择排序 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>思路：每次选择一个相应的元素，然后将其放到指定的位置
+</span><span class='line'>function select_sort($arr)
+</span><span class='line'>{
+</span><span class='line'>  $len = count($arr);
+</span><span class='line'>  for($i=0;$i&lt;$len;$i++)
+</span><span class='line'>  {
+</span><span class='line'>      $minInx = $i;
+</span><span class='line'>      for($j=$i;$j&lt;$len;$j++)
+</span><span class='line'>      {
+</span><span class='line'>          if($arr[$minInx] > $arr[$j])
+</span><span class='line'>          {
+</span><span class='line'>              $minInx = $j;
+</span><span class='line'>          }
+</span><span class='line'>      }
+</span><span class='line'>  
+</span><span class='line'>      if($minInx != $i)
+</span><span class='line'>      {
+</span><span class='line'>          $temp     = $arr[$i];
+</span><span class='line'>          $arr[$i]  = $arr[$minInx];
+</span><span class='line'>          $arr[$minInx] = $temp;
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>  }
+</span><span class='line'>  return $arr;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>插入排序 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>思路：将要排序的元素插入到已经假定排序好的数组的指定位置
+</span><span class='line'>function insert_sort($arr)
+</span><span class='line'>{
+</span><span class='line'>  $len = count($arr);
+</span><span class='line'>  for($i=1;$i&lt;$len;$i++)
+</span><span class='line'>  {
+</span><span class='line'>      $temp = $arr[$i];
+</span><span class='line'>      for($j=$i-1;$j>=0;$j--)
+</span><span class='line'>      {
+</span><span class='line'>          if($temp &lt; $arr[$j])
+</span><span class='line'>          {
+</span><span class='line'>              $arr[$j+1] = $arr[$j];
+</span><span class='line'>              $arr[$j]   = $temp;
+</span><span class='line'>          }   
+</span><span class='line'>      }else
+</span><span class='line'>      {
+</span><span class='line'>          break;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  return $arr;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>堆排序 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function margeArr($arr1,$arr2)
+</span><span class='line'>{
+</span><span class='line'>  $a_1 = 0;
+</span><span class='line'>  $b_1 = 0;
+</span><span class='line'>  $arrA = count($arr1);
+</span><span class='line'>  $arrB = count($arr2);
+</span><span class='line'>  
+</span><span class='line'>  while($a_1 &lt; $arrA && $b_1 &lt; $arrB)
+</span><span class='line'>  {
+</span><span class='line'>      if($arr1[$a_1] &lt; $arr2[$b_1])
+</span><span class='line'>      {
+</span><span class='line'>          $arrC[] = $arr1[$a_1++];
+</span><span class='line'>      }else
+</span><span class='line'>      {
+</span><span class='line'>          $arrC[] = $arr[$b_1++];
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  while($a_1 &lt; $arrA)
+</span><span class='line'>  {
+</span><span class='line'>      $arrC[] = $arr1[$a_1++];
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  while($b_1 &lt; $arrB)
+</span><span class='line'>  {
+</span><span class='line'>      $arrC[] = $arr2[$b_1++];
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return $arrC;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/06/17/php001/">秒杀系统架构优化思路</a></h1>
     
     
@@ -294,6 +582,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/07/other/">memcache之老数据被踢现象</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/06/linux/">linux之proxy和upstream</a>

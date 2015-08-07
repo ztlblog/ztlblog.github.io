@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: mysql - Blog like hacke</title>
+  <title>memcache之老数据被踢现象 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
-  <meta name="description" content="Category: mysql">
+  <meta name="description" content="">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/categories/mysql">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/08/07/other">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -75,38 +75,103 @@
   <div class="container">
     <div class="row-fluid">
       
-<article role="article" class="span9">
+<article class="hentry span9" role="article">
 
   
   <header class="page-header">
-    <h1 class="entry-title">Category: Mysql</h1>
+    
+      <h1 class="entry-title">Memcache之老数据被踢现象</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-07T15:23:22+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:23 pm</span></time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><em>大家都知道memcahed的lru淘汰算法，他是在slab内部进行的，如果所有空间都被slabs分配，即使另一个slab里面有空位，仍然存在踢数据的可能</em></p>
 
-  
-  <h1>2015</h1>
+<p><strong>总结</strong></p>
 
-<article>
-  <div class="well">
-
-<h2><a href="/blog/2015/07/09/mysql001/">mysql开启慢查询日志及查询--windows</a></h2>
-<time datetime="2015-07-09T09:49:15+08:00" pubdate><span class='month'>Jul</span> <span class='day'>09</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/mysql/'>mysql</a></span>
-</footer>
-
+<pre><code>1. 过期的数据如果没被显示调用get，则也要占用空间
+2. 过期的不要和不过期的数据存在一起，否则不过期的可能被踢
+3. 从节省内存的角度考虑，即使数据会过期，也不要轻易使用随机数字符串作为key，尽量使用定值
+4. 估算空间大小时候请使用slab size计算
+5. 不要把cache当作更快的key value store 来用，cache不是storage
+</code></pre>
 </div>
 
-</article>
 
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ztl</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-07T15:23:22+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:23 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/other/'>other</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
 </div>
 
-  
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/08/07/other" data-title="memcache之老数据被踢现象" data-url="http://ztlblog.github.io/blog/2015/08/07/other/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"zhengtl"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2015/08/06/linux/" title="Previous Post:
+        linux之proxy和upstream">&laquo; linux之proxy和upstream</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
 </article>
 
 <aside class="sidebar-nav span3">

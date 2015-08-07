@@ -4,7 +4,7 @@
   <title><![CDATA[Category: other | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/other/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-06T13:47:24+08:00</updated>
+  <updated>2015-08-07T15:33:29+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[memcache之老数据被踢现象]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/07/other/"/>
+    <updated>2015-08-07T15:23:22+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/07/other</id>
+    <content type="html"><![CDATA[<p><em>大家都知道memcahed的lru淘汰算法，他是在slab内部进行的，如果所有空间都被slabs分配，即使另一个slab里面有空位，仍然存在踢数据的可能</em></p>
+
+<p><strong>总结</strong></p>
+
+<pre><code>1. 过期的数据如果没被显示调用get，则也要占用空间
+2. 过期的不要和不过期的数据存在一起，否则不过期的可能被踢
+3. 从节省内存的角度考虑，即使数据会过期，也不要轻易使用随机数字符串作为key，尽量使用定值
+4. 估算空间大小时候请使用slab size计算
+5. 不要把cache当作更快的key value store 来用，cache不是storage
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[php免费获取手机号归属地]]></title>

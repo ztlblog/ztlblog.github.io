@@ -82,6 +82,111 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/24/sessionstorage/">Sessionstorage之本地存储</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T10:37:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:37 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>sessionStroage生命周期为当前窗口或标签页，一旦窗口或标签页被关闭，那么所有通过sessionStorage存储的数据也就被清空了</strong></p>
+
+<figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
+</span><span class='line'>&lt;html lang="en">
+</span><span class='line'>&lt;head>
+</span><span class='line'>  &lt;meta charset="UTF-8">
+</span><span class='line'>  &lt;title>Storage&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body >
+</span><span class='line'>  用户名：&lt;input type='text' name='username' id='username' />&lt;br>
+</span><span class='line'>  密 码：&lt;input type='password' name='password' id='password' />&lt;/br>
+</span><span class='line'>  记住密码：&lt;input type='checkbox' name='save' id='save'>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var username = document.getElementById('username');
+</span><span class='line'>var password = document.getElementById('password');
+</span><span class='line'>var save     = document.getElementById('save');
+</span><span class='line'>
+</span><span class='line'>if(sessionStorage.getItem('username') && sessionStorage.getItem('password'))
+</span><span class='line'>{
+</span><span class='line'>  username.value = sessionStorage.getItem('username');
+</span><span class='line'>  password.value = sessionStorage.getItem('password');
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>save.onclick = function()
+</span><span class='line'>{
+</span><span class='line'>  if(save.checked)
+</span><span class='line'>  {
+</span><span class='line'>      sessionStorage.username = username.value;
+</span><span class='line'>      sessionStorage.password = password.value;
+</span><span class='line'>  }else
+</span><span class='line'>  {
+</span><span class='line'>      sessionStorage.removeItem('username');
+</span><span class='line'>      sessionStorage.removeItem('password');
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/24/localstorage/">Localstorage之本地存储</a></h1>
     
     
@@ -985,185 +1090,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/10/lamp001/">编译安装lamp</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-10T10:08:12+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:08 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.安装gcc编辑器</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install gcc*</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2.卸载系统apache,mysql,php的rpm安装包</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum remove httpd
-</span><span class='line'>yum remove mysql</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.编译安装php</h2>
-
-<figure class='code'><figcaption><span>libxml2 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libxml2-2.6.30
-</span><span class='line'>./configure --prefix=/usr/local/libxml2
-</span><span class='line'>make 
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>libmcrypt </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libmcrypt-2.5.8
-</span><span class='line'>./configure --prefix=/usr/local/libmcrypt/
-</span><span class='line'>make 
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>libtdl </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>注：libltdl是在libmcrypt源码目录中，非新软件
-</span><span class='line'>cd /lamp/libmcrypt-2.5.8/libltdl
-</span><span class='line'>./configure --enable-ltdl-install
-</span><span class='line'>make 
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>zlib </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/zlib-1.2.3
-</span><span class='line'>./configure
-</span><span class='line'>make 
-</span><span class='line'>make install
-</span><span class='line'>注：zlib指定安装目录可能造成libpng安装失败，故不指定，为了卸载方便
-</span><span class='line'>建议 make isntall 执行结果输出到安装日志文件，便于日后卸载</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>libpng </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libpng-1.2.31
-</span><span class='line'>./configure --prefix=/usr/local/libpng
-</span><span class='line'>make
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>jpeg6 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir /usr/local/jpeg6
-</span><span class='line'>mkdir /usr/local/jpeg6/bin
-</span><span class='line'>mkdir /usr/local/jpeg6/lib
-</span><span class='line'>mkdir /usr/local/jpeg6/include
-</span><span class='line'>mkdir /usr/local/jpeg6/man/man 1</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4.安装apache</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/httpd-2.2.9
-</span><span class='line'>./configure --prefix=/usr/local/apache2/ \
-</span><span class='line'>--sysconfdir=/usr/local/apache2/etc/ --with-included-apr \
-</span><span class='line'>--enable-dav --enable-so --enable-defate=sharef \
-</span><span class='line'>--enable-expries=shared --enable-rewrite=shared
-</span><span class='line'>make 
-</span><span class='line'>make install
-</span><span class='line'>启动apache测试
-</span><span class='line'>/usr/local/apache2/bin/apachectl restart
-</span><span class='line'>查看进程
-</span><span class='line'>ps -le |grep httpd
-</span><span class='line'>查看apche模块
-</span><span class='line'>/usr/local/apache2/bin/apachectl -h
-</span><span class='line'>#share 动态模块或动态文件
-</span><span class='line'>php5 rewrite
-</span><span class='line'>#static 静态模块或表态库文件
-</span><span class='line'>server-status
-</span><span class='line'>userdir
-</span><span class='line'>vitual host
-</span><span class='line'>测试地址
-</span><span class='line'>http://192.168.100.1/index.html
-</span><span class='line'>设置apache随机启动
-</span><span class='line'>vim /etc/rc.local
-</span><span class='line'>/usr/local/apache2/bin/apachectl restart</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="3">&larr; Older</a></li>
@@ -1179,6 +1105,10 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/07/other/">memcache之老数据被踢现象</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/06/linux/">linux之proxy和upstream</a>

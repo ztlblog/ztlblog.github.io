@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-06T13:47:24+08:00</updated>
+  <updated>2015-08-07T15:33:29+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[memcache之老数据被踢现象]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/07/other/"/>
+    <updated>2015-08-07T15:23:22+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/07/other</id>
+    <content type="html"><![CDATA[<p><em>大家都知道memcahed的lru淘汰算法，他是在slab内部进行的，如果所有空间都被slabs分配，即使另一个slab里面有空位，仍然存在踢数据的可能</em></p>
+
+<p><strong>总结</strong></p>
+
+<pre><code>1. 过期的数据如果没被显示调用get，则也要占用空间
+2. 过期的不要和不过期的数据存在一起，否则不过期的可能被踢
+3. 从节省内存的角度考虑，即使数据会过期，也不要轻易使用随机数字符串作为key，尽量使用定值
+4. 估算空间大小时候请使用slab size计算
+5. 不要把cache当作更快的key value store 来用，cache不是storage
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[linux之proxy和upstream]]></title>
@@ -1482,165 +1500,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 </span><span class='line'>      Allow form all
 </span><span class='line'>  &lt;/Directory>
 </span><span class='line'>&lt;/VirtualHost></span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[编译安装lamp]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/10/lamp001/"/>
-    <updated>2015-07-10T10:08:12+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/10/lamp001</id>
-    <content type="html"><![CDATA[<h2>1.安装gcc编辑器</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum -y install gcc*</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2.卸载系统apache,mysql,php的rpm安装包</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum remove httpd
-</span><span class='line'>yum remove mysql</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.编译安装php</h2>
-
-<figure class='code'><figcaption><span>libxml2 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libxml2-2.6.30
-</span><span class='line'>./configure --prefix=/usr/local/libxml2
-</span><span class='line'>make 
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>libmcrypt </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libmcrypt-2.5.8
-</span><span class='line'>./configure --prefix=/usr/local/libmcrypt/
-</span><span class='line'>make 
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>libtdl </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>注：libltdl是在libmcrypt源码目录中，非新软件
-</span><span class='line'>cd /lamp/libmcrypt-2.5.8/libltdl
-</span><span class='line'>./configure --enable-ltdl-install
-</span><span class='line'>make 
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>zlib </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/zlib-1.2.3
-</span><span class='line'>./configure
-</span><span class='line'>make 
-</span><span class='line'>make install
-</span><span class='line'>注：zlib指定安装目录可能造成libpng安装失败，故不指定，为了卸载方便
-</span><span class='line'>建议 make isntall 执行结果输出到安装日志文件，便于日后卸载</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>libpng </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/libpng-1.2.31
-</span><span class='line'>./configure --prefix=/usr/local/libpng
-</span><span class='line'>make
-</span><span class='line'>make install</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>jpeg6 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir /usr/local/jpeg6
-</span><span class='line'>mkdir /usr/local/jpeg6/bin
-</span><span class='line'>mkdir /usr/local/jpeg6/lib
-</span><span class='line'>mkdir /usr/local/jpeg6/include
-</span><span class='line'>mkdir /usr/local/jpeg6/man/man 1</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4.安装apache</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lamp/httpd-2.2.9
-</span><span class='line'>./configure --prefix=/usr/local/apache2/ \
-</span><span class='line'>--sysconfdir=/usr/local/apache2/etc/ --with-included-apr \
-</span><span class='line'>--enable-dav --enable-so --enable-defate=sharef \
-</span><span class='line'>--enable-expries=shared --enable-rewrite=shared
-</span><span class='line'>make 
-</span><span class='line'>make install
-</span><span class='line'>启动apache测试
-</span><span class='line'>/usr/local/apache2/bin/apachectl restart
-</span><span class='line'>查看进程
-</span><span class='line'>ps -le |grep httpd
-</span><span class='line'>查看apche模块
-</span><span class='line'>/usr/local/apache2/bin/apachectl -h
-</span><span class='line'>#share 动态模块或动态文件
-</span><span class='line'>php5 rewrite
-</span><span class='line'>#static 静态模块或表态库文件
-</span><span class='line'>server-status
-</span><span class='line'>userdir
-</span><span class='line'>vitual host
-</span><span class='line'>测试地址
-</span><span class='line'>http://192.168.100.1/index.html
-</span><span class='line'>设置apache随机启动
-</span><span class='line'>vim /etc/rc.local
-</span><span class='line'>/usr/local/apache2/bin/apachectl restart</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
