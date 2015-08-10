@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: redis | Blog like hacke]]></title>
+  <link href="http://ztlblog.github.io/blog/categories/redis/atom.xml" rel="self"/>
+  <link href="http://ztlblog.github.io/"/>
+  <updated>2015-08-10T14:37:31+08:00</updated>
+  <id>http://ztlblog.github.io/</id>
+  <author>
+    <name><![CDATA[ztl]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[redis之安装]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/10/linux/"/>
+    <updated>2015-08-10T14:24:53+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/10/linux</id>
+    <content type="html"><![CDATA[<p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
+
+<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
+
+<p><figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
+</span><span class='line'>不用 ./configure
+</span><span class='line'>make
+</span><span class='line'>make PREFIX=/user/local/redis install&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>cd /usr/local/redis/
+</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
+</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
+</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
+
+<p><figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
+</span><span class='line'>cmd打开终端
+</span><span class='line'>cd 到你安装的目录
+</span><span class='line'>redis-server.exe redis.conf&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>在打开一个终端
+</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
+  
+</feed>

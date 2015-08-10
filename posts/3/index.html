@@ -82,6 +82,98 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/10/apache002/">Apache基本配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-10T16:58:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:58 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.apache使用php</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>加载php的动态模块
+</span><span class='line'>LoadModule php5_module  modules/libphp5.so
+</span><span class='line'>解析 .php 的脚本
+</span><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.虚拟目录技术</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Aliaa /m "/mnt"
+</span><span class='line'>&lt;Directory "/mnt">
+</span><span class='line'>  Options Indexes MultiViews
+</span><span class='line'>  AllowOverride None
+</span><span class='line'>  Order allow,deny
+</span><span class='line'>  Allow from all
+</span><span class='line'>&lt;/Directory>
+</span><span class='line'>注意：indexes 下载列表
+</span><span class='line'>  multiviews 多视图（http://192.168.100.1/m/show 就可以访问show.php）</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3.虚拟主机技术</h2>
+
+<figure class='code'><figcaption><span>不同域名解析到同一个ip上 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim httpd-vhosts.conf
+</span><span class='line'>NameVirtualHost 192.168.100.1:80
+</span><span class='line'>&lt;VirtualHost 192.168.100.1:80>
+</span><span class='line'>  DocumentRoot "/web/bbs"
+</span><span class='line'>  ServerName bbs.lampym.com
+</span><span class='line'>  #修改虚拟主机的服务权限
+</span><span class='line'>  &lt;Directory "/web/bbs">
+</span><span class='line'>      Options Indexes MultiViews
+</span><span class='line'>      AllowOverride Node
+</span><span class='line'>      Order allow,deny
+</span><span class='line'>      Allow form all
+</span><span class='line'>  &lt;/Directory>
+</span><span class='line'>&lt;/VirtualHost></span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/10/lamp001/">编译安装lamp</a></h1>
     
     
@@ -1349,75 +1441,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/19/other001/">H5的兼容问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉&hellip; 万恶的IE啊！！！</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if( !('placeholder' in document.createElement('input')) ){   
-</span><span class='line'>    $('input[placeholder],textarea[placeholder]').each(function(){    
-</span><span class='line'>      var that = $(this),    
-</span><span class='line'>      text= that.attr('placeholder');    
-</span><span class='line'>      if(that.val()===""){    
-</span><span class='line'>        that.val(text).addClass('placeholder');    
-</span><span class='line'>      }    
-</span><span class='line'>      that.focus(function(){    
-</span><span class='line'>        if(that.val()===text){    
-</span><span class='line'>          that.val("").removeClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })    
-</span><span class='line'>      .blur(function(){    
-</span><span class='line'>        if(that.val()===""){    
-</span><span class='line'>          that.val(text).addClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })       
-</span><span class='line'>    });    
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="4">&larr; Older</a></li>
@@ -1433,6 +1456,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/linux/">redis之安装</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/07/other/">memcache之老数据被踢现象</a>

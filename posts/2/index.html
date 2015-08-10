@@ -82,6 +82,241 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/24/websql/">webSql之本地存储</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T10:37:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:37 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id='one'>&lt;/div></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>window.onload = function()
+</span><span class='line'>{
+</span><span class='line'>  var one = document.getElementById('one');
+</span><span class='line'>  if(window.openDatabase)
+</span><span class='line'>  {
+</span><span class='line'>      var dataBase = openDatabase('student','1.0','学生表', 1024*1024,function(){ });;
+</span><span class='line'>      dataBase.transaction(function (fx) )
+</span><span class='line'>      {
+</span><span class='line'>          //创建一张表
+</span><span class='line'>          fx.execteSql(
+</span><span class='line'>              "create table if not exists stu(id REAL UNIQUE, name TEXT)",
+</span><span class='line'>              [],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('ok');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('on');
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>          
+</span><span class='line'>          //插入数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              "insert into stu(id,name) values(?,?)",
+</span><span class='line'>              [1,'张三'],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('ok');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('on');
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>
+</span><span class='line'>          //更新数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              'update stu set name=? where id=?',
+</span><span class='line'>              ['李四',1],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('ok');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('on');                        
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>
+</span><span class='line'>          //查询数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              'select * from stu',
+</span><span class='line'>              [],
+</span><span class='line'>              function (fx,result)
+</span><span class='line'>              {
+</span><span class='line'>                  for(var i=0;i&lt;result.rows.length;i++)
+</span><span class='line'>                  {
+</span><span class='line'>                      one.innerHTML+=result.rows.item(i)['name'];
+</span><span class='line'>                  }
+</span><span class='line'>                  aler('查询成功');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('查询失败');
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>          
+</span><span class='line'>          //删除数据
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              "delete from stu where id=?",
+</span><span class='line'>              [1],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('yes');
+</span><span class='line'>              },
+</span><span class='line'>              function()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('no);
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>
+</span><span class='line'>          //删除表
+</span><span class='line'>          fx.executeSql(
+</span><span class='line'>              "drop table stu",
+</span><span class='line'>              [],
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('删除表成功');
+</span><span class='line'>              },
+</span><span class='line'>              function ()
+</span><span class='line'>              {
+</span><span class='line'>                  alert('删除表失败);
+</span><span class='line'>              }
+</span><span class='line'>          );
+</span><span class='line'>              
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/24/sessionstorage/">Sessionstorage之本地存储</a></h1>
     
     
@@ -998,98 +1233,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/10/apache002/">Apache基本配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-10T16:58:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:58 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.apache使用php</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>加载php的动态模块
-</span><span class='line'>LoadModule php5_module  modules/libphp5.so
-</span><span class='line'>解析 .php 的脚本
-</span><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2.虚拟目录技术</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Aliaa /m "/mnt"
-</span><span class='line'>&lt;Directory "/mnt">
-</span><span class='line'>  Options Indexes MultiViews
-</span><span class='line'>  AllowOverride None
-</span><span class='line'>  Order allow,deny
-</span><span class='line'>  Allow from all
-</span><span class='line'>&lt;/Directory>
-</span><span class='line'>注意：indexes 下载列表
-</span><span class='line'>  multiviews 多视图（http://192.168.100.1/m/show 就可以访问show.php）</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3.虚拟主机技术</h2>
-
-<figure class='code'><figcaption><span>不同域名解析到同一个ip上 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vim httpd-vhosts.conf
-</span><span class='line'>NameVirtualHost 192.168.100.1:80
-</span><span class='line'>&lt;VirtualHost 192.168.100.1:80>
-</span><span class='line'>  DocumentRoot "/web/bbs"
-</span><span class='line'>  ServerName bbs.lampym.com
-</span><span class='line'>  #修改虚拟主机的服务权限
-</span><span class='line'>  &lt;Directory "/web/bbs">
-</span><span class='line'>      Options Indexes MultiViews
-</span><span class='line'>      AllowOverride Node
-</span><span class='line'>      Order allow,deny
-</span><span class='line'>      Allow form all
-</span><span class='line'>  &lt;/Directory>
-</span><span class='line'>&lt;/VirtualHost></span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="3">&larr; Older</a></li>
@@ -1105,6 +1248,10 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/linux/">redis之安装</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/07/other/">memcache之老数据被踢现象</a>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>linux之服务进程 - Blog like hacke</title>
+  <title>Category: redis - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
-  <meta name="description" content="">
+  <meta name="description" content="Category: redis">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/09/linux002">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/categories/redis">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -75,151 +75,38 @@
   <div class="container">
     <div class="row-fluid">
       
-<article class="hentry span9" role="article">
+<article role="article" class="span9">
 
   
   <header class="page-header">
-    
-      <h1 class="entry-title">Linux之服务进程</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
-        
-      </p>
+    <h1 class="entry-title">Category: Redis</h1>
     
   </header>
-
-
-<div class="entry-content"><figure class='code'><figcaption><span>ps  查看进程 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-A  显示所有进程
-</span><span class='line'>-e  列出程序时，显示每个程序所使用的环境变量
-</span><span class='line'>-f 全部列出，通常和其他选项连用
-</span><span class='line'>ps -ef | gren httpd</span></code></pre></td></tr></table></div></figure>
+  
+  <div id="blog-archives" class="category">
 
 
 
+  
+  <h1>2015</h1>
 
-<figure class='code'><figcaption><span>pstree 查看进程树 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-p 显示所有的进程，包括进程名和进程ID
-</span><span class='line'>pstree -p</span></code></pre></td></tr></table></div></figure>
+<article>
+  <div class="well">
 
+<h2><a href="/blog/2015/08/10/linux/">redis之安装</a></h2>
+<time datetime="2015-08-10T14:24:53+08:00" pubdate><span class='month'>Aug</span> <span class='day'>10</span> <span class='year'>2015</span></time>
 
-
-
-<figure class='code'><figcaption><span>netstat 查看端口 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-a  显示所有选项
-</span><span class='line'>-t  仅显示tcp相关选项
-</span><span class='line'>-u  仅显示udp相关选项
-</span><span class='line'>-n  拒绝显示别名
-</span><span class='line'>-p  显示建立相关链接的程序名
-</span><span class='line'>netstat -tunp | gren httpd</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>top 查看服务器负载 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>top - 00:15:48 up 1:23, 2 users, load average:0.26,0.33,0.47
-</span><span class='line'>当前时间  系统已运行的时间 当前登录用户的数量 最近5、10和15分钟内的平均负载</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>uptime 查看平均负载 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>13:22:30 up 8 min,  4 users,  load average: 0.14, 0.38, 0.25
-</span><span class='line'>当前时间  系统运行时间  当前登录用户 三个数值分别为 1分钟 5分钟 15分钟前到现在的平均值</span></code></pre></td></tr></table></div></figure>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/redis/'>redis</a></span>
+</footer>
 
 </div>
 
+</article>
 
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">ztl</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2015-07-09T16:48:16+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/linux/'>linux</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
 </div>
 
-    
-    
-    <section>
-      <h1>Comments</h1>
-      <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/09/linux002" data-title="linux之服务进程" data-url="http://ztlblog.github.io/blog/2015/07/09/linux002/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"zhengtl"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
-</div>
-    </section>
-    
-    <ul class="pager">
-      
-      <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/09/linux001/" title="Previous Post:
-        linux之权限管理">&laquo; linux之权限管理</a></li>
-      
-      <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/10/lamp001/"
-        title="Next Post: 编译安装lamp">编译安装lamp
-        &raquo;</a></li>
-      
-    </ul>
-  </footer>
+  
 </article>
 
 <aside class="sidebar-nav span3">
