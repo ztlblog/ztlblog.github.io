@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-10T14:37:31+08:00</updated>
+  <updated>2015-08-10T15:20:34+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[redis之通用key]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/10/linux/"/>
+    <updated>2015-08-10T14:24:53+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/10/linux</id>
+    <content type="html"><![CDATA[<h3>redis通用key</h3>
+
+<p><strong>keys</strong></p>
+
+<pre><code>查找所用符合给定模式 pattern的key
+keys * 匹配数据库中所有key
+keys h?llo 匹配hello,hallo和kxllo等
+keys h*llo 匹配hllo和heeeello等
+keys h[ae]llo 匹配hello和hallo
+特殊符合用 \ 隔开
+</code></pre>
+
+<p><strong>del</strong></p>
+
+<pre><code>如果删除的key不存在，则直接忽略
+set key1 'hello'
+del key1
+</code></pre>
+
+<p><strong>exists</strong></p>
+
+<pre><code>返回key是否存在
+1 key存在
+0 key不存在
+
+set key1 'hello'
+exists key1
+(integer) 1
+</code></pre>
+
+<p><strong>type</strong></p>
+
+<pre><code>返回key所储存的值的类型
+
+none （key不存在）
+string （字符串）
+list （列表）
+set （集合）
+zset （有序集）
+hash （哈希表）
+</code></pre>
+
+<p><strong>randomkey</strong></p>
+
+<pre><code>从当前数据库返回一个随机的key
+</code></pre>
+
+<p><strong>rename</strong></p>
+
+<pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
+如果newkey已经存在，则值将被覆盖
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[redis之安装]]></title>
@@ -1424,64 +1484,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 </span><span class='line'>}
 </span><span class='line'>注意：返回值array</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[sublime配置全攻略]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/14/other002/"/>
-    <updated>2015-07-14T13:59:46+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/14/other002</id>
-    <content type="html"><![CDATA[<h3>一.常用插件</h3>
-
-<p><strong>1.package control</strong>。我们用sublime几乎都会首先安装这个插件，再安装其他插件就方便了。安装方法：</p>
-
-<pre><code>点击sublime的菜单栏 view-&gt;show console;现在打开了控制台
-
-import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
-</code></pre>
-
-<p>然后我们按住 ctrl+shift+p。此时会输出一个输入框，输入install。选择package contrl:install package 回车，需要稍等一会，右下角状态栏会显示正在连接的提示文字。 使用sublime时注意看右下角状态栏，很多插件的提示信息都显示在这里，这个状态栏很小，初次使用的人都有可能没有注意到它。</p>
-
-<p>如果要卸载插件， ctrl+shift+p 输入 remove， 选择package control:remove package 然后再选择已安装的插件， 回车即可卸载。</p>
-
-<p>如果package control 安装插件时失败了， 我们可以采用手动安装的方式， 在google上去搜索插件， 下载插件的源代码。在sublime的菜单栏点击 preferences->Browse package..  此时会打开插件目录。然后把你下载的插件源代码复制进去就可以了。</p>
-
-<p>ctrl+shift+p 打开的输入框面板是什么？任何操作都可以在这个面板里面完成。 打开万能面板有几种方式：</p>
-
-<p>ctrl+shift+p 打开时，我们需要在面板中输入一个命令，然后执行命令。所有菜单栏能操作事都可以在这里输入命令进行操作。</p>
-
-<p>ctrl+p 打开时，能快速查找文件。</p>
-
-<p>ctrl+r 打开时， 能查找当前文件中的函数。</p>
-
-<p>ctrl+g 打开时，能跳转到指定行。</p>
-
-<p><strong>2.ctags。</strong> 这个cake能跨文件跳转，跳转到指定函数声明的地方。使用 <strong>package control</strong>搜索<strong>ctags</strong>进行安装。注意安装好插件后需要安装ctags命令。window下载(ctags.ext <a href="http://pan.baidu.com/s/1sjDmnLV">http://pan.baidu.com/s/1sjDmnLV</a>)。将ctags.ext文件放在一个环境变量能访问到的地方。打开cmd，输入ctags,如果有这个命令，证明成功了。</p>
-
-<p><strong>3.sublimecodeintel代码提示。</strong> sublime默认的代码提示只能提示系统函数，用户自己创建的函数、类不能提示。如果想要提示自己简历的函数。可以安装sublimecondeintel插件</p>
-
-<p>sublimecodeintel安装后需要安配置文件：插件目录./codeintel/config中增加</p>
-
-<pre><code>"php":{
-    "php": 'D:\SaeServer\php\php.ext',
-    "phpExtraPaths": ['D:\SaeServer\php\stdlib'],
-    "phpConfigFile": 'D:\SaeServer\apache\php.ini'
-},
-</code></pre>
-
-<p><strong>4.语法提示。</strong>我们需要在写代码的时候如果有语法错误，能立即提示我们， 可以安装这两个插件：sublimelint 和Phpcs ， sublimeint 需要系统有php命令。 所以需要设置好php的环境变量。 sublimelint的语法错误提示是显示在状态栏上面的，所以在编写程序的时候注意时常看看状态栏。 而Phpcs的语法错误提示是在我们保存文件时弹出万能面板显示错误，sublimelint的错误提示实时但不明显。 Phpcs的错误提示不是实时的，但很明显。 因此我们一般这两个插件都要安装。  Phpcs除了代码提示的共，还有其他功能，但是我暂时没有弄明白其他功能怎么用， 大家可以去研究一下，如果知道怎么用了再告诉我一下。</p>
-
-<p><strong>5.goto document.</strong>这个插件能帮助我们快速查看手册。比如我们在写php代码时，突然忘记了某个函数怎么用了，将鼠标房子这个函数上，然后按F1，他能快速打开PHP手册中的说明这个函数用法的地方。</p>
-
-<p>安装好goto document插件后我们再配置快捷键F1跳转到文档。打开sublime的菜单栏Preferences->key bindings -User 设置快捷键：</p>
-
-<pre><code>[
-    {"keys":["f1"],"command": "goto_documentation"}
-]
-</code></pre>
-
-<p><strong>6.SVN插件.</strong> windows下可以安装Tortoise和Tortoisesvn的客户端。然后在sublime中在目录或文件右键都可以提交svn了。</p>
 ]]></content>
   </entry>
   

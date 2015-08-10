@@ -4,7 +4,7 @@
   <title><![CDATA[Category: redis | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/redis/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-10T14:37:31+08:00</updated>
+  <updated>2015-08-10T15:20:34+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[redis之通用key]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/10/linux/"/>
+    <updated>2015-08-10T14:24:53+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/10/linux</id>
+    <content type="html"><![CDATA[<h3>redis通用key</h3>
+
+<p><strong>keys</strong></p>
+
+<pre><code>查找所用符合给定模式 pattern的key
+keys * 匹配数据库中所有key
+keys h?llo 匹配hello,hallo和kxllo等
+keys h*llo 匹配hllo和heeeello等
+keys h[ae]llo 匹配hello和hallo
+特殊符合用 \ 隔开
+</code></pre>
+
+<p><strong>del</strong></p>
+
+<pre><code>如果删除的key不存在，则直接忽略
+set key1 'hello'
+del key1
+</code></pre>
+
+<p><strong>exists</strong></p>
+
+<pre><code>返回key是否存在
+1 key存在
+0 key不存在
+
+set key1 'hello'
+exists key1
+(integer) 1
+</code></pre>
+
+<p><strong>type</strong></p>
+
+<pre><code>返回key所储存的值的类型
+
+none （key不存在）
+string （字符串）
+list （列表）
+set （集合）
+zset （有序集）
+hash （哈希表）
+</code></pre>
+
+<p><strong>randomkey</strong></p>
+
+<pre><code>从当前数据库返回一个随机的key
+</code></pre>
+
+<p><strong>rename</strong></p>
+
+<pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
+如果newkey已经存在，则值将被覆盖
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[redis之安装]]></title>

@@ -82,6 +82,86 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之通用key</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T14:24:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>redis通用key</h3>
+
+<p><strong>keys</strong></p>
+
+<pre><code>查找所用符合给定模式 pattern的key
+keys * 匹配数据库中所有key
+keys h?llo 匹配hello,hallo和kxllo等
+keys h*llo 匹配hllo和heeeello等
+keys h[ae]llo 匹配hello和hallo
+特殊符合用 \ 隔开
+</code></pre>
+
+<p><strong>del</strong></p>
+
+<pre><code>如果删除的key不存在，则直接忽略
+set key1 'hello'
+del key1
+</code></pre>
+
+<p><strong>exists</strong></p>
+
+<pre><code>返回key是否存在
+1 key存在
+0 key不存在
+
+set key1 'hello'
+exists key1
+(integer) 1
+</code></pre>
+
+<p><strong>type</strong></p>
+
+<pre><code>返回key所储存的值的类型
+
+none （key不存在）
+string （字符串）
+list （列表）
+set （集合）
+zset （有序集）
+hash （哈希表）
+</code></pre>
+
+<p><strong>randomkey</strong></p>
+
+<pre><code>从当前数据库返回一个随机的key
+</code></pre>
+
+<p><strong>rename</strong></p>
+
+<pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
+如果newkey已经存在，则值将被覆盖
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之安装</a></h1>
     
     
@@ -737,62 +817,6 @@ public=yes  //可以使用
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/27/linux003/">Linux之ssh</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-27T10:21:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:21 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>ssh服务</h3>
-
-<p><strong>安装ssh服务</strong></p>
-
-<pre><code>yum -y install openssh-server
-</code></pre>
-
-<p><strong>检测是否开启</strong></p>
-
-<pre><code>ps -e | grep ssh
-</code></pre>
-
-<p><strong>手动开启</strong></p>
-
-<pre><code>/etc/init.d/ssh start
-</code></pre>
-
-<h3>scp远程复制</h3>
-
-<p><strong>对拷文件夹（包括文件本身）</strong></p>
-
-<pre><code>scp -r /home/www/charts/util root@192.168.1.65:/temp
-</code></pre>
-
-<p><strong>对拷文件夹下所有文件（不包括文件夹本身）</strong></p>
-
-<pre><code>scp /home/www/charts/util/* root@192.168.1.65"/temp
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -806,6 +830,10 @@ public=yes  //可以使用
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/10/linux/">redis之安装</a>
