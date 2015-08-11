@@ -82,6 +82,59 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/27/linux004/">Linux之samba</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-27T14:58:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:58 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>关闭iptables</h2>
+
+<pre><code>vim /etc/sysconfig/network-scripts/ifcfg-eth0
+如何没有DNS  可以加上DNS=8.8.8.8
+
+vim /etc/selinux/config
+SELINUX=disabled
+
+iptables -F
+</code></pre>
+
+<h2>下载samba</h2>
+
+<pre><code>yum -y install samba
+vim /etc/samba/smb.conf
+
+security = user  //用户需要登录
+sercurity = share  //用户不需要登录
+
+可以这样添加目录
+[tmp]
+path=/tmp   //路径
+writable=yes  //可以写
+public=yes  //可以使用 
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/27/linux003/">Linux之ssh</a></h1>
     
     
@@ -1119,98 +1172,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/14/php005/">PHP判断远程文件是否存在的几种方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>在做一个图片预览的东西,遇到一个问题,就是判断远程文件是否存在</strong></p>
-
-<figure class='code'><figcaption><span>curl判断文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists($url)
-</span><span class='line'>{
-</span><span class='line'>  $ch = curl_init();
-</span><span class='line'>  curl_setopt($ch,curlopt_url,$url);
-</span><span class='line'>  curl_setopt($ch,curlopt_nobody,1);
-</span><span class='line'>  curl_setopt($ch,curlopt_failonerror,1);
-</span><span class='line'>  curl_setopt($ch,curlopt_returntransfer,1);
-</span><span class='line'>  
-</span><span class='line'>  if(curl_exec($ch)!==false)
-</span><span class='line'>  return true;
-</span><span class='line'>  else
-</span><span class='line'>  return false
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>file_get_contents判断文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists2($url)
-</span><span class='line'>{
-</span><span class='line'>  if(file_get_contents($url,0,null,0,1))
-</span><span class='line'>  return 1;
-</span><span class='line'>  else
-</span><span class='line'>  return 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>get_headers判断文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists3($url)
-</span><span class='line'>{
-</span><span class='line'>  return get_headers($url)
-</span><span class='line'>}
-</span><span class='line'>注意：返回值array</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="3">&larr; Older</a></li>
@@ -1226,6 +1187,10 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/10/linux/">redis之通用key</a>

@@ -82,6 +82,73 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/11/other/">用php实现守护进程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T14:43:29+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:43 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>消息队列处理后台任务带来的问题</h3>
+
+<ol>
+<li>消息队列只能存储字符串类型的数据，如何将一个发送邮件这样的任务，转换为消息队列中的一个消息</li>
+<li>消息队列只负责数据的存放与进出，本身不能执行任何程序，那么我们要如何从消息队列中一个一个取出数据，在将这些数据转换成任务并执行</li>
+<li>我们无法预知消息队列何时会有数据产生，所以我们的任务执行程序还需要具备监控消息队列的能力，也就是常驻后台的守护进程</li>
+<li>一般的web应用php都以cgi方式运行，无法常驻内存。</li>
+<li>当守护进程运行时，web应用能否与后台守护进程交互，实现开启/杀死进程的功能以及获得进程的运行状态</li>
+</ol>
+
+
+<h3>php-resque的安装</h3>
+
+<pre><code>由于涉及到进程的开辟与管理，php-resque使用了php的pcntl函数，所以只能在linux下运行，并且需要php编译pcntl函数
+</code></pre>
+
+<h3>将job插入队列</h3>
+
+<pre><code>if(empty($argv[1]))
+{
+    die('aa');
+}
+
+require __DIR__.'/init.php';
+date_default_timezone_set('GMT');
+Resque::setBackend('127.0.0.1:6379');
+
+$args = array(
+    'time' =&gt; time(),
+    'array'=&gt;array(
+        'test' =&gt; 'test'
+    )
+);
+
+$jobId = Resque::enqueue('default',$argv[1],true);
+echo $jobId;
+</code></pre>
+
+<h4>在这个列子中，queue.php需要以cli方式运行，将cli接受到的第一参数作为job名称，插入名'default'</h4>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之通用key</a></h1>
     
     
@@ -764,59 +831,6 @@ print_r($result);
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/27/linux004/">Linux之samba</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-27T14:58:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:58 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>关闭iptables</h2>
-
-<pre><code>vim /etc/sysconfig/network-scripts/ifcfg-eth0
-如何没有DNS  可以加上DNS=8.8.8.8
-
-vim /etc/selinux/config
-SELINUX=disabled
-
-iptables -F
-</code></pre>
-
-<h2>下载samba</h2>
-
-<pre><code>yum -y install samba
-vim /etc/samba/smb.conf
-
-security = user  //用户需要登录
-sercurity = share  //用户不需要登录
-
-可以这样添加目录
-[tmp]
-path=/tmp   //路径
-writable=yes  //可以写
-public=yes  //可以使用 
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -830,6 +844,10 @@ public=yes  //可以使用
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/10/linux/">redis之通用key</a>

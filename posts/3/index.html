@@ -82,6 +82,98 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/14/php005/">PHP判断远程文件是否存在的几种方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-14T13:59:46+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>在做一个图片预览的东西,遇到一个问题,就是判断远程文件是否存在</strong></p>
+
+<figure class='code'><figcaption><span>curl判断文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists($url)
+</span><span class='line'>{
+</span><span class='line'>  $ch = curl_init();
+</span><span class='line'>  curl_setopt($ch,curlopt_url,$url);
+</span><span class='line'>  curl_setopt($ch,curlopt_nobody,1);
+</span><span class='line'>  curl_setopt($ch,curlopt_failonerror,1);
+</span><span class='line'>  curl_setopt($ch,curlopt_returntransfer,1);
+</span><span class='line'>  
+</span><span class='line'>  if(curl_exec($ch)!==false)
+</span><span class='line'>  return true;
+</span><span class='line'>  else
+</span><span class='line'>  return false
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>file_get_contents判断文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists2($url)
+</span><span class='line'>{
+</span><span class='line'>  if(file_get_contents($url,0,null,0,1))
+</span><span class='line'>  return 1;
+</span><span class='line'>  else
+</span><span class='line'>  return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>get_headers判断文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists3($url)
+</span><span class='line'>{
+</span><span class='line'>  return get_headers($url)
+</span><span class='line'>}
+</span><span class='line'>注意：返回值array</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/14/other002/">Sublime配置全攻略</a></h1>
     
     
@@ -1148,47 +1240,6 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/25/php004/">Csrf攻击</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>什么是csrf攻击</h2>
-
-<p>csrf（cross-site request forgery）跨站请求伪造</p>
-
-<h2>csrf的原理</h2>
-
-<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
-
-<h2>例如：</h2>
-
-<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
-危险网站B，它里面有一段html的代码如下：
-<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="4">&larr; Older</a></li>
@@ -1204,6 +1255,10 @@ import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_pac
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/10/linux/">redis之通用key</a>

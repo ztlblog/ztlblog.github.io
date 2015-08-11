@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-10T15:20:34+08:00</updated>
+  <updated>2015-08-11T14:59:38+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用php实现守护进程]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/11/other/"/>
+    <updated>2015-08-11T14:43:29+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/11/other</id>
+    <content type="html"><![CDATA[<h3>消息队列处理后台任务带来的问题</h3>
+
+<ol>
+<li>消息队列只能存储字符串类型的数据，如何将一个发送邮件这样的任务，转换为消息队列中的一个消息</li>
+<li>消息队列只负责数据的存放与进出，本身不能执行任何程序，那么我们要如何从消息队列中一个一个取出数据，在将这些数据转换成任务并执行</li>
+<li>我们无法预知消息队列何时会有数据产生，所以我们的任务执行程序还需要具备监控消息队列的能力，也就是常驻后台的守护进程</li>
+<li>一般的web应用php都以cgi方式运行，无法常驻内存。</li>
+<li>当守护进程运行时，web应用能否与后台守护进程交互，实现开启/杀死进程的功能以及获得进程的运行状态</li>
+</ol>
+
+
+<h3>php-resque的安装</h3>
+
+<pre><code>由于涉及到进程的开辟与管理，php-resque使用了php的pcntl函数，所以只能在linux下运行，并且需要php编译pcntl函数
+</code></pre>
+
+<h3>将job插入队列</h3>
+
+<pre><code>if(empty($argv[1]))
+{
+    die('aa');
+}
+
+require __DIR__.'/init.php';
+date_default_timezone_set('GMT');
+Resque::setBackend('127.0.0.1:6379');
+
+$args = array(
+    'time' =&gt; time(),
+    'array'=&gt;array(
+        'test' =&gt; 'test'
+    )
+);
+
+$jobId = Resque::enqueue('default',$argv[1],true);
+echo $jobId;
+</code></pre>
+
+<h4>在这个列子中，queue.php需要以cli方式运行，将cli接受到的第一参数作为job名称，插入名'default'</h4>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[redis之通用key]]></title>
@@ -1412,78 +1459,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 
 <pre><code>group by cancat(path.'-'.id)
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP判断远程文件是否存在的几种方法]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/14/php005/"/>
-    <updated>2015-07-14T13:59:46+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/14/php005</id>
-    <content type="html"><![CDATA[<p><strong>在做一个图片预览的东西,遇到一个问题,就是判断远程文件是否存在</strong></p>
-
-<figure class='code'><figcaption><span>curl判断文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists($url)
-</span><span class='line'>{
-</span><span class='line'>  $ch = curl_init();
-</span><span class='line'>  curl_setopt($ch,curlopt_url,$url);
-</span><span class='line'>  curl_setopt($ch,curlopt_nobody,1);
-</span><span class='line'>  curl_setopt($ch,curlopt_failonerror,1);
-</span><span class='line'>  curl_setopt($ch,curlopt_returntransfer,1);
-</span><span class='line'>  
-</span><span class='line'>  if(curl_exec($ch)!==false)
-</span><span class='line'>  return true;
-</span><span class='line'>  else
-</span><span class='line'>  return false
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>file_get_contents判断文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists2($url)
-</span><span class='line'>{
-</span><span class='line'>  if(file_get_contents($url,0,null,0,1))
-</span><span class='line'>  return 1;
-</span><span class='line'>  else
-</span><span class='line'>  return 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>get_headers判断文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function file_exists3($url)
-</span><span class='line'>{
-</span><span class='line'>  return get_headers($url)
-</span><span class='line'>}
-</span><span class='line'>注意：返回值array</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

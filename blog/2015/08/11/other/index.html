@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>利用H5上传图片 - Blog like hacke</title>
+  <title>用php实现守护进程 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/07/21/html5">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/08/11/other">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">利用H5上传图片</h1>
+      <h1 class="entry-title">用php实现守护进程</h1>
     
     
       <p class="meta">
@@ -89,129 +89,52 @@
 
 
 
-<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-08-11T14:43:29+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:43 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>主要用到的知识点</strong>
-    fileAPI  FormData</p>
+<div class="entry-content"><h3>消息队列处理后台任务带来的问题</h3>
 
-<figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
-</span><span class='line'>&lt;html lang="en">
-</span><span class='line'>&lt;head>
-</span><span class='line'>  &lt;meta charset="UTF-8">
-</span><span class='line'>  &lt;title>图片上传&lt;/title>
-</span><span class='line'>  &lt;script type="text/javascript" src='jquery-1.7.2.min.js'>&lt;/script>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;form id='form1'>
-</span><span class='line'>      用户名：&lt;input type='text' name='username' />&lt;/br>
-</span><span class='line'>      用户头像：&lt;input type='file' name='pic' id='pic' onchange='send();'>&lt;/br>
-</span><span class='line'>      &lt;input type='button' id='but1' value='提交'>
-</span><span class='line'>  &lt;/form>
-</span><span class='line'>  &lt;div>
-</span><span class='line'>      &lt;img id='imgs' widht='50' height='50' />
-</span><span class='line'>  &lt;/div>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;script type="text/javascript">
-</span><span class='line'>function send()
-</span><span class='line'>{
-</span><span class='line'>   var pic = document.getElementById('pic');
-</span><span class='line'>
-</span><span class='line'>   if (window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1) 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.webkitURL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   else 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.URL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   $("#imgs").attr({src: src});
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>$("#but1").click(function(){
-</span><span class='line'>  var fd = new FormData($('#form1'));
-</span><span class='line'>  $.ajax({ 
-</span><span class='line'>            url: 'from.php',  
-</span><span class='line'>            type: 'POST',  
-</span><span class='line'>            data: fd,  
-</span><span class='line'>            dataType: 'JSON',
-</span><span class='line'>            cache: false,  
-</span><span class='line'>            processData: false,  
-</span><span class='line'>            contentType: false  
-</span><span class='line'>        }).done(function(ret){  
-</span><span class='line'>          console.log(ret);
-</span><span class='line'>    }); 
-</span><span class='line'>});
-</span><span class='line'>&lt;/script>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+<ol>
+<li>消息队列只能存储字符串类型的数据，如何将一个发送邮件这样的任务，转换为消息队列中的一个消息</li>
+<li>消息队列只负责数据的存放与进出，本身不能执行任何程序，那么我们要如何从消息队列中一个一个取出数据，在将这些数据转换成任务并执行</li>
+<li>我们无法预知消息队列何时会有数据产生，所以我们的任务执行程序还需要具备监控消息队列的能力，也就是常驻后台的守护进程</li>
+<li>一般的web应用php都以cgi方式运行，无法常驻内存。</li>
+<li>当守护进程运行时，web应用能否与后台守护进程交互，实现开启/杀死进程的功能以及获得进程的运行状态</li>
+</ol>
 
 
+<h3>php-resque的安装</h3>
 
+<pre><code>由于涉及到进程的开辟与管理，php-resque使用了php的pcntl函数，所以只能在linux下运行，并且需要php编译pcntl函数
+</code></pre>
 
-<figure class='code'><figcaption><span>php </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//获取图片进行处理
-</span><span class='line'>print_r($_FILES);
-</span><span class='line'>//获取其他数据进行处理
-</span><span class='line'>print_r($_POST);</span></code></pre></td></tr></table></div></figure>
+<h3>将job插入队列</h3>
 
+<pre><code>if(empty($argv[1]))
+{
+    die('aa');
+}
+
+require __DIR__.'/init.php';
+date_default_timezone_set('GMT');
+Resque::setBackend('127.0.0.1:6379');
+
+$args = array(
+    'time' =&gt; time(),
+    'array'=&gt;array(
+        'test' =&gt; 'test'
+    )
+);
+
+$jobId = Resque::enqueue('default',$argv[1],true);
+echo $jobId;
+</code></pre>
+
+<h4>在这个列子中，queue.php需要以cli方式运行，将cli接受到的第一参数作为job名称，插入名'default'</h4>
 </div>
 
 
@@ -227,12 +150,12 @@
 
 
 
-<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
+<time class='entry-date' datetime='2015-08-11T14:43:29+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:43 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/html5/'>html5</a>
+    <a class='category' href='/blog/categories/other/'>other</a>
   
 </span>
 
@@ -250,7 +173,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/21/html5" data-title="利用H5上传图片" data-url="http://ztlblog.github.io/blog/2015/07/21/html5/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/11/other" data-title="用php实现守护进程" data-url="http://ztlblog.github.io/blog/2015/08/11/other/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -271,14 +194,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/07/20/linux003/" title="Previous Post:
-        linux下如何编译安装软件">&laquo; linux下如何编译安装软件</a></li>
+        href="/blog/2015/08/10/linux/" title="Previous Post:
+        redis之通用key">&laquo; redis之通用key</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/07/22/html5001/"
-        title="Next Post: html5之消息提醒">html5之消息提醒
-        &raquo;</a></li>
       
     </ul>
   </footer>
