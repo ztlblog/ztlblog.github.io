@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-11T14:59:38+08:00</updated>
+  <updated>2015-08-11T15:52:17+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -57,6 +57,25 @@ echo $jobId;
 </code></pre>
 
 <h4>在这个列子中，queue.php需要以cli方式运行，将cli接受到的第一参数作为job名称，插入名'default'</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[linux安装redis的php扩展]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/11/linux/"/>
+    <updated>2015-08-11T14:43:29+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/11/linux</id>
+    <content type="html"><![CDATA[<p><a href="http://pecl.php.net/get/redis-2.2.7.tgz" title="redis">http://pecl.php.net/get/redis-2.2.7.tgz</a></p>
+
+<ol>
+<li>tar xzvf redis-2.2.7.tgz</li>
+<li>cd redis-2.2.7</li>
+<li>/usr/local/php/bin/phpize (检测php扩展并生成redis配置文件)</li>
+<li>./configure &ndash;with-php-config=/usr/local/php/bin/php-config</li>
+<li>vim /usr/local/php/etc/php.ini</li>
+<li>extension=/usr/local/php/lib/php/extensions/no-debug-non-zts-20060613/</li>
+</ol>
+
 ]]></content>
   </entry>
   
@@ -1382,82 +1401,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 <pre><code>/etc 一般放置配置文件
 /lib /usr/lib 一般放置函数库 
 /var/lib  一般放置数据库
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP无限极分类]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/14/php006/"/>
-    <updated>2015-07-14T13:59:46+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/14/php006</id>
-    <content type="html"><![CDATA[<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$arr = array(
-</span><span class='line'> array('id' => 1,'name' => 'php', 'pid' => 0,'path' => 0),
-</span><span class='line'> array('id' => 2,'name' => 'java', 'pid' => 0,'path' => 0),
-</span><span class='line'> array('id' => 3,'name' => 'php_1', 'pid' => 1,'path' => '0-1'),
-</span><span class='line'> array('id' => 4,'name' => 'js', 'pid' => 0,'path' => '0-2'),
-</span><span class='line'> array('id' => 5,'name' => 'php_1_1','pid' => 0,'path' => '0-1-3'),
-</span><span class='line'> array('id' => 6,'name' => 'linux', 'pid' => 0,'path' => '0')
-</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>foreach ($arr as &$value)
-</span><span class='line'>{
-</span><span class='line'> $num = substr_count($value['path'], '-');
-</span><span class='line'> if($num > 0)
-</span><span class='line'> {
-</span><span class='line'>  $pre = '|'.str_repeat('-', $num);
-</span><span class='line'> }else
-</span><span class='line'> {
-</span><span class='line'>  $pre = '';
-</span><span class='line'> }
-</span><span class='line'> $value['tree'] = $pre.$value['name'];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>foreach ($arr as $row)
-</span><span class='line'>{
-</span><span class='line'> $rows[] = $row['path'].'-'.$row['id'];
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>array_multisort($rows,$arr);
-</span><span class='line'>echo '&lt;pre>';
-</span><span class='line'>print_r($arr);</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>如果是在mysql中可以先排序</strong></p>
-
-<pre><code>group by cancat(path.'-'.id)
 </code></pre>
 ]]></content>
   </entry>

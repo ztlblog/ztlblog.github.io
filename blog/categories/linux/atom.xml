@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-11T14:59:38+08:00</updated>
+  <updated>2015-08-11T15:52:17+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[linux安装redis的php扩展]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/11/linux/"/>
+    <updated>2015-08-11T14:43:29+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/11/linux</id>
+    <content type="html"><![CDATA[<p><a href="http://pecl.php.net/get/redis-2.2.7.tgz" title="redis">http://pecl.php.net/get/redis-2.2.7.tgz</a></p>
+
+<ol>
+<li>tar xzvf redis-2.2.7.tgz</li>
+<li>cd redis-2.2.7</li>
+<li>/usr/local/php/bin/phpize (检测php扩展并生成redis配置文件)</li>
+<li>./configure &ndash;with-php-config=/usr/local/php/bin/php-config</li>
+<li>vim /usr/local/php/etc/php.ini</li>
+<li>extension=/usr/local/php/lib/php/extensions/no-debug-non-zts-20060613/</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[编译php并与Nginx整合]]></title>
@@ -262,28 +281,6 @@ sercurity = share  //用户不需要登录
 path=/tmp   //路径
 writable=yes  //可以写
 public=yes  //可以使用 
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[linux下如何编译安装软件]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/20/linux003/"/>
-    <updated>2015-07-20T13:10:47+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/20/linux003</id>
-    <content type="html"><![CDATA[<h3>基本步骤</h3>
-
-<pre><code>1 ./configure 检查gcc编译器、依赖函数库或软件是否已经安装
-2 当configure 检查通过后，生成makefile文件
-3 make根据makefile生成可执行文件（二进制文件）
-4 make install 到/etc /lib /usr/lib /usr/share /var/lib
-</code></pre>
-
-<h3>注意</h3>
-
-<pre><code>/etc 一般放置配置文件
-/lib /usr/lib 一般放置函数库 
-/var/lib  一般放置数据库
 </code></pre>
 ]]></content>
   </entry>

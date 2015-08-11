@@ -149,6 +149,45 @@ echo $jobId;
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/11/linux/">Linux安装redis的php扩展</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T14:43:29+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:43 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://pecl.php.net/get/redis-2.2.7.tgz" title="redis">http://pecl.php.net/get/redis-2.2.7.tgz</a></p>
+
+<ol>
+<li>tar xzvf redis-2.2.7.tgz</li>
+<li>cd redis-2.2.7</li>
+<li>/usr/local/php/bin/phpize (检测php扩展并生成redis配置文件)</li>
+<li>./configure &ndash;with-php-config=/usr/local/php/bin/php-config</li>
+<li>vim /usr/local/php/etc/php.ini</li>
+<li>extension=/usr/local/php/lib/php/extensions/no-debug-non-zts-20060613/</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之通用key</a></h1>
     
     
@@ -719,118 +758,6 @@ print_r($result);
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/28/other/">Php免费获取手机号归属地</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-28T16:45:11+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:45 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>一.淘宝API</h2>
-
-<figure class='code'><figcaption><span>API介绍 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>地址： http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=15850781443
-</span><span class='line'>tel：手机号
-</span><span class='line'>返回：json</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>API实例 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$mobile = "1510032586";  //要查询的电话号码
-</span><span class='line'>$content = get_mobile_area($mobile);
-</span><span class='line'>print_r($content);
-</span><span class='line'>
-</span><span class='line'>function get_mobile_area($mobile){
-</span><span class='line'>    $sms = array('province'=>'', 'supplier'=>'');    //初始化变量
-</span><span class='line'>    //根据淘宝的数据库调用返回值
-</span><span class='line'>    $url = "http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=".$mobile."&t=".time();
-</span><span class='line'>
-</span><span class='line'>    $content = file_get_contents($url);
-</span><span class='line'>    $sms['province'] = substr($content, "56", "4");  //截取字符串
-</span><span class='line'>    $sms['supplier'] = substr($content, "81", "4");
-</span><span class='line'>    return $sms;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>二.拍拍API</h2>
-
-<figure class='code'><figcaption><span>API介绍 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>地址：http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=15850781443&amount=10000&callname=getPhoneNumInfoExtCallback
-</span><span class='line'>mobile：手机号
-</span><span class='line'>callname：回调函数
-</span><span class='line'>amount：
-</span><span class='line'>返回：json</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>三.财付通API</h2>
-
-<figure class='code'><figcaption><span>APT介绍 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>地址：http://life.tenpay.com/cgi-bin/mobile/MobileQueryAttribution.cgi?chgmobile=15850781443 
-</span><span class='line'>chgmobile：手机号
-</span><span class='line'>返回：xml</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>四.百付宝API</h2>
-
-<figure class='code'><figcaption><span>API介绍 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>地址：https://www.baifubao.com/callback?cmd=1059&callback=phone&phone=15850781443 
-</span><span class='line'>phone：手机号
-</span><span class='line'>callback：回调函数
-</span><span class='line'>cmd：
-</span><span class='line'>返回：json</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -847,6 +774,10 @@ print_r($result);
     
       <li class="post">
         <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/linux/">linux安装redis的php扩展</a>
       </li>
     
       <li class="post">
