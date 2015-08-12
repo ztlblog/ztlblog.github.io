@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-11T15:52:17+08:00</updated>
+  <updated>2015-08-12T14:02:42+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -22,81 +22,69 @@
 
 <p><a href="http://www.git-scm.com/download/win">下载git</a></p>
 
-<p><figure class='code'><figcaption><span>git配置 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config &ndash;globl user.name &ldquo;ztlblog&rdquo;
-</span><span class='line'>git config &ndash;globl user.email &ldquo;&lt;a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x78;&#x78;&#64;&#49;&#54;&#51;&#46;&#x63;&#111;&#x6d;">&#x78;&#120;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#111;&#x6d;&lt;/a>&rdquo;
-</span><span class='line'>ssh-keygen -t rsa -C &ldquo;&lt;a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x78;&#x78;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">&#x78;&#120;&#x40;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#109;&lt;/a>&rdquo;</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock git配置 %}
+git config &ndash;globl user.name &ldquo;ztlblog&rdquo;
+git config &ndash;globl user.email &ldquo;<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#120;&#x78;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#120;&#120;&#x40;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;</a>&rdquo;
+ssh-keygen -t rsa -C &ldquo;<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#120;&#x78;&#x40;&#x31;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;">&#x78;&#120;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#111;&#x6d;</a>&rdquo;
+{% endcodeblock %}</p>
 
 <p><a href="http://rubyinstaller.org/downloads/">下载ruby</a></p>
 
-<p><figure class='code'><figcaption><span>ruby注意事项 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>不要忘记勾选Add Ruby executables to you PATH
-</span><span class='line'>将ruby的执行路径加入到环境变量中(不加可能会出现意向不到的惊喜！)</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock ruby注意事项 %}
+不要忘记勾选Add Ruby executables to you PATH
+将ruby的执行路径加入到环境变量中(不加可能会出现意向不到的惊喜！)
+{% endcodeblock %}</p>
 
 <p><a href="http://dl.bintray.com/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">下载devkit</a></p>
 
-<p><figure class='code'><figcaption><span>devkit </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>解压目录中没有中文和空格
-</span><span class='line'>必须先安装ruby
-</span><span class='line'>cd devkit
-</span><span class='line'>ruby dk.rb init
-</span><span class='line'>ruby dk.rb install</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock devkit %}
+解压目录中没有中文和空格
+必须先安装ruby
+cd devkit
+ruby dk.rb init
+ruby dk.rb install
+{% endcodeblock %}</p>
 
 <p><a href="http://pan.baidu.com/s/1jGL6l3g">下载Markdown</a></p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>主要用来编写博客</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+主要用来编写博客
+{% endcodeblock %}</p>
 
 <p><a href="http://octopress.org/docs/setup/">octopress官网</a></p>
 
-<p><figure class='code'><figcaption><span>octopress </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock octopress %}
+git clone git://github.com/imathis/octopress.git octopress
+{% endcodeblock %}</p>
 
-<p><figure class='code'><figcaption><span>修改rubygems </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem sources &ndash;remove &lt;a href="https://rubygems.org">https://rubygems.org&lt;/a>
-</span><span class='line'>gem sources -a &lt;a href="http://ruby.taobao.org">http://ruby.taobao.org&lt;/a></span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock 修改rubygems %}
+gem sources &ndash;remove <a href="https://rubygems.org">https://rubygems.org</a>
+gem sources -a <a href="http://ruby.taobao.org">http://ruby.taobao.org</a>
+{% endcodeblock %}</p>
 
-<p><figure class='code'><figcaption><span>bundle </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
-</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock bundle %}
+gem install bundler
+bundle install
+{% endcodeblock %}</p>
 
-<p><figure class='code'><figcaption><span>安装rake </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake install
-</span><span class='line'>rake generate (生成默认模版)</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock 安装rake %}
+rake install
+rake generate (生成默认模版)
+{% endcodeblock %}</p>
 
-<p><figure class='code'><figcaption><span>创建博客及单页面 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post[&lsquo;newblogName&rsquo;]
-</span><span class='line'>rake new_page[&lsquo;newblogPage&rsquo;]</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock 创建博客及单页面 %}
+rake new_post[&lsquo;newblogName&rsquo;]
+rake new_page[&lsquo;newblogPage&rsquo;]
+{% endcodeblock %}</p>
 
 <h2>发布本地octopress 到github</h2>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>假如你的用户名是username，首先新建一个命名位username.github.io
-</span><span class='line'>rake setup_github_pages
-</span><span class='line'>git@github.com:username/username.github.com
-</span><span class='line'>rake deploy (发布到github上)</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+假如你的用户名是username，首先新建一个命名位username.github.io
+rake setup_github_pages
+git@github.com:username/username.github.com
+rake deploy (发布到github上)
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

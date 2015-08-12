@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-11T15:52:17+08:00</updated>
+  <updated>2015-08-12T14:02:42+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -32,12 +32,11 @@
 
 <p>开启慢查询非常简单，操作如下：</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>log-slow-queries=&ldquo;D:/wamp/bin/mysql/mysql5.5.24/log/mysql-slow.log'
-</span><span class='line'>long_query_time=4
-</span><span class='line'>log-queries-not-using-indexs</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+log-slow-queries=&ldquo;D:/wamp/bin/mysql/mysql5.5.24/log/mysql-slow.log'
+long_query_time=4
+log-queries-not-using-indexs
+{% endcodeblock %}</p>
 
 <p>log-slow-queries：代表mysql慢查询的日志存储目录</p>
 

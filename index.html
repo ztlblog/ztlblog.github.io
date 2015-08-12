@@ -82,6 +82,191 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/12/memcache/">memcacheQ使用以及与php链接</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-12T13:10:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>注意：信息不能大于message_len。大于message_len会报错(message_len以字节为单位)</h3>
+
+<p><strong>链接</strong></p>
+
+<pre><code>telent 127.0.0.1 11212
+</code></pre>
+
+<p><strong>set增加一个消息到队列的尾部</strong></p>
+
+<pre><code>set test_queue 0 0 13
+first_message
+STORED
+set test_queue 0 0 8
+message2
+STORED
+
+超出长度实例
+set test_query 0 0 2
+tes
+CLIENT_ERROR bad data chunk
+ERROR
+</code></pre>
+
+<p><strong>查看队列 stats queue</strong></p>
+
+<pre><code>stats queue
+STAT test_queue 2/0 （队列test_queue里面有2条信息，读取了0条）
+END
+</code></pre>
+
+<p><strong>get从队列的头部查询一条信息并销毁</strong></p>
+
+<pre><code>get test_queue
+VALUE test_queue 0 13
+first_message
+END
+此时在查看队列状态
+stats queue
+STAT test_queue 2/1 (队列test_queue里面有2条信息，读取1条)
+</code></pre>
+
+<p><strong>delete删除队列</strong></p>
+
+<pre><code>delete test_queue
+此时在查看队列状态
+stats queue
+已经删除
+</code></pre>
+
+<p><strong>php链接</strong></p>
+
+<pre><code>需要先安装memcache的php扩展
+
+$memcache_obj = memcache_connect('127.0.0.1',11212);
+memcache_set($memcache_obj,'demoqueue1','message body here',0,0);
+memcache_get($memcache_obj,'demoqueue1');
+memcache_close($memcache_obj);
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/12/memcache/">memcacheQ消息队列安装</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-12T13:10:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>memcacheQ依赖于libevent和berkleyDB</h2>
+
+<h3>官方：<a href="http://memcachedb.org/memcacheq/">http://memcachedb.org/memcacheq/</a></h3>
+
+<h3>资源下载</h3>
+
+<pre><code>memcacheQ：http://code.google.com/p/memcacheq/downloads/list
+
+libevent：http://www.libevent.org
+
+berkeleyDB：http://www.oracle.com/technetwork/products/berkeleydb/downloads/index.html
+</code></pre>
+
+<h3>安装</h3>
+
+<p><strong>安装libevent</strong></p>
+
+<pre><code>tar zxvf libevent-***-.tar.gz
+cd libevent-***
+./configure --prefix=/usr/local/libevent
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>安装berkeleyDB</strong></p>
+
+<pre><code>tar zxvf db-5.3.15.tar.gz
+cd db-5.3.15
+cd build_unix
+../dist/configure --prefix=/usr/local/berkeleyDB
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>编辑/etc/ld.so.conf</strong></p>
+
+<pre><code>vim /etc/ld.so.conf
+增加一下内容
+/usr/local/libevent/lib
+/usr/local/berkeleyDB/lib
+执行一下命令
+/sbin/ldconfig
+</code></pre>
+
+<p><strong>安装memcacheQ</strong></p>
+
+<pre><code>./configure --prefix=/usr/local/memecacheq \
+--enagble-threads \
+--with-libevent=/usr/local/libevent \
+--with-bdb=/usr/local/berkelyDB
+
+make &amp;&amp; make install
+
+测试是否安装成功
+/usr/local/memecaheq/bin/memcacheq -h
+
+可能会报错
+memcacheq: error while loading shared libraries: libdb-5.3.so: cannot open shared object file: No such file or directory
+
+解决方法
+ln -s /usr/local/BerkeleyDB.5.3/lib/libdb-5.3.so /usr/lib/libdb-5.3.so
+</code></pre>
+
+<p><strong>启动服务</strong></p>
+
+<pre><code>/usr/local/memecacheq/bin/memcacheq -d -r -uroot -p11212 -H /var/memecacheq/data -N -R -v -L 1024 -B 1024 &gt; /var/memcacheq/logs/mq_error.log 2&gt;&amp;1
+</code></pre>
+
+<p><strong>开机启动</strong></p>
+
+<pre><code>vim /etc/rc.local
+/usr/local/memcacheq/bin/memcacheq -d -r -uroot -p11212 -H /var/mcq/data -N -R -v -L 1024 -B 1024 &gt; /var/mcq/logs/mq_error.log 2&gt;&amp;1
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/11/other/">用php实现守护进程</a></h1>
     
     
@@ -188,6 +373,79 @@ echo $jobId;
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之安装</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T14:24:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
+
+<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
+
+<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
+</span><span class='line'>不用 ./configure 
+</span><span class='line'>make 
+</span><span class='line'>make PREFIX=/user/local/redis install
+</span><span class='line'>
+</span><span class='line'>cd /usr/local/redis/
+</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
+</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
+</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
+</span><span class='line'>cmd打开终端
+</span><span class='line'>cd 到你安装的目录
+</span><span class='line'>redis-server.exe redis.conf
+</span><span class='line'>
+</span><span class='line'>在打开一个终端
+</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之通用key</a></h1>
     
     
@@ -256,79 +514,6 @@ hash （哈希表）
 <pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
 如果newkey已经存在，则值将被覆盖
 </code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之安装</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-10T14:24:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
-
-<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
-
-<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
-</span><span class='line'>不用 ./configure 
-</span><span class='line'>make 
-</span><span class='line'>make PREFIX=/user/local/redis install
-</span><span class='line'>
-</span><span class='line'>cd /usr/local/redis/
-</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
-</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
-</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
-</span><span class='line'>cmd打开终端
-</span><span class='line'>cd 到你安装的目录
-</span><span class='line'>redis-server.exe redis.conf
-</span><span class='line'>
-</span><span class='line'>在打开一个终端
-</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
-
-
-
 </div>
   
   
@@ -541,223 +726,6 @@ select * form action where sorce&lt;60 and talbe like '%' or 1=1'%';
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/03/linux/">Nginx切割日志</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-03T11:43:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:43 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span>简单的日志切割 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!bin/bash
-</span><span class='line'>
-</span><span class='line'>LOCALPATH=/usr/local/nginx/logs/access.log
-</span><span class='line'>BASHPATH=/data
-</span><span class='line'>
-</span><span class='line'>back=$LOCALPATH.$(date -d yesterday +%Y%m%d).zcom.access.log
-</span><span class='line'>
-</span><span class='line'>mv $LOCALPATH $bakc
-</span><span class='line'>
-</span><span class='line'>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/31/linux/">Coreseek安装及使用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-31T14:38:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:38 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>下载coreseek</strong></p>
-
-<pre><code>http://www.coreseek.cn/uploads/csft/3.2/coreseek-3.2.14.tar.gz
-</code></pre>
-
-<p><strong>安装mmseg</strong></p>
-
-<pre><code>cd mmseg-3.2.14
-./configure --prefix=/usr/local/mmseg3
-make &amp;&amp; make install
-</code></pre>
-
-<p><strong>可能出错</strong></p>
-
-<pre><code>aclocal
-libtoolize --force
-automake --add-missing
-autoconf
-autoheader
-make clean
-./configure --prefix=/usr/local/mmseg3
-make &amp;&amp; make install
-</code></pre>
-
-<p><strong>安装csft</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd csft-3.2.14
-</span><span class='line'>./configure --prefix=/usr/local/csft --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/coreseek/include/mmseg/ --with-mmseg-libs=/usr/local/coreseek/lib/ --with-mysql
-</span><span class='line'>
-</span><span class='line'>make && make install</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>测试mmseg分词</strong></p>
-
-<pre><code>cd testpack
-cat var /test/test.xml
-/usr/lcoal/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
-/usr/local/csft/bin/indexer -c etc/csft.conf --all
-/usr/local/csft/bin/search -c etc/csft.conf  网络搜索
-</code></pre>
-
-<p><strong>安装php扩展</strong></p>
-
-<pre><code>/usr/local/src/coreseek-3.2.14/testpack/api/libsphinxclient
-./configure 
-
-下载php扩展 （http://pecl.php.net/get/sphinx-1.3.3.tgz）
-cd  /usr/local/src/sphinx-1.3.3
-执行 phpize
-
-./configure --with-php-config=/usr/bin/php-config  --with-sphinx
-</code></pre>
-
-<p><strong>创建一个sphinx.conf文件</strong></p>
-
-<pre><code>source src1
-{
-    type= mysql
-
-    sql_host= localhost
-    sql_user= yejianfeng
-    sql_pass= test
-    sql_db  = mysite
-    sql_port= 3306  # optional, default is 3306
-
-    sql_query_pre   = SET NAMES utf8
-    sql_query_pre   = SET SESSION query_cache_type=OFF
-
-    sql_query   = select id, id AS id_new,name, name AS name_query,descr, descr AS descr_query,city FROM account
-    sql_attr_string = name
-    sql_attr_string = descr
-
-    sql_query_info  = SELECT * FROM account WHERE id=$id
-}
-
-source src1throttled : src1
-{
-    sql_ranged_throttle = 100
-}
-
-index test1
-{
-    source  = src1
-    path= /home/yejianfeng/instance/coreseek/var/data/test1
-    docinfo = extern
-    mlock   = 0
-    morphology  = none
-    min_word_len= 1
-    charset_type = zh_cn.utf-8
-    charset_dictpath  = /home/yejianfeng/instance/mmseg/etc/
-    html_strip  = 0
-}
-
-
-
-indexer
-{
-    mem_limit   = 256M
-}
-
-searchd
-{
-    listen  = 9312
-    listen  = 9306:mysql41
-
-    log = /home/yejianfeng/instance/coreseek/var/log/searchd.log
-    query_log   = /home/yejianfeng/instance/coreseek/var/log/query.log
-    read_timeout= 5
-    client_timeout  = 300
-    max_children= 30
-    pid_file= /home/yejianfeng/instance/coreseek/var/log/searchd.pid
-    max_matches = 1000
-    seamless_rotate = 1
-    preopen_indexes = 1
-    unlink_old  = 1
-    mva_updates_pool= 1M
-    max_packet_size = 8M
-    max_filters = 256
-    max_filter_values   = 4096
-}
-</code></pre>
-
-<p><strong>php使用</strong></p>
-
-<pre><code>$s = new SphinxClient;
-$s-&gt;setServer("localhost", 9312);
-$s-&gt;setArrayResult(true);
-$s-&gt;setSelect();
-$s-&gt;setMatchMode(SPH_MATCH_ALL);
-
-$result = $s-&gt;query('美女', 'test1');
-print_r($result);
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -773,6 +741,14 @@ print_r($result);
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/08/12/memcache/">memcacheQ使用以及与php链接</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/12/memcache/">memcacheQ消息队列安装</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
       </li>
     
@@ -781,11 +757,11 @@ print_r($result);
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+        <a href="/blog/2015/08/10/linux/">redis之安装</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之安装</a>
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
       </li>
     
       <li class="post">

@@ -82,6 +82,223 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/03/linux/">Nginx切割日志</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-03T11:43:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span>简单的日志切割 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!bin/bash
+</span><span class='line'>
+</span><span class='line'>LOCALPATH=/usr/local/nginx/logs/access.log
+</span><span class='line'>BASHPATH=/data
+</span><span class='line'>
+</span><span class='line'>back=$LOCALPATH.$(date -d yesterday +%Y%m%d).zcom.access.log
+</span><span class='line'>
+</span><span class='line'>mv $LOCALPATH $bakc
+</span><span class='line'>
+</span><span class='line'>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/31/linux/">Coreseek安装及使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-31T14:38:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>下载coreseek</strong></p>
+
+<pre><code>http://www.coreseek.cn/uploads/csft/3.2/coreseek-3.2.14.tar.gz
+</code></pre>
+
+<p><strong>安装mmseg</strong></p>
+
+<pre><code>cd mmseg-3.2.14
+./configure --prefix=/usr/local/mmseg3
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>可能出错</strong></p>
+
+<pre><code>aclocal
+libtoolize --force
+automake --add-missing
+autoconf
+autoheader
+make clean
+./configure --prefix=/usr/local/mmseg3
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>安装csft</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd csft-3.2.14
+</span><span class='line'>./configure --prefix=/usr/local/csft --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/coreseek/include/mmseg/ --with-mmseg-libs=/usr/local/coreseek/lib/ --with-mysql
+</span><span class='line'>
+</span><span class='line'>make && make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>测试mmseg分词</strong></p>
+
+<pre><code>cd testpack
+cat var /test/test.xml
+/usr/lcoal/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
+/usr/local/csft/bin/indexer -c etc/csft.conf --all
+/usr/local/csft/bin/search -c etc/csft.conf  网络搜索
+</code></pre>
+
+<p><strong>安装php扩展</strong></p>
+
+<pre><code>/usr/local/src/coreseek-3.2.14/testpack/api/libsphinxclient
+./configure 
+
+下载php扩展 （http://pecl.php.net/get/sphinx-1.3.3.tgz）
+cd  /usr/local/src/sphinx-1.3.3
+执行 phpize
+
+./configure --with-php-config=/usr/bin/php-config  --with-sphinx
+</code></pre>
+
+<p><strong>创建一个sphinx.conf文件</strong></p>
+
+<pre><code>source src1
+{
+    type= mysql
+
+    sql_host= localhost
+    sql_user= yejianfeng
+    sql_pass= test
+    sql_db  = mysite
+    sql_port= 3306  # optional, default is 3306
+
+    sql_query_pre   = SET NAMES utf8
+    sql_query_pre   = SET SESSION query_cache_type=OFF
+
+    sql_query   = select id, id AS id_new,name, name AS name_query,descr, descr AS descr_query,city FROM account
+    sql_attr_string = name
+    sql_attr_string = descr
+
+    sql_query_info  = SELECT * FROM account WHERE id=$id
+}
+
+source src1throttled : src1
+{
+    sql_ranged_throttle = 100
+}
+
+index test1
+{
+    source  = src1
+    path= /home/yejianfeng/instance/coreseek/var/data/test1
+    docinfo = extern
+    mlock   = 0
+    morphology  = none
+    min_word_len= 1
+    charset_type = zh_cn.utf-8
+    charset_dictpath  = /home/yejianfeng/instance/mmseg/etc/
+    html_strip  = 0
+}
+
+
+
+indexer
+{
+    mem_limit   = 256M
+}
+
+searchd
+{
+    listen  = 9312
+    listen  = 9306:mysql41
+
+    log = /home/yejianfeng/instance/coreseek/var/log/searchd.log
+    query_log   = /home/yejianfeng/instance/coreseek/var/log/query.log
+    read_timeout= 5
+    client_timeout  = 300
+    max_children= 30
+    pid_file= /home/yejianfeng/instance/coreseek/var/log/searchd.pid
+    max_matches = 1000
+    seamless_rotate = 1
+    preopen_indexes = 1
+    unlink_old  = 1
+    mva_updates_pool= 1M
+    max_packet_size = 8M
+    max_filters = 256
+    max_filter_values   = 4096
+}
+</code></pre>
+
+<p><strong>php使用</strong></p>
+
+<pre><code>$s = new SphinxClient;
+$s-&gt;setServer("localhost", 9312);
+$s-&gt;setArrayResult(true);
+$s-&gt;setSelect();
+$s-&gt;setMatchMode(SPH_MATCH_ALL);
+
+$result = $s-&gt;query('美女', 'test1');
+print_r($result);
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/07/28/other/">Php免费获取手机号归属地</a></h1>
     
     
@@ -1002,192 +1219,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/21/html5/">利用H5上传图片</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-21T16:48:42+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:48 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>主要用到的知识点</strong>
-    fileAPI  FormData</p>
-
-<figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
-</span><span class='line'>&lt;html lang="en">
-</span><span class='line'>&lt;head>
-</span><span class='line'>  &lt;meta charset="UTF-8">
-</span><span class='line'>  &lt;title>图片上传&lt;/title>
-</span><span class='line'>  &lt;script type="text/javascript" src='jquery-1.7.2.min.js'>&lt;/script>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;form id='form1'>
-</span><span class='line'>      用户名：&lt;input type='text' name='username' />&lt;/br>
-</span><span class='line'>      用户头像：&lt;input type='file' name='pic' id='pic' onchange='send();'>&lt;/br>
-</span><span class='line'>      &lt;input type='button' id='but1' value='提交'>
-</span><span class='line'>  &lt;/form>
-</span><span class='line'>  &lt;div>
-</span><span class='line'>      &lt;img id='imgs' widht='50' height='50' />
-</span><span class='line'>  &lt;/div>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;script type="text/javascript">
-</span><span class='line'>function send()
-</span><span class='line'>{
-</span><span class='line'>   var pic = document.getElementById('pic');
-</span><span class='line'>
-</span><span class='line'>   if (window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1) 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.webkitURL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   else 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.URL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   $("#imgs").attr({src: src});
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>$("#but1").click(function(){
-</span><span class='line'>  var fd = new FormData($('#form1'));
-</span><span class='line'>  $.ajax({ 
-</span><span class='line'>            url: 'from.php',  
-</span><span class='line'>            type: 'POST',  
-</span><span class='line'>            data: fd,  
-</span><span class='line'>            dataType: 'JSON',
-</span><span class='line'>            cache: false,  
-</span><span class='line'>            processData: false,  
-</span><span class='line'>            contentType: false  
-</span><span class='line'>        }).done(function(ret){  
-</span><span class='line'>          console.log(ret);
-</span><span class='line'>    }); 
-</span><span class='line'>});
-</span><span class='line'>&lt;/script>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>php </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//获取图片进行处理
-</span><span class='line'>print_r($_FILES);
-</span><span class='line'>//获取其他数据进行处理
-</span><span class='line'>print_r($_POST);</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/20/linux003/">Linux下如何编译安装软件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-20T13:10:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:10 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>基本步骤</h3>
-
-<pre><code>1 ./configure 检查gcc编译器、依赖函数库或软件是否已经安装
-2 当configure 检查通过后，生成makefile文件
-3 make根据makefile生成可执行文件（二进制文件）
-4 make install 到/etc /lib /usr/lib /usr/share /var/lib
-</code></pre>
-
-<h3>注意</h3>
-
-<pre><code>/etc 一般放置配置文件
-/lib /usr/lib 一般放置函数库 
-/var/lib  一般放置数据库
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="3">&larr; Older</a></li>
@@ -1205,6 +1236,14 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/08/12/memcache/">memcacheQ使用以及与php链接</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/12/memcache/">memcacheQ消息队列安装</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
       </li>
     
@@ -1213,11 +1252,11 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+        <a href="/blog/2015/08/10/linux/">redis之安装</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之安装</a>
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
       </li>
     
       <li class="post">

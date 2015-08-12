@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>h5的兼容问题 - Blog like hacke</title>
+  <title>memcacheQ使用以及与php链接 - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/19/other001">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/08/12/memcache">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">H5的兼容问题</h1>
+      <h1 class="entry-title">memcacheQ使用以及与php链接</h1>
     
     
       <p class="meta">
@@ -89,54 +89,71 @@
 
 
 
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
+<time class='entry-date' datetime='2015-08-12T13:10:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:10 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>h5 下面placeholder 在IE8中不支持，本来想不写js的，唉&hellip; 万恶的IE啊！！！</h2>
+<div class="entry-content"><h3>注意：信息不能大于message_len。大于message_len会报错(message_len以字节为单位)</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if( !('placeholder' in document.createElement('input')) ){   
-</span><span class='line'>    $('input[placeholder],textarea[placeholder]').each(function(){    
-</span><span class='line'>      var that = $(this),    
-</span><span class='line'>      text= that.attr('placeholder');    
-</span><span class='line'>      if(that.val()===""){    
-</span><span class='line'>        that.val(text).addClass('placeholder');    
-</span><span class='line'>      }    
-</span><span class='line'>      that.focus(function(){    
-</span><span class='line'>        if(that.val()===text){    
-</span><span class='line'>          that.val("").removeClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })    
-</span><span class='line'>      .blur(function(){    
-</span><span class='line'>        if(that.val()===""){    
-</span><span class='line'>          that.val(text).addClass('placeholder');    
-</span><span class='line'>        }    
-</span><span class='line'>      })       
-</span><span class='line'>    });    
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<p><strong>链接</strong></p>
 
+<pre><code>telent 127.0.0.1 11212
+</code></pre>
+
+<p><strong>set增加一个消息到队列的尾部</strong></p>
+
+<pre><code>set test_queue 0 0 13
+first_message
+STORED
+set test_queue 0 0 8
+message2
+STORED
+
+超出长度实例
+set test_query 0 0 2
+tes
+CLIENT_ERROR bad data chunk
+ERROR
+</code></pre>
+
+<p><strong>查看队列 stats queue</strong></p>
+
+<pre><code>stats queue
+STAT test_queue 2/0 （队列test_queue里面有2条信息，读取了0条）
+END
+</code></pre>
+
+<p><strong>get从队列的头部查询一条信息并销毁</strong></p>
+
+<pre><code>get test_queue
+VALUE test_queue 0 13
+first_message
+END
+此时在查看队列状态
+stats queue
+STAT test_queue 2/1 (队列test_queue里面有2条信息，读取1条)
+</code></pre>
+
+<p><strong>delete删除队列</strong></p>
+
+<pre><code>delete test_queue
+此时在查看队列状态
+stats queue
+已经删除
+</code></pre>
+
+<p><strong>php链接</strong></p>
+
+<pre><code>需要先安装memcache的php扩展
+
+$memcache_obj = memcache_connect('127.0.0.1',11212);
+memcache_set($memcache_obj,'demoqueue1','message body here',0,0);
+memcache_get($memcache_obj,'demoqueue1');
+memcache_close($memcache_obj);
+</code></pre>
 </div>
 
 
@@ -152,12 +169,12 @@
 
 
 
-<time class='entry-date' datetime='2015-06-19T17:14:30+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:14 pm</span></time>
+<time class='entry-date' datetime='2015-08-12T13:10:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:10 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/other/'>other</a>
+    <a class='category' href='/blog/categories/memcache/'>memcache</a>
   
 </span>
 
@@ -175,7 +192,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/06/19/other001" data-title="h5的兼容问题" data-url="http://ztlblog.github.io/blog/2015/06/19/other001/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/12/memcache" data-title="memcacheQ使用以及与php链接" data-url="http://ztlblog.github.io/blog/2015/08/12/memcache/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -196,14 +213,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/06/19/php002/" title="Previous Post:
-        php经典排序算法">&laquo; php经典排序算法</a></li>
+        href="/blog/2015/08/12/memcache/" title="Previous Post:
+        memcacheQ消息队列安装">&laquo; memcacheQ消息队列安装</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/06/25/php003/"
-        title="Next Post: xss攻击">xss攻击
-        &raquo;</a></li>
       
     </ul>
   </footer>

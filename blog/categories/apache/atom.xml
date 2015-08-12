@@ -4,7 +4,7 @@
   <title><![CDATA[Category: apache | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/apache/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-11T15:52:17+08:00</updated>
+  <updated>2015-08-12T14:02:42+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -48,22 +48,16 @@
 
 <h2>7.设置网站跟目录的访问权限</h2>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "/usr/locla/apache2/htdocs">
-</span><span class='line'>    Options Indexes FollowSymLinks
-</span><span class='line'>    AllowOverride None
-</span><span class='line'>    Order allow,deny
-</span><span class='line'>    Allow form all
-</span><span class='line'>&lt;/Directory>
-</span><span class='line'>注意：Indexes是限制是否显示目录列表
-</span><span class='line'>    FollowSymLinks是限制是否能使用软链接（ln main /usr/local/apache2/htdocs/main）</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+<Directory "/usr/locla/apache2/htdocs">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow form all
+</Directory>
+注意：Indexes是限制是否显示目录列表
+    FollowSymLinks是限制是否能使用软链接（ln main /usr/local/apache2/htdocs/main）
+{% endcodeblock %}</p>
 
 <h2>8.设置目录默认首页</h2>
 
@@ -84,19 +78,14 @@
 
 <p><strong>其中-n代表请求数，-c代表并发数</strong></p>
 
-<p><figure class='code'><figcaption><span>返回结果 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Concurrency Level: 100 ##并发数
-</span><span class='line'>Time taken for tests: 0.273 seconds  ##共使用了多少时间
-</span><span class='line'>Conmplete requests:  1000  ##请求数
-</span><span class='line'>Failed requests:  0  ## 失败请求
-</span><span class='line'>Write errors:  0&lt;br/>
-</span><span class='line'>Total transferred:  275000 ##总共传输字节数，包含http的头信息等</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock 返回结果 %}
+Concurrency Level: 100 ##并发数
+Time taken for tests: 0.273 seconds  ##共使用了多少时间
+Conmplete requests:  1000  ##请求数
+Failed requests:  0  ## 失败请求
+Write errors:  0<br/>
+Total transferred:  275000 ##总共传输字节数，包含http的头信息等
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

@@ -82,6 +82,113 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/07/09/apache001/">Apache自带的ab压力测试工具用法详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-09T10:31:18+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>ab是apache自带的一个很好用的压力测试工具，当安装完apache的时候，就可以在bin下面找到ab</strong></p>
+
+<p><strong>我们可以模拟100个并发用户，对一个页面发送1000个请求</strong></p>
+
+<p><code>./ab -n 1000 -c 100 <a href="http://www.baidu.com">http://www.baidu.com</a></code></p>
+
+<p><strong>其中-n代表请求数，-c代表并发数</strong></p>
+
+<figure class='code'><figcaption><span>返回结果 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Concurrency Level: 100 ##并发数
+</span><span class='line'>Time taken for tests: 0.273 seconds  ##共使用了多少时间
+</span><span class='line'>Conmplete requests:  1000  ##请求数
+</span><span class='line'>Failed requests:  0  ## 失败请求
+</span><span class='line'>Write errors:  0  
+</span><span class='line'>Total transferred:  275000 ##总共传输字节数，包含http的头信息等</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/09/mysql001/">Mysql开启慢查询日志及查询--windows</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-09T09:49:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.慢查询有什么用？</h2>
+
+<p>它能记录下所有执行超过long_query_time时间的sql语句，帮你找到执行慢的sql，方便我们对这些sql进行优化。</p>
+
+<h2>2.如何开启慢查询</h2>
+
+<p>首先我们先查看mysql服务器的慢查询状态是否开启，执行如下命令：</p>
+
+<p><code>show variables like &lsquo;%quer%&rsquo;</code></p>
+
+<p>我们可以看到当前log_slow_queries状态为OFF，说明当前并没有开启慢查询。</p>
+
+<p>开启慢查询非常简单，操作如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>log-slow-queries="D:/wamp/bin/mysql/mysql5.5.24/log/mysql-slow.log'
+</span><span class='line'>long_query_time=4
+</span><span class='line'>log-queries-not-using-indexs</span></code></pre></td></tr></table></div></figure>
+
+
+<p>log-slow-queries：代表mysql慢查询的日志存储目录</p>
+
+<p>long_query_time：最长执行时间</p>
+
+<p>log-queries-not-using-indexes：没有使用到索引的查询也将被记录在日志中</p>
+
+<p><strong>配置好以后重启mysql服务</strong></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/06/29/ci001/">Codeigniter之表单验证</a></h1>
     
     
@@ -1374,6 +1481,14 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/08/12/memcache/">memcacheQ使用以及与php链接</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/12/memcache/">memcacheQ消息队列安装</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/11/other/">用php实现守护进程</a>
       </li>
     
@@ -1382,11 +1497,11 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+        <a href="/blog/2015/08/10/linux/">redis之安装</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之安装</a>
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
       </li>
     
       <li class="post">

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: memcache | Blog like hacke]]></title>
+  <link href="http://ztlblog.github.io/blog/categories/memcache/atom.xml" rel="self"/>
+  <link href="http://ztlblog.github.io/"/>
+  <updated>2015-08-12T14:02:42+08:00</updated>
+  <id>http://ztlblog.github.io/</id>
+  <author>
+    <name><![CDATA[ztl]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[memcacheQ使用以及与php链接]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/12/memcache/"/>
+    <updated>2015-08-12T13:10:59+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/12/memcache</id>
+    <content type="html"><![CDATA[<h3>注意：信息不能大于message_len。大于message_len会报错(message_len以字节为单位)</h3>
+
+<p><strong>链接</strong></p>
+
+<pre><code>telent 127.0.0.1 11212
+</code></pre>
+
+<p><strong>set增加一个消息到队列的尾部</strong></p>
+
+<pre><code>set test_queue 0 0 13
+first_message
+STORED
+set test_queue 0 0 8
+message2
+STORED
+
+超出长度实例
+set test_query 0 0 2
+tes
+CLIENT_ERROR bad data chunk
+ERROR
+</code></pre>
+
+<p><strong>查看队列 stats queue</strong></p>
+
+<pre><code>stats queue
+STAT test_queue 2/0 （队列test_queue里面有2条信息，读取了0条）
+END
+</code></pre>
+
+<p><strong>get从队列的头部查询一条信息并销毁</strong></p>
+
+<pre><code>get test_queue
+VALUE test_queue 0 13
+first_message
+END
+此时在查看队列状态
+stats queue
+STAT test_queue 2/1 (队列test_queue里面有2条信息，读取1条)
+</code></pre>
+
+<p><strong>delete删除队列</strong></p>
+
+<pre><code>delete test_queue
+此时在查看队列状态
+stats queue
+已经删除
+</code></pre>
+
+<p><strong>php链接</strong></p>
+
+<pre><code>需要先安装memcache的php扩展
+
+$memcache_obj = memcache_connect('127.0.0.1',11212);
+memcache_set($memcache_obj,'demoqueue1','message body here',0,0);
+memcache_get($memcache_obj,'demoqueue1');
+memcache_close($memcache_obj);
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[memcacheQ消息队列安装]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/12/memcache/"/>
+    <updated>2015-08-12T13:10:59+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/12/memcache</id>
+    <content type="html"><![CDATA[<h2>memcacheQ依赖于libevent和berkleyDB</h2>
+
+<h3>官方：<a href="http://memcachedb.org/memcacheq/">http://memcachedb.org/memcacheq/</a></h3>
+
+<h3>资源下载</h3>
+
+<pre><code>memcacheQ：http://code.google.com/p/memcacheq/downloads/list
+
+libevent：http://www.libevent.org
+
+berkeleyDB：http://www.oracle.com/technetwork/products/berkeleydb/downloads/index.html
+</code></pre>
+
+<h3>安装</h3>
+
+<p><strong>安装libevent</strong></p>
+
+<pre><code>tar zxvf libevent-***-.tar.gz
+cd libevent-***
+./configure --prefix=/usr/local/libevent
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>安装berkeleyDB</strong></p>
+
+<pre><code>tar zxvf db-5.3.15.tar.gz
+cd db-5.3.15
+cd build_unix
+../dist/configure --prefix=/usr/local/berkeleyDB
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>编辑/etc/ld.so.conf</strong></p>
+
+<pre><code>vim /etc/ld.so.conf
+增加一下内容
+/usr/local/libevent/lib
+/usr/local/berkeleyDB/lib
+执行一下命令
+/sbin/ldconfig
+</code></pre>
+
+<p><strong>安装memcacheQ</strong></p>
+
+<pre><code>./configure --prefix=/usr/local/memecacheq \
+--enagble-threads \
+--with-libevent=/usr/local/libevent \
+--with-bdb=/usr/local/berkelyDB
+
+make &amp;&amp; make install
+
+测试是否安装成功
+/usr/local/memecaheq/bin/memcacheq -h
+
+可能会报错
+memcacheq: error while loading shared libraries: libdb-5.3.so: cannot open shared object file: No such file or directory
+
+解决方法
+ln -s /usr/local/BerkeleyDB.5.3/lib/libdb-5.3.so /usr/lib/libdb-5.3.so
+</code></pre>
+
+<p><strong>启动服务</strong></p>
+
+<pre><code>/usr/local/memecacheq/bin/memcacheq -d -r -uroot -p11212 -H /var/memecacheq/data -N -R -v -L 1024 -B 1024 &gt; /var/memcacheq/logs/mq_error.log 2&gt;&amp;1
+</code></pre>
+
+<p><strong>开机启动</strong></p>
+
+<pre><code>vim /etc/rc.local
+/usr/local/memcacheq/bin/memcacheq -d -r -uroot -p11212 -H /var/mcq/data -N -R -v -L 1024 -B 1024 &gt; /var/mcq/logs/mq_error.log 2&gt;&amp;1
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

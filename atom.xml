@@ -4,7 +4,7 @@
   <title><![CDATA[Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-11T15:52:17+08:00</updated>
+  <updated>2015-08-12T14:02:14+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[memcacheQ使用以及与php链接]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/12/memcache/"/>
+    <updated>2015-08-12T13:10:59+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/12/memcache</id>
+    <content type="html"><![CDATA[<h3>注意：信息不能大于message_len。大于message_len会报错(message_len以字节为单位)</h3>
+
+<p><strong>链接</strong></p>
+
+<pre><code>telent 127.0.0.1 11212
+</code></pre>
+
+<p><strong>set增加一个消息到队列的尾部</strong></p>
+
+<pre><code>set test_queue 0 0 13
+first_message
+STORED
+set test_queue 0 0 8
+message2
+STORED
+
+超出长度实例
+set test_query 0 0 2
+tes
+CLIENT_ERROR bad data chunk
+ERROR
+</code></pre>
+
+<p><strong>查看队列 stats queue</strong></p>
+
+<pre><code>stats queue
+STAT test_queue 2/0 （队列test_queue里面有2条信息，读取了0条）
+END
+</code></pre>
+
+<p><strong>get从队列的头部查询一条信息并销毁</strong></p>
+
+<pre><code>get test_queue
+VALUE test_queue 0 13
+first_message
+END
+此时在查看队列状态
+stats queue
+STAT test_queue 2/1 (队列test_queue里面有2条信息，读取1条)
+</code></pre>
+
+<p><strong>delete删除队列</strong></p>
+
+<pre><code>delete test_queue
+此时在查看队列状态
+stats queue
+已经删除
+</code></pre>
+
+<p><strong>php链接</strong></p>
+
+<pre><code>需要先安装memcache的php扩展
+
+$memcache_obj = memcache_connect('127.0.0.1',11212);
+memcache_set($memcache_obj,'demoqueue1','message body here',0,0);
+memcache_get($memcache_obj,'demoqueue1');
+memcache_close($memcache_obj);
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[memcacheQ消息队列安装]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/12/memcache/"/>
+    <updated>2015-08-12T13:10:59+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/12/memcache</id>
+    <content type="html"><![CDATA[<h2>memcacheQ依赖于libevent和berkleyDB</h2>
+
+<h3>官方：<a href="http://memcachedb.org/memcacheq/">http://memcachedb.org/memcacheq/</a></h3>
+
+<h3>资源下载</h3>
+
+<pre><code>memcacheQ：http://code.google.com/p/memcacheq/downloads/list
+
+libevent：http://www.libevent.org
+
+berkeleyDB：http://www.oracle.com/technetwork/products/berkeleydb/downloads/index.html
+</code></pre>
+
+<h3>安装</h3>
+
+<p><strong>安装libevent</strong></p>
+
+<pre><code>tar zxvf libevent-***-.tar.gz
+cd libevent-***
+./configure --prefix=/usr/local/libevent
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>安装berkeleyDB</strong></p>
+
+<pre><code>tar zxvf db-5.3.15.tar.gz
+cd db-5.3.15
+cd build_unix
+../dist/configure --prefix=/usr/local/berkeleyDB
+make &amp;&amp; make install
+</code></pre>
+
+<p><strong>编辑/etc/ld.so.conf</strong></p>
+
+<pre><code>vim /etc/ld.so.conf
+增加一下内容
+/usr/local/libevent/lib
+/usr/local/berkeleyDB/lib
+执行一下命令
+/sbin/ldconfig
+</code></pre>
+
+<p><strong>安装memcacheQ</strong></p>
+
+<pre><code>./configure --prefix=/usr/local/memecacheq \
+--enagble-threads \
+--with-libevent=/usr/local/libevent \
+--with-bdb=/usr/local/berkelyDB
+
+make &amp;&amp; make install
+
+测试是否安装成功
+/usr/local/memecaheq/bin/memcacheq -h
+
+可能会报错
+memcacheq: error while loading shared libraries: libdb-5.3.so: cannot open shared object file: No such file or directory
+
+解决方法
+ln -s /usr/local/BerkeleyDB.5.3/lib/libdb-5.3.so /usr/lib/libdb-5.3.so
+</code></pre>
+
+<p><strong>启动服务</strong></p>
+
+<pre><code>/usr/local/memecacheq/bin/memcacheq -d -r -uroot -p11212 -H /var/memecacheq/data -N -R -v -L 1024 -B 1024 &gt; /var/memcacheq/logs/mq_error.log 2&gt;&amp;1
+</code></pre>
+
+<p><strong>开机启动</strong></p>
+
+<pre><code>vim /etc/rc.local
+/usr/local/memcacheq/bin/memcacheq -d -r -uroot -p11212 -H /var/mcq/data -N -R -v -L 1024 -B 1024 &gt; /var/mcq/logs/mq_error.log 2&gt;&amp;1
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[用php实现守护进程]]></title>
@@ -80,6 +225,59 @@ echo $jobId;
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[redis之安装]]></title>
+    <link href="http://ztlblog.github.io/blog/2015/08/10/linux/"/>
+    <updated>2015-08-10T14:24:53+08:00</updated>
+    <id>http://ztlblog.github.io/blog/2015/08/10/linux</id>
+    <content type="html"><![CDATA[<p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
+
+<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
+
+<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
+</span><span class='line'>不用 ./configure 
+</span><span class='line'>make 
+</span><span class='line'>make PREFIX=/user/local/redis install
+</span><span class='line'>
+</span><span class='line'>cd /usr/local/redis/
+</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
+</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
+</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
+</span><span class='line'>cmd打开终端
+</span><span class='line'>cd 到你安装的目录
+</span><span class='line'>redis-server.exe redis.conf
+</span><span class='line'>
+</span><span class='line'>在打开一个终端
+</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[redis之通用key]]></title>
     <link href="http://ztlblog.github.io/blog/2015/08/10/linux/"/>
     <updated>2015-08-10T14:24:53+08:00</updated>
@@ -136,59 +334,6 @@ hash （哈希表）
 <pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
 如果newkey已经存在，则值将被覆盖
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[redis之安装]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/08/10/linux/"/>
-    <updated>2015-08-10T14:24:53+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/08/10/linux</id>
-    <content type="html"><![CDATA[<p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
-
-<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
-
-<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
-</span><span class='line'>不用 ./configure 
-</span><span class='line'>make 
-</span><span class='line'>make PREFIX=/user/local/redis install
-</span><span class='line'>
-</span><span class='line'>cd /usr/local/redis/
-</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
-</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
-</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
-</span><span class='line'>cmd打开终端
-</span><span class='line'>cd 到你安装的目录
-</span><span class='line'>redis-server.exe redis.conf
-</span><span class='line'>
-</span><span class='line'>在打开一个终端
-</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   
@@ -1256,152 +1401,6 @@ flush:是把不在缓冲中的或者说是被释放出来的数据发送到浏�
 </span><span class='line'>    NotificationHandler.showNotification();  
 </span><span class='line'>}, 5000);</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[利用H5上传图片]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/21/html5/"/>
-    <updated>2015-07-21T16:48:42+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/21/html5</id>
-    <content type="html"><![CDATA[<p><strong>主要用到的知识点</strong>
-    fileAPI  FormData</p>
-
-<figure class='code'><figcaption><span>html </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html>
-</span><span class='line'>&lt;html lang="en">
-</span><span class='line'>&lt;head>
-</span><span class='line'>  &lt;meta charset="UTF-8">
-</span><span class='line'>  &lt;title>图片上传&lt;/title>
-</span><span class='line'>  &lt;script type="text/javascript" src='jquery-1.7.2.min.js'>&lt;/script>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;form id='form1'>
-</span><span class='line'>      用户名：&lt;input type='text' name='username' />&lt;/br>
-</span><span class='line'>      用户头像：&lt;input type='file' name='pic' id='pic' onchange='send();'>&lt;/br>
-</span><span class='line'>      &lt;input type='button' id='but1' value='提交'>
-</span><span class='line'>  &lt;/form>
-</span><span class='line'>  &lt;div>
-</span><span class='line'>      &lt;img id='imgs' widht='50' height='50' />
-</span><span class='line'>  &lt;/div>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;script type="text/javascript">
-</span><span class='line'>function send()
-</span><span class='line'>{
-</span><span class='line'>   var pic = document.getElementById('pic');
-</span><span class='line'>
-</span><span class='line'>   if (window.navigator.userAgent.indexOf("Chrome") >= 1 || window.navigator.userAgent.indexOf("Safari") >= 1) 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.webkitURL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   else 
-</span><span class='line'>   {
-</span><span class='line'>      var src = window.URL.createObjectURL(pic.files[0]);
-</span><span class='line'>   }
-</span><span class='line'>   $("#imgs").attr({src: src});
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>$("#but1").click(function(){
-</span><span class='line'>  var fd = new FormData($('#form1'));
-</span><span class='line'>  $.ajax({ 
-</span><span class='line'>            url: 'from.php',  
-</span><span class='line'>            type: 'POST',  
-</span><span class='line'>            data: fd,  
-</span><span class='line'>            dataType: 'JSON',
-</span><span class='line'>            cache: false,  
-</span><span class='line'>            processData: false,  
-</span><span class='line'>            contentType: false  
-</span><span class='line'>        }).done(function(ret){  
-</span><span class='line'>          console.log(ret);
-</span><span class='line'>    }); 
-</span><span class='line'>});
-</span><span class='line'>&lt;/script>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>php </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//获取图片进行处理
-</span><span class='line'>print_r($_FILES);
-</span><span class='line'>//获取其他数据进行处理
-</span><span class='line'>print_r($_POST);</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[linux下如何编译安装软件]]></title>
-    <link href="http://ztlblog.github.io/blog/2015/07/20/linux003/"/>
-    <updated>2015-07-20T13:10:47+08:00</updated>
-    <id>http://ztlblog.github.io/blog/2015/07/20/linux003</id>
-    <content type="html"><![CDATA[<h3>基本步骤</h3>
-
-<pre><code>1 ./configure 检查gcc编译器、依赖函数库或软件是否已经安装
-2 当configure 检查通过后，生成makefile文件
-3 make根据makefile生成可执行文件（二进制文件）
-4 make install 到/etc /lib /usr/lib /usr/share /var/lib
-</code></pre>
-
-<h3>注意</h3>
-
-<pre><code>/etc 一般放置配置文件
-/lib /usr/lib 一般放置函数库 
-/var/lib  一般放置数据库
-</code></pre>
 ]]></content>
   </entry>
   
