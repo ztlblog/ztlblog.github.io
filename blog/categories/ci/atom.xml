@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ci | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/ci/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-12T14:02:42+08:00</updated>
+  <updated>2015-08-13T09:30:22+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -18,173 +18,333 @@
     <link href="http://ztlblog.github.io/blog/2015/06/29/ci001/"/>
     <updated>2015-06-29T10:01:02+08:00</updated>
     <id>http://ztlblog.github.io/blog/2015/06/29/ci001</id>
-    <content type="html"><![CDATA[<p>{% codeblock html %}
-<form action="" method="POST" enctype="multipart/form-data">
-    <table class="table">
-        <tr >
-            <td class="th" colspan="10">编辑文章</td>
-        </tr>
-        <tr>
-            <td>标题</td>
-            <td><input type="text" name="title" value="<?php echo set_value('title') ?>&ldquo;/>
-            &lt;?php echo form_error(&lsquo;title&rsquo;, &lsquo;<span>&rsquo;, &lsquo;</span>&rsquo;) ?>
-            </td>
-        </tr>
-        <tr>
-            <td>类型</td>
-            <td>
-                <input type="radio" name="type" value="0"<?php echo set_radio('type', '0', TRUE) ?>/> 普通
-                <input type="radio" name="type" value="1"<?php echo set_radio('type', '1') ?>/> 热门
-            </td>
-        </tr>
-        <tr>
-            <td>栏目</td>
-            <td>
-                <select name="cid" id="">
-                    <option value="1"<?php echo set_select('cid', '1', TRUE) ?>>情感</option>
-                    <option value="2"<?php echo set_select('cid', '2') ?>>生活</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>缩略图</td>
-            <td>
-                <input type="file" />
-            </td>
-        </tr>
-        <tr>
-            <td>摘要</td>
-            <td>
-                <textarea name="info" id="" style="width:550px;height:160px;">&lt;?php echo set_value(&lsquo;info&rsquo;) ?></textarea>&lt;?php echo form_error(&lsquo;info&rsquo;, &lsquo;<span>&rsquo;, &lsquo;</span>&rsquo;) ?>
-            </td>
-        </tr>
-        <tr>
-            <td>内容</td>
-            <td>
-                <textarea name="content" id="" style="width:550px;height:500px;">&lt;?php echo set_value(&lsquo;content&rsquo;) ?></textarea>
-                &lt;?php echo form_error(&lsquo;content&rsquo;, &lsquo;<span>&rsquo;, &lsquo;</span>&rsquo;) ?>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="10"><input type="submit" class="input_button" value="发布"/></td>
-        </tr>
-    </table>
-    </form>
-{% endcodeblock %}</p>
+    <content type="html"><![CDATA[<p><figure class='code'><figcaption><span>html </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="" method="POST" enctype="multipart/form-data">
+</span><span class='line'>    &lt;table class="table">
+</span><span class='line'>        &lt;tr >
+</span><span class='line'>            &lt;td class="th" colspan="10">编辑文章&lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td>标题&lt;/td>
+</span><span class='line'>            &lt;td>&lt;input type="text" name="title" value="&lt;?php echo set_value('title') ?>&ldquo;/>
+</span><span class='line'>            &lt;?php echo form_error(&lsquo;title&rsquo;, &lsquo;&lt;span>&rsquo;, &lsquo;&lt;/span>&rsquo;) ?>
+</span><span class='line'>            &lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td>类型&lt;/td>
+</span><span class='line'>            &lt;td>
+</span><span class='line'>                &lt;input type="radio" name="type" value="0"&lt;?php echo set_radio('type', '0', TRUE) ?>/> 普通
+</span><span class='line'>                &lt;input type="radio" name="type" value="1"&lt;?php echo set_radio('type', '1') ?>/> 热门
+</span><span class='line'>            &lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td>栏目&lt;/td>
+</span><span class='line'>            &lt;td>
+</span><span class='line'>                &lt;select name="cid" id="">
+</span><span class='line'>                    &lt;option value="1"&lt;?php echo set_select('cid', '1', TRUE) ?>>情感&lt;/option>
+</span><span class='line'>                    &lt;option value="2"&lt;?php echo set_select('cid', '2') ?>>生活&lt;/option>
+</span><span class='line'>                &lt;/select>
+</span><span class='line'>            &lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td>缩略图&lt;/td>
+</span><span class='line'>            &lt;td>
+</span><span class='line'>                &lt;input type="file" />
+</span><span class='line'>            &lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td>摘要&lt;/td>
+</span><span class='line'>            &lt;td>
+</span><span class='line'>                &lt;textarea name="info" id="" style="width:550px;height:160px;">&lt;?php echo set_value(&lsquo;info&rsquo;) ?>&lt;/textarea>&lt;?php echo form_error(&lsquo;info&rsquo;, &lsquo;&lt;span>&rsquo;, &lsquo;&lt;/span>&rsquo;) ?>
+</span><span class='line'>            &lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td>内容&lt;/td>
+</span><span class='line'>            &lt;td>
+</span><span class='line'>                &lt;textarea name="content" id="" style="width:550px;height:500px;">&lt;?php echo set_value(&lsquo;content&rsquo;) ?>&lt;/textarea>
+</span><span class='line'>                &lt;?php echo form_error(&lsquo;content&rsquo;, &lsquo;&lt;span>&rsquo;, &lsquo;&lt;/span>&rsquo;) ?>
+</span><span class='line'>            &lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>        &lt;tr>
+</span><span class='line'>            &lt;td colspan="10">&lt;input type="submit" class="input_button" value="发布"/>&lt;/td>
+</span><span class='line'>        &lt;/tr>
+</span><span class='line'>    &lt;/table>
+</span><span class='line'>    &lt;/form></span></code></pre></td></tr></table></div></figure></p>
 
-<p>{% codeblock php %}
-public function send(){
-        //载入表单验证类
-        $this->load->library(&lsquo;form_validation&rsquo;);
-        //引入验证规则
-        $status = $this->form_validation->run(&lsquo;article&rsquo;);</p>
-
-<pre><code>    if($status){
-        //文件上传------------------------
-        //配置
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $config['max_size'] = '10000';
-        $config['file_name'] = time() . mt_rand(1000,9999);
-
-        //载入上传类
-        $this-&gt;load-&gt;library('upload', $config);
-        //执行上传
-        $status = $this-&gt;upload-&gt;do_upload('thumb');
-
-        $wrong = $this-&gt;upload-&gt;display_errors();
-
-        if($wrong){
-            error($wrong);
-        }
-        //返回信息
-        $info = $this-&gt;upload-&gt;data();
-
-        //缩略图-----------------
-        //配置
-        $arr['source_image'] = $info['full_path'];
-        $arr['create_thumb'] = FALSE;
-        $arr['maintain_ratio'] = TRUE;
-        $arr['width'] = 200;
-        $arr['height'] = 200;   
-
-        //载入缩略图类
-        $this-&gt;load-&gt;library('image_lib', $arr);
-        //执行动作
-        $status = $this-&gt;image_lib-&gt;resize();
-
-        if(!$status){
-            error('缩略图动作失败');
-        }
-
-        $this-&gt;load-&gt;model('article_model', 'art');
-
-        $data = array(
-            'title' =&gt; $this-&gt;input-&gt;post('title'),
-            'type'  =&gt; $this-&gt;input-&gt;post('type'),
-            'cid'   =&gt; $this-&gt;input-&gt;post('cid'),
-            'thumb' =&gt; $info['file_name'],
-            'info'  =&gt; $this-&gt;input-&gt;post('info'),
-            'content'=&gt; $this-&gt;input-&gt;post('content'),
-            'time'  =&gt; time()
-            );  
-
-        $this-&gt;art-&gt;add($data);
-        success('admin/article/index', '发表成功');
-    }else {
-        $this-&gt;load-&gt;model('category_model', 'cate');
-        $data['category'] = $this-&gt;cate-&gt;check();
-        $this-&gt;load-&gt;helper('form');
-        $this-&gt;load-&gt;view('admin/article.html',$data);
-    }
-}
-</code></pre>
-
-<p>{% endcodeblock %}
+<p><figure class='code'><figcaption><span>php </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public function send(){
+</span><span class='line'>        //载入表单验证类
+</span><span class='line'>        $this->load->library(&lsquo;form_validation&rsquo;);
+</span><span class='line'>        //引入验证规则
+</span><span class='line'>        $status = $this->form_validation->run(&lsquo;article&rsquo;);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>    if($status){
+</span><span class='line'>        //文件上传------------------------
+</span><span class='line'>        //配置
+</span><span class='line'>        $config['upload_path'] = './uploads/';
+</span><span class='line'>        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+</span><span class='line'>        $config['max_size'] = '10000';
+</span><span class='line'>        $config['file_name'] = time() . mt_rand(1000,9999);
+</span><span class='line'>
+</span><span class='line'>        //载入上传类
+</span><span class='line'>        $this-&gt;load-&gt;library('upload', $config);
+</span><span class='line'>        //执行上传
+</span><span class='line'>        $status = $this-&gt;upload-&gt;do_upload('thumb');
+</span><span class='line'>
+</span><span class='line'>        $wrong = $this-&gt;upload-&gt;display_errors();
+</span><span class='line'>
+</span><span class='line'>        if($wrong){
+</span><span class='line'>            error($wrong);
+</span><span class='line'>        }
+</span><span class='line'>        //返回信息
+</span><span class='line'>        $info = $this-&gt;upload-&gt;data();
+</span><span class='line'>
+</span><span class='line'>        //缩略图-----------------
+</span><span class='line'>        //配置
+</span><span class='line'>        $arr['source_image'] = $info['full_path'];
+</span><span class='line'>        $arr['create_thumb'] = FALSE;
+</span><span class='line'>        $arr['maintain_ratio'] = TRUE;
+</span><span class='line'>        $arr['width'] = 200;
+</span><span class='line'>        $arr['height'] = 200;   
+</span><span class='line'>
+</span><span class='line'>        //载入缩略图类
+</span><span class='line'>        $this-&gt;load-&gt;library('image_lib', $arr);
+</span><span class='line'>        //执行动作
+</span><span class='line'>        $status = $this-&gt;image_lib-&gt;resize();
+</span><span class='line'>
+</span><span class='line'>        if(!$status){
+</span><span class='line'>            error('缩略图动作失败');
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        $this-&gt;load-&gt;model('article_model', 'art');
+</span><span class='line'>
+</span><span class='line'>        $data = array(
+</span><span class='line'>            'title' =&gt; $this-&gt;input-&gt;post('title'),
+</span><span class='line'>            'type'  =&gt; $this-&gt;input-&gt;post('type'),
+</span><span class='line'>            'cid'   =&gt; $this-&gt;input-&gt;post('cid'),
+</span><span class='line'>            'thumb' =&gt; $info['file_name'],
+</span><span class='line'>            'info'  =&gt; $this-&gt;input-&gt;post('info'),
+</span><span class='line'>            'content'=&gt; $this-&gt;input-&gt;post('content'),
+</span><span class='line'>            'time'  =&gt; time()
+</span><span class='line'>            );  
+</span><span class='line'>
+</span><span class='line'>        $this-&gt;art-&gt;add($data);
+</span><span class='line'>        success('admin/article/index', '发表成功');
+</span><span class='line'>    }else {
+</span><span class='line'>        $this-&gt;load-&gt;model('category_model', 'cate');
+</span><span class='line'>        $data['category'] = $this-&gt;cate-&gt;check();
+</span><span class='line'>        $this-&gt;load-&gt;helper('form');
+</span><span class='line'>        $this-&gt;load-&gt;view('admin/article.html',$data);
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure>
 <strong>注意:</strong>保存验证规则需要在application/config/文件夹下创建一个名称为form_validation.php的文件。然后将配置信息保存在数组$config中即可.
-{% codeblock  form_validation %}
-$config = array(
-    &lsquo;article&rsquo;   =>  array(
-            array(
-                &lsquo;field&rsquo; =>  &lsquo;title&rsquo;,
-                &lsquo;label&rsquo; => &lsquo;标题&rsquo;,
-                &lsquo;rules&rsquo; => &lsquo;required|min_length[5]&rsquo;
-                ),
-            array(
-                &lsquo;field&rsquo; =>  &lsquo;type&rsquo;,
-                &lsquo;label&rsquo; => &lsquo;类型&rsquo;,
-                &lsquo;rules&rsquo; => &lsquo;required|integer&rsquo;
-                ),
-            array(
-                &lsquo;field&rsquo; =>  &lsquo;cid&rsquo;,
-                &lsquo;label&rsquo; => &lsquo;栏目&rsquo;,
-                &lsquo;rules&rsquo; => &lsquo;integer&rsquo;
-                ),
-            array(
-                &lsquo;field&rsquo; =>  &lsquo;info&rsquo;,
-                &lsquo;label&rsquo; => &lsquo;摘要&rsquo;,
-                &lsquo;rules&rsquo; => &lsquo;required|max_length[155]&rsquo;
-                ),
-            array(
-                &lsquo;field&rsquo; =>  &lsquo;content&rsquo;,
-                &lsquo;label&rsquo; => &lsquo;内容&rsquo;,
-                &lsquo;rules&rsquo; => &lsquo;required|max_length[2000]&rsquo;
-                )</p>
-
-<pre><code>    ),
-'cate'  =&gt; array(
-        array(
-            'field' =&gt; 'cname',
-            'label' =&gt; '栏目名称',
-            'rules' =&gt; 'required|max_length[20]'
-            ),
-
-    ),
-
-);
-</code></pre>
-
-<p>{% endcodeblock %}</p>
+<figure class='code'><figcaption><span>form_validation </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$config = array(
+</span><span class='line'>    &lsquo;article&rsquo;   =>  array(
+</span><span class='line'>            array(
+</span><span class='line'>                &lsquo;field&rsquo; =>  &lsquo;title&rsquo;,
+</span><span class='line'>                &lsquo;label&rsquo; => &lsquo;标题&rsquo;,
+</span><span class='line'>                &lsquo;rules&rsquo; => &lsquo;required|min_length[5]&rsquo;
+</span><span class='line'>                ),
+</span><span class='line'>            array(
+</span><span class='line'>                &lsquo;field&rsquo; =>  &lsquo;type&rsquo;,
+</span><span class='line'>                &lsquo;label&rsquo; => &lsquo;类型&rsquo;,
+</span><span class='line'>                &lsquo;rules&rsquo; => &lsquo;required|integer&rsquo;
+</span><span class='line'>                ),
+</span><span class='line'>            array(
+</span><span class='line'>                &lsquo;field&rsquo; =>  &lsquo;cid&rsquo;,
+</span><span class='line'>                &lsquo;label&rsquo; => &lsquo;栏目&rsquo;,
+</span><span class='line'>                &lsquo;rules&rsquo; => &lsquo;integer&rsquo;
+</span><span class='line'>                ),
+</span><span class='line'>            array(
+</span><span class='line'>                &lsquo;field&rsquo; =>  &lsquo;info&rsquo;,
+</span><span class='line'>                &lsquo;label&rsquo; => &lsquo;摘要&rsquo;,
+</span><span class='line'>                &lsquo;rules&rsquo; => &lsquo;required|max_length[155]&rsquo;
+</span><span class='line'>                ),
+</span><span class='line'>            array(
+</span><span class='line'>                &lsquo;field&rsquo; =>  &lsquo;content&rsquo;,
+</span><span class='line'>                &lsquo;label&rsquo; => &lsquo;内容&rsquo;,
+</span><span class='line'>                &lsquo;rules&rsquo; => &lsquo;required|max_length[2000]&rsquo;
+</span><span class='line'>                )&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>    ),
+</span><span class='line'>'cate'  =&gt; array(
+</span><span class='line'>        array(
+</span><span class='line'>            'field' =&gt; 'cname',
+</span><span class='line'>            'label' =&gt; '栏目名称',
+</span><span class='line'>            'rules' =&gt; 'required|max_length[20]'
+</span><span class='line'>            ),
+</span><span class='line'>
+</span><span class='line'>    ),
+</span><span class='line'>
+</span><span class='line'>);
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   

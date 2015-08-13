@@ -82,6 +82,57 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2015/08/13/php/">Php之socket</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-13T09:13:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>使用socket获取数据</h3>
+
+<pre><code>$post_ = array('author'=&gt;'一直都在','mail'=&gt;'aa@qq.com','url'=&gt;'','text'=&gt;'测试');
+$data = http_build_query($post_);
+
+//fsockopen(hostname,port,erron,errstr,timeout)
+//erron:如果errno的返回值为0，而且这个函数的返回值为false,那表名改错误发生在套接字链接调用之前
+//errstr:错误信息将以字符串的信息返回
+$fp = fsockopen('typecho.org',80,$errno,$errstr,5);
+$out = "POST http://typecho.org/archives/54/comment HTTP/1.1\r\n";
+$out .= "Host: typecho.org\r\n";
+$out .= "User-Agent: Mozilla/5.0(Windows; U; Windows NT 6.1; zh-CN; rv: 1.9.2.13)GECKO/20101203 Firefox/3.6.13"."\r\n";
+$out .= "Content-type: application/x-www-form-urlencoded \r\n";
+$out .= "PHPSESSID=082b0cc33cc7e6ddfasfdasda \r\n";
+$out .= "Content-Length:".strlen($data)."\r\n";
+$out .= "Connection:close\r\n\r\n";
+$out .= $data."\r\n";
+fwrite($fp,$out);
+while(!feof($fp)){
+    echo fgets($fp,1280);
+}
+fclose($fp);
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2015/08/12/memcache/">memcacheQ使用以及与php链接</a></h1>
     
     
@@ -373,79 +424,6 @@ echo $jobId;
       
   <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之安装</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-10T14:24:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
-
-<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
-
-<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
-</span><span class='line'>不用 ./configure 
-</span><span class='line'>make 
-</span><span class='line'>make PREFIX=/user/local/redis install
-</span><span class='line'>
-</span><span class='line'>cd /usr/local/redis/
-</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
-</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
-</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
-</span><span class='line'>cmd打开终端
-</span><span class='line'>cd 到你安装的目录
-</span><span class='line'>redis-server.exe redis.conf
-</span><span class='line'>
-</span><span class='line'>在打开一个终端
-</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
       <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之通用key</a></h1>
     
     
@@ -514,6 +492,79 @@ hash （哈希表）
 <pre><code>将key重命名为newkey，如果key与newkey相同，将返回一个错误。
 如果newkey已经存在，则值将被覆盖
 </code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/10/linux/">Redis之安装</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T14:24:53+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://download.redis.io/releases/redis-3.0.3.tar.gz" title="redis源码下载">redis linux下载</a></p>
+
+<p><a href="https://github.com/dmajkic/redis/downloads" title="win 下载">redis windows下载</a></p>
+
+<figure class='code'><figcaption><span>linux安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/local/src/redis-3.0.3
+</span><span class='line'>不用 ./configure 
+</span><span class='line'>make 
+</span><span class='line'>make PREFIX=/user/local/redis install
+</span><span class='line'>
+</span><span class='line'>cd /usr/local/redis/
+</span><span class='line'>cp /usr/local/src/redis-3.0.3/redis.conf ./
+</span><span class='line'>./bin/redis-server redis.conf  （开启服务）
+</span><span class='line'>./bin/redis-cli [-h localhost -p 6379]  (客户端使用)</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>win安装、启动 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>和其他软件一样直接安装即可
+</span><span class='line'>cmd打开终端
+</span><span class='line'>cd 到你安装的目录
+</span><span class='line'>redis-server.exe redis.conf
+</span><span class='line'>
+</span><span class='line'>在打开一个终端
+</span><span class='line'>redis-cli.exe -h 127.0.0.1 -p 6379</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
   
   
@@ -667,65 +718,6 @@ select * form action where sorce&lt;60 and talbe like '%' or 1=1'%';
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/04/linux/">编译php并与Nginx整合</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-04T15:32:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:32 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>编译安装php</h4>
-
-<pre><code>1. 下载php  http://cn2.php.net/get/php-5.6.11.tar.bz2/from/this/mirror
-2. 解压php  tar xvf php-5.6.11.tar.bz2
-3. cd php-5.6.11.tar.bz2
-4. ./configure --prefix=/usr/local/php \
-    --with-mysql=mysqlnd \
-    --enable-mysqlnd \
-    --with-gd \
-    --enable-gd-native-ttf \
-    --enable-gd-jis-conv \
-    --enable-fpm
-5. make &amp;&amp; make install
-</code></pre>
-
-<h4>整合Nginx</h4>
-
-<pre><code>1. cd /usr/local/php
-2. cp /usr/local/src/php-5.6.11/php.ini-development  ./lib/php.ini
-3. cp ./etc/php-fpm.conf.default  etc/php-fpm.conf
-4. ./sbin/php-fpm  开启php
-5. 修改Nginx配置
-6. locationi ~\.php$ {
-        root html;
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_index index.php
-        #fastcgi_param SCRIPT_FILENAME /usr/local/nginx/html$fastcgi_script_name;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include   fastcgi_params;
-    }
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="2">&larr; Older</a></li>
@@ -739,6 +731,10 @@ select * form action where sorce&lt;60 and talbe like '%' or 1=1'%';
     <section class="well">
   <ul id="recent_posts" class="nav nav-list">
     <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/13/php/">php之socket</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/12/memcache/">memcacheQ使用以及与php链接</a>
@@ -757,11 +753,11 @@ select * form action where sorce&lt;60 and talbe like '%' or 1=1'%';
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之安装</a>
+        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/10/linux/">redis之通用key</a>
+        <a href="/blog/2015/08/10/linux/">redis之安装</a>
       </li>
     
       <li class="post">

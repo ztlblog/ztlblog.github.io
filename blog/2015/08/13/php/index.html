@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>csrf攻击 - Blog like hacke</title>
+  <title>php之socket - Blog like hacke</title>
   <meta name="author" content="ztl">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/06/25/php004">
+  <link rel="canonical" href="http://ztlblog.github.io/blog/2015/08/13/php">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Csrf攻击</h1>
+      <h1 class="entry-title">Php之socket</h1>
     
     
       <p class="meta">
@@ -89,26 +89,36 @@
 
 
 
-<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+<time class='entry-date' datetime='2015-08-13T09:13:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 am</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>什么是csrf攻击</h2>
+<div class="entry-content"><h3>使用socket获取数据</h3>
 
-<p>csrf（cross-site request forgery）跨站请求伪造</p>
+<pre><code>$post_ = array('author'=&gt;'一直都在','mail'=&gt;'aa@qq.com','url'=&gt;'','text'=&gt;'测试');
+$data = http_build_query($post_);
 
-<h2>csrf的原理</h2>
-
-<p><img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="tool-manager" /></p>
-
-<h2>例如：</h2>
-
-<p>银行网站A，它以get请求来完成银行转账的操作，<a href="http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100">http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100</a>
-危险网站B，它里面有一段html的代码如下：
-<code>&lt;img src='http://www.mybank.com/Transfer.php?toBankId=11&amp;money=100'/&gt;</code></p>
+//fsockopen(hostname,port,erron,errstr,timeout)
+//erron:如果errno的返回值为0，而且这个函数的返回值为false,那表名改错误发生在套接字链接调用之前
+//errstr:错误信息将以字符串的信息返回
+$fp = fsockopen('typecho.org',80,$errno,$errstr,5);
+$out = "POST http://typecho.org/archives/54/comment HTTP/1.1\r\n";
+$out .= "Host: typecho.org\r\n";
+$out .= "User-Agent: Mozilla/5.0(Windows; U; Windows NT 6.1; zh-CN; rv: 1.9.2.13)GECKO/20101203 Firefox/3.6.13"."\r\n";
+$out .= "Content-type: application/x-www-form-urlencoded \r\n";
+$out .= "PHPSESSID=082b0cc33cc7e6ddfasfdasda \r\n";
+$out .= "Content-Length:".strlen($data)."\r\n";
+$out .= "Connection:close\r\n\r\n";
+$out .= $data."\r\n";
+fwrite($fp,$out);
+while(!feof($fp)){
+    echo fgets($fp,1280);
+}
+fclose($fp);
+</code></pre>
 </div>
 
 
@@ -124,12 +134,12 @@
 
 
 
-<time class='entry-date' datetime='2015-06-25T13:25:55+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:25 pm</span></time>
+<time class='entry-date' datetime='2015-08-13T09:13:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/an-quan/'>安全</a>
+    <a class='category' href='/blog/categories/php/'>php</a>
   
 </span>
 
@@ -147,7 +157,7 @@
     <section>
       <h1>Comments</h1>
       <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/06/25/php004" data-title="csrf攻击" data-url="http://ztlblog.github.io/blog/2015/06/25/php004/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/13/php" data-title="php之socket" data-url="http://ztlblog.github.io/blog/2015/08/13/php/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -168,14 +178,10 @@ var duoshuoQuery = {short_name:"zhengtl"};
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2015/06/25/php003/" title="Previous Post:
-        xss攻击">&laquo; xss攻击</a></li>
+        href="/blog/2015/08/12/memcache/" title="Previous Post:
+        memcacheQ使用以及与php链接">&laquo; memcacheQ使用以及与php链接</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2015/06/29/ci001/"
-        title="Next Post: codeigniter之表单验证">codeigniter之表单验证
-        &raquo;</a></li>
       
     </ul>
   </footer>

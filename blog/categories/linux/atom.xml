@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Blog like hacke]]></title>
   <link href="http://ztlblog.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://ztlblog.github.io/"/>
-  <updated>2015-08-12T14:02:42+08:00</updated>
+  <updated>2015-08-13T09:30:22+08:00</updated>
   <id>http://ztlblog.github.io/</id>
   <author>
     <name><![CDATA[ztl]]></name>
@@ -76,20 +76,35 @@
     <link href="http://ztlblog.github.io/blog/2015/08/03/linux/"/>
     <updated>2015-08-03T11:43:05+08:00</updated>
     <id>http://ztlblog.github.io/blog/2015/08/03/linux</id>
-    <content type="html"><![CDATA[<p>{% codeblock 简单的日志切割 %}</p>
-
-<h1>!bin/bash</h1>
-
-<p>LOCALPATH=/usr/local/nginx/logs/access.log
-BASHPATH=/data</p>
-
-<p>back=$LOCALPATH.$(date -d yesterday +%Y%m%d).zcom.access.log</p>
-
-<p>mv $LOCALPATH $bakc</p>
-
-<p>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)</p>
-
-<p>{% endcodeblock %}</p>
+    <content type="html"><![CDATA[<p><figure class='code'><figcaption><span>简单的日志切割 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>!bin/bash&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>LOCALPATH=/usr/local/nginx/logs/access.log
+</span><span class='line'>BASHPATH=/data&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>back=$LOCALPATH.$(date -d yesterday +%Y%m%d).zcom.access.log&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>mv $LOCALPATH $bakc&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>kill -USR1 $(cat /usr/local/nginx/logs/nginx.pid)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   
@@ -124,12 +139,14 @@ make &amp;&amp; make install
 
 <p><strong>安装csft</strong></p>
 
-<p>{% codeblock %}
-cd csft-3.2.14
-./configure &ndash;prefix=/usr/local/csft &ndash;without-unixodbc &ndash;with-mmseg &ndash;with-mmseg-includes=/usr/local/coreseek/include/mmseg/ &ndash;with-mmseg-libs=/usr/local/coreseek/lib/ &ndash;with-mysql</p>
-
-<p>make &amp;&amp; make install
-{% endcodeblock %}</p>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd csft-3.2.14
+</span><span class='line'>./configure &ndash;prefix=/usr/local/csft &ndash;without-unixodbc &ndash;with-mmseg &ndash;with-mmseg-includes=/usr/local/coreseek/include/mmseg/ &ndash;with-mmseg-libs=/usr/local/coreseek/lib/ &ndash;with-mysql&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>make &amp;&amp; make install</span></code></pre></td></tr></table></div></figure></p>
 
 <p><strong>测试mmseg分词</strong></p>
 
